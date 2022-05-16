@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+Mon May 16 11:38:15 CEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-cc3b-8905-00000239a398 
+on database directory memory:D:\Documentos\GitHub\eguaySpring\48a09e54-ddb9-42cf-8cc1-cd7b789c8cbd with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@4b1210ee 
+Loaded from file:/C:/Users/jean-/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=18.0.1.1+2-6
+user.dir=D:\Documentos\GitHub\eguaySpring
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon May 16 11:39:33 CEST 2022:
+Shutting down instance a816c00e-0180-cc3b-8905-00000239a398 on database directory memory:D:\Documentos\GitHub\eguaySpring\48a09e54-ddb9-42cf-8cc1-cd7b789c8cbd with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@4b1210ee 
