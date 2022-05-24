@@ -1,13 +1,26 @@
 package com.test.eguay.service;
 
+import com.test.eguay.dto.MailDTO;
+import com.test.eguay.dto.UserDTO;
+import com.test.eguay.entity.Auction;
+import com.test.eguay.entity.Group;
+import com.test.eguay.entity.Mail;
+import com.test.eguay.entity.User;
+import com.test.eguay.repository.AuctionRepository;
+import com.test.eguay.repository.GroupRepository;
+import com.test.eguay.repository.MailRepository;
+import com.test.eguay.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MailService {
-    @EJB MailFacade mailFacade;
-    @EJB AuctionFacade auctionFacade;
-    @EJB GroupsFacade groupsFacade;
-    @EJB UsersFacade usersFacade;
+    MailRepository mailRepository;
+    AuctionRepository auctionRepository;
+    GroupRepository groupRepository;
+    UserRepository userRepository;
 
     public List<MailDTO> getAllMails(Integer userId){
         return Mail.toDTO(mailFacade.findAllMailsToUser(userId));
@@ -21,7 +34,7 @@ public class MailService {
         Mail mail = new Mail();
 
         List<Auction> auctions = auctionFacade.findAll(auctionIds);
-        List<Groups> groups = groupsFacade.findAll(groupIds);
+        List<Group> groups = groupsFacade.findAll(groupIds);
 
 
         mail.setSenderid(usersFacade.find(sender.getId()));
@@ -41,7 +54,7 @@ public class MailService {
         Mail mail = new Mail();
 
         List<Auction> auctions = auctionFacade.findAll(auctionIds);
-        List<Users> users = usersFacade.findAll(userIds);
+        List<User> users = usersFacade.findAll(userIds);
 
         mail.setSenderid(usersFacade.find(sender.getId()));
         mail.setSubject(asunto);
@@ -73,8 +86,8 @@ public class MailService {
         }
     }
 
-    private void addMailToGroups(Mail mail, List<Groups> groups) {
-        for(Groups group : groups){
+    private void addMailToGroups(Mail mail, List<Group> groups) {
+        for(Group group : groups){
             List<Mail> groupMails = group.getMailList();
             groupMails.add(mail);
             group.setMailList(groupMails);
@@ -82,8 +95,8 @@ public class MailService {
         }
     }
 
-    private void addMailToUsers(Mail mail, List<Users> users) {
-        for(Users user : users){
+    private void addMailToUsers(Mail mail, List<User> users) {
+        for(User user : users){
             List<Mail> userMails = user.getMailList();
             userMails.add(mail);
             user.setMailList(userMails);

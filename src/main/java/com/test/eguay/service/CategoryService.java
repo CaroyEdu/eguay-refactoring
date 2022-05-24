@@ -2,24 +2,26 @@ package com.test.eguay.service;
 
 import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.entity.Category;
+import com.test.eguay.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
-    @EJB CategoryFacade categoryFacade;
+    CategoryRepository categoryRepository;
 
     // Queries
 
     public List<CategoryDTO> getAllCategories(){
-        List<Category> categories = categoryFacade.findAll();
+        List<Category> categories = categoryRepository.findAll();
         return CategoryService.toDTO(categories);
     }
 
     public List<CategoryDTO> getAllCategoriesDTO(){
-        List<Category> categories = categoryFacade.findAll();
+        List<Category> categories = categoryRepository.findAll();
         return Category.toDTO(categories) ;
     }
 
@@ -37,9 +39,9 @@ public class CategoryService {
     public Category toDAO(CategoryDTO user)
     {
 
-        Category c = new Category();
-        c = this.categoryFacade.find(user.getId());
-        return c;
+        Optional<Category> c = Optional.of(new Category());
+        c = this.categoryRepository.findById(user.getId());
+        return c.get();
 
     }
 }

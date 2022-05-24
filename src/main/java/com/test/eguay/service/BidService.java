@@ -1,14 +1,23 @@
 package com.test.eguay.service;
 
+import com.test.eguay.dto.AuctionDTO;
+import com.test.eguay.dto.BidDTO;
+import com.test.eguay.dto.UserDTO;
+import com.test.eguay.entity.Bid;
+import com.test.eguay.repository.AuctionRepository;
+import com.test.eguay.repository.BidRepository;
+import com.test.eguay.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BidService {
-    @EJB BidFacade bidFacade ;
-    @EJB AuctionFacade auctionFacade;
-    @EJB UsersFacade userFacade ;
-    @EJB UserService userService;
-    @EJB AuctionService auctionService;
+    BidRepository bidRepository ;
+    AuctionRepository auctionRepository;
+    UserRepository userRepository ;
+    UserService userService;
+    AuctionService auctionService;
 
     public List<BidDTO> getHighestBid(AuctionDTO auction){
         List<Bid> highest = bidFacade.highestBid(auction);

@@ -1,24 +1,39 @@
 package com.test.eguay.service;
 
+import com.test.eguay.dto.AuctionDTO;
+import com.test.eguay.dto.CategoryDTO;
+import com.test.eguay.dto.UserDTO;
+import com.test.eguay.entity.Auction;
+import com.test.eguay.entity.Category;
+import com.test.eguay.entity.Group;
+import com.test.eguay.entity.User;
+import com.test.eguay.repository.AuctionRepository;
+import com.test.eguay.repository.CategoryRepository;
+import com.test.eguay.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserService {
-    @EJB UsersFacade usersFacade;
-    @EJB CategoryFacade categoryFacade;
-    @EJB AuctionFacade auctionFacade;
-    @EJB MailService mailService;
-    @EJB AuctionService auctionService;
-    @EJB CategoryService categoryService;
+    UserRepository userRepository;
+    CategoryRepository categoryRepository;
+    AuctionRepository auctionRepository;
+    MailService mailService;
+    AuctionService auctionService;
+    CategoryService categoryService;
 
     // Query
 
-    Users getUser(Integer id) {
+    User getUser(Integer id) {
         return usersFacade.find(id);
     }
 
     public List<CategoryDTO> getFavCategories(UserDTO userDTO){
-        Users user = this.toDAO(userDTO);
+        User user = this.toDAO(userDTO);
         return Category.toDTO(usersFacade.userFavCategory(user));
     }
 
@@ -37,12 +52,12 @@ public class UserService {
         return toDTO(getAllUsers());
     }
 
-    public List<Users> getAllUsers(){
+    public List<User> getAllUsers(){
         return this.usersFacade.findAll();
     }
 
     public UserDTO login(String username, String password) {
-        Users user = this.usersFacade.userLogin(username, password);
+        User user = this.usersFacade.userLogin(username, password);
         if(user == null) {
             return null;
         }
@@ -50,10 +65,10 @@ public class UserService {
         return user.toDTO();
     }
 
-    public List<Users> getUsersInterestedIn(Category category){
-        List<Users> userList = this.usersFacade.findAll();
+    public List<User> getUsersInterestedIn(Category category){
+        List<User> userList = this.usersFacade.findAll();
 
-        for(Users user : userList){
+        for(User user : userList){
             if(isInterestedIn(user, category))
                 userList.remove(user);
         }
@@ -63,18 +78,18 @@ public class UserService {
 
     // Extra functionalities
 
-    public boolean isInterestedIn(Users user, Category category) {
+    public boolean isInterestedIn(User user, Category category) {
         return user.getCategoryList().contains(category);
     }
 
-    public void addToGroup(Users user, Groups group){
+    public void addToGroup(User user, Group group){
         user.getGroupsList().add(group);
     }
 
-    public static List<UserDTO> toDTO(List<Users> users){
+    public static List<UserDTO> toDTO(List<User> users){
         List<UserDTO> dtos = new ArrayList<>(users.size());
 
-        for(Users user : users){
+        for(User user : users){
             dtos.add(user.toDTO());
         }
 
@@ -83,10 +98,10 @@ public class UserService {
 
     // Logic
 
-    public void createUser( String username ,String name ,String surname , String address ,
-                            String city , String email , String country , String password , Date birthday , int sex){
+    public void createUser(String username , String name , String surname , String address ,
+                           String city , String email , String country , String password , Date birthday , int sex){
 
-        Users user = new Users();
+        User user = new User();
         user.setName(name);
         user.setAddress(address);
         user.setSurname(surname);
@@ -149,7 +164,7 @@ public class UserService {
 
                 Auction auctionDao = auctionService.toDAO(auction);
 
-                List<Users> auctionUserFav = auctionDao.getUsersList();
+                List<User> auctionUserFav = auctionDao.getUsersList();
                 if(auctionUserFav == null) auctionUserFav = new ArrayList() ;
                 Users userTest = toDAO(user);
                 auctionUserFav.add(userTest);
@@ -167,8 +182,8 @@ public class UserService {
 
                 Auction auctionDao = auctionFacade.find(auction.getId());
 
-                List<Users> auctionUserFav = auctionDao.getUsersList();
-                Users userTest = toDAO(user);
+                List<User> auctionUserFav = auctionDao.getUsersList();
+                User userTest = toDAO(user);
                 auctionUserFav.remove(userTest) ;
                 auctionDao.setUsersList(auctionUserFav);
                 auctionFacade.edit(auctionDao);
@@ -184,14 +199,14 @@ public class UserService {
 
     public void removePurchasedAuction(AuctionDTO auctionDTO , UserDTO userDTO){
 
-        Users user = this.toDAO(userDTO);
+        User user = this.toDAO(userDTO);
         Auction auction = auctionFacade.find(auctionDTO.getId());
 
         List<Auction> userPurchased = user.getAuctionList1();
         userPurchased.remove(auction);
         user.setAuctionList1(userPurchased);
 
-        List <Users> auctions = auction.getUsersList1();
+        List <User> auctions = auction.getUsersList1();
         auctions.remove(user);
         auction.setUsersList1(auctions);
 
@@ -201,8 +216,8 @@ public class UserService {
 
     public void finilizeBuyingAuction(UserDTO userDTO , AuctionDTO auction){
 
-        List<Users> clientList = new ArrayList();
-        Users user = this.toDAO(userDTO);
+        List<User> clientList = new ArrayList();
+        User user = this.toDAO(userDTO);
         clientList.add(0, user);
         Auction auctionDao = auctionService.toDAO(auction);
         auctionDao.setUsersList1(clientList);
@@ -222,7 +237,7 @@ public class UserService {
 
     public List<AuctionDTO> filterPurchasedAuctionByUser(String filter, UserDTO user){
         List<Auction> auctions ;
-        Users userid = this.toDAO(user);
+        User userid = this.toDAO(user);
 
         if(filter == null || filter.isEmpty())
         {
@@ -254,7 +269,7 @@ public class UserService {
         return toDTO(getUsersByIds(userIds));
     }
 
-    public List<Users> getUsersByIds(List<Integer> userIds) {
+    public List<User> getUsersByIds(List<Integer> userIds) {
         return usersFacade.findAll(userIds);
     }
 
@@ -262,17 +277,17 @@ public class UserService {
         return (UserDTO) session.getAttribute("user");
     }
 
-    public Users toDAO(UserDTO user)
+    public User toDAO(UserDTO user)
     {
 
-        Users u = new Users();
+        User u = new User();
         u = this.usersFacade.getUserByID(Long.parseLong(user.getId().toString()));
         return u;
 
     }
 
     private void registerUserFavAuction(UserDTO user , List<AuctionDTO> auctions){
-        Users userDao = usersFacade.find(user.getId()) ;
+        User userDao = usersFacade.find(user.getId()) ;
         List<Auction> favAuctions = new ArrayList() ;
         for(AuctionDTO a : auctions){
             favAuctions.add(auctionService.toDAO(a));
@@ -288,7 +303,7 @@ public class UserService {
 
     public void AddAuctionToOwner(UserDTO userDto, AuctionDTO auctionDto) {
 
-        Users user = this.toDAO(userDto);
+        User user = this.toDAO(userDto);
         Auction auction = auctionService.toDAO(auctionDto);
 
         List<Auction> usersSubmitedAuctions = user.getAuctionList2();
@@ -301,7 +316,7 @@ public class UserService {
 
     public UserDTO getUserById(Long id)
     {
-        Users user = this.usersFacade.find(id);
+        User user = this.usersFacade.find(id);
         return user.toDTO();
     }
 }

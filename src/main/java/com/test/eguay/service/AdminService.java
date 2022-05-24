@@ -1,10 +1,21 @@
 package com.test.eguay.service;
 
+import com.test.eguay.dto.AuctionDTO;
+import com.test.eguay.dto.CategoryDTO;
+import com.test.eguay.dto.UserDTO;
+import com.test.eguay.entity.Auction;
+import com.test.eguay.entity.Category;
+import com.test.eguay.entity.Rol;
+import com.test.eguay.entity.User;
 import com.test.eguay.repository.AuctionRepository;
 import com.test.eguay.repository.CategoryRepository;
 import com.test.eguay.repository.RolRepository;
 import com.test.eguay.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
@@ -15,11 +26,11 @@ public class AdminService {
     private CategoryRepository categoryRepository;
 
     public List<UserDTO> getAllUsers(){
-        return Users.toDTO(userRepository.getAllOrdered());
+        return User.toDTO(userRepository.getAllOrdered());
     }
 
     public List<UserDTO> filterUsers(String username) {
-        return Users.toDTO(userRepository.filter(username));
+        return User.toDTO(userRepository.filter(username));
     }
 
     public void createUser(String username, String name, String surname,
@@ -29,7 +40,7 @@ public class AdminService {
                 .map((rId) -> rolRepository.find(rId))
                 .collect(Collectors.toList());
 
-        Users user = new Users();
+        User user = new User();
         user.setName(name);
         user.setAddress(address);
         user.setSurname(surname);
@@ -53,7 +64,7 @@ public class AdminService {
         List<Rol> roles = user.getRoleIds().stream()
                 .map((rId) -> rolRepository.find(rId))
                 .collect(Collectors.toList());
-        Users u = userRepository.find(user.getId());
+        User u = userRepository.find(user.getId());
         u.setUsername(user.getUsername());
         u.setName(user.getName());
         u.setSurname(user.getSurname());
@@ -69,7 +80,7 @@ public class AdminService {
     }
 
     public void deleteUser(Integer id) {
-        Users u = userRepository.find(id);
+        User u = userRepository.find(id);
         userRepository.remove(u);
     }
 
@@ -77,7 +88,7 @@ public class AdminService {
         List<Rol> roles = user.getRoleIds().stream()
                 .map((rId) -> rolRepository.find(rId))
                 .collect(Collectors.toList());
-        Users u = new Users();
+        User u = new User();
         u.setUsername(user.getUsername());
         u.setName(user.getName());
         u.setSurname(user.getSurname());
