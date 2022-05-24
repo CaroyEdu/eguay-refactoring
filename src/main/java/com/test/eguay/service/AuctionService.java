@@ -1,6 +1,7 @@
 package com.test.eguay.service;
 
 import com.test.eguay.dto.AuctionDTO;
+import com.test.eguay.entity.Auction;
 import com.test.eguay.repository.AuctionRepository;
 import com.test.eguay.repository.UserRepository;
 import org.springframework.stereotype.Service;

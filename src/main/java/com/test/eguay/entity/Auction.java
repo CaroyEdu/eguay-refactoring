@@ -54,13 +54,13 @@ public class Auction {
     @OneToMany(mappedBy = "auctionByAuctionid")
     private List<AuctionCategory> auctioncategoriesByAuctionid;
     @OneToMany(mappedBy = "auctionByAuctionid")
-    private Collection<Bid> bidsByAuctionid;
+    private List<Bid> bidsByAuctionid;
     @OneToMany(mappedBy = "auctionByAuctionid")
-    private Collection<FavoriteAuction> favoriteauctionsByAuctionid;
+    private List<FavoriteAuction> favoriteauctionsByAuctionid;
     @OneToMany(mappedBy = "auctionByAuctionid")
-    private Collection<PurchasedAuction> purchasedauctionsByAuctionid;
+    private List<PurchasedAuction> purchasedauctionsByAuctionid;
     @OneToMany(mappedBy = "auctionByAuctionid")
-    private Collection<Suggestedauction> suggestedauctionsByAuctionid;
+    private List<Suggestedauction> suggestedauctionsByAuctionid;
 
     public Timestamp getStartdate() {
         return startdate;
@@ -215,35 +215,35 @@ public class Auction {
         this.auctioncategoriesByAuctionid = auctioncategoriesByAuctionid;
     }
 
-    public Collection<Bid> getBidsByAuctionid() {
+    public List<Bid> getBidsByAuctionid() {
         return bidsByAuctionid;
     }
 
-    public void setBidsByAuctionid(Collection<Bid> bidsByAuctionid) {
+    public void setBidsByAuctionid(List<Bid> bidsByAuctionid) {
         this.bidsByAuctionid = bidsByAuctionid;
     }
 
-    public Collection<FavoriteAuction> getFavoriteauctionsByAuctionid() {
+    public List<FavoriteAuction> getFavoriteauctionsByAuctionid() {
         return favoriteauctionsByAuctionid;
     }
 
-    public void setFavoriteauctionsByAuctionid(Collection<FavoriteAuction> favoriteauctionsByAuctionid) {
+    public void setFavoriteauctionsByAuctionid(List<FavoriteAuction> favoriteauctionsByAuctionid) {
         this.favoriteauctionsByAuctionid = favoriteauctionsByAuctionid;
     }
 
-    public Collection<PurchasedAuction> getPurchasedauctionsByAuctionid() {
+    public List<PurchasedAuction> getPurchasedauctionsByAuctionid() {
         return purchasedauctionsByAuctionid;
     }
 
-    public void setPurchasedauctionsByAuctionid(Collection<PurchasedAuction> purchasedauctionsByAuctionid) {
+    public void setPurchasedauctionsByAuctionid(List<PurchasedAuction> purchasedauctionsByAuctionid) {
         this.purchasedauctionsByAuctionid = purchasedauctionsByAuctionid;
     }
 
-    public Collection<Suggestedauction> getSuggestedauctionsByAuctionid() {
+    public List<Suggestedauction> getSuggestedauctionsByAuctionid() {
         return suggestedauctionsByAuctionid;
     }
 
-    public void setSuggestedauctionsByAuctionid(Collection<Suggestedauction> suggestedauctionsByAuctionid) {
+    public void setSuggestedauctionsByAuctionid(List<Suggestedauction> suggestedauctionsByAuctionid) {
         this.suggestedauctionsByAuctionid = suggestedauctionsByAuctionid;
     }
 
@@ -253,7 +253,7 @@ public class Auction {
         dto.setId(auctionid);
 
         dto.setName(title);
-        dto.setCategory(auctioncategoriesByAuctionid.get(0).getName());
+        dto.setCategory(auctioncategoriesByAuctionid.get(0).getCategoryByCategoryid().getName());
         dto.setStartPrice(startprice);
         dto.setActive(active);
         dto.setCloseDate(closedate);
@@ -262,7 +262,9 @@ public class Auction {
         dto.setMaxBid(maxbid);
         dto.setStartDate(startdate);
         dto.setFotourl(fotourl);
-        dto.setCategoryList(CategoryService.toDTO(auctioncategoriesByAuctionid));
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(this.auctioncategoriesByAuctionid.get(0).getCategoryByCategoryid());
+        dto.setCategoryList(CategoryService.toDTO(categoryList));
         dto.setStartPrice(startprice);
 
         //dto.setUserList(UserService.toDTO(usersList));
