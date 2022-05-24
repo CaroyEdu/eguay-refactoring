@@ -1,4 +1,6 @@
-<%--
+<%@ page import="com.test.eguay.dto.UserDTO" %>
+<%@ page import="com.test.eguay.dto.CategoryDTO" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: jean-
   Date: 23/05/2022

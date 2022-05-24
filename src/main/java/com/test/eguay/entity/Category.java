@@ -17,7 +17,7 @@ public class Category {
     @Column(name = "categoryid", nullable = false)
     private Long categoryid;
     @OneToMany(mappedBy = "categoryByCategoryid")
-    private Collection<AuctionCategory> auctioncategoriesByCategoryid;
+    private List<AuctionCategory> auctioncategoriesByCategoryid;
     @OneToMany(mappedBy = "categoryByCategoryid")
     private Collection<UserCategory> userscategoriesByCategoryid;
 
@@ -57,11 +57,11 @@ public class Category {
         return result;
     }
 
-    public Collection<AuctionCategory> getAuctioncategoriesByCategoryid() {
+    public List<AuctionCategory> getAuctioncategoriesByCategoryid() {
         return auctioncategoriesByCategoryid;
     }
 
-    public void setAuctioncategoriesByCategoryid(Collection<AuctionCategory> auctioncategoriesByCategoryid) {
+    public void setAuctioncategoriesByCategoryid(List<AuctionCategory> auctioncategoriesByCategoryid) {
         this.auctioncategoriesByCategoryid = auctioncategoriesByCategoryid;
     }
 

@@ -1,6 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Locale" %><%--
+<%@ page import="java.util.Locale" %>
+<%@ page import="com.test.eguay.dto.AuctionDTO" %>
+<%@ page import="com.test.eguay.dto.UserDTO" %><%--
   Created by IntelliJ IDEA.
   User: jean-
   Date: 23/05/2022
