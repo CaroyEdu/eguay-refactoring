@@ -2,9 +2,13 @@ package com.test.eguay.service;
 
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedList;
+import java.util.List;
+
 @Service
-public class ServletUtils<T>{
-    public ServletUtils(){}
+public class UtilsService<T>{
+    public UtilsService(){}
 
     public void loadListToRequest(HttpServletRequest request, AbstractFacade facade, String label){
         request.setAttribute(label, facade.findAll());

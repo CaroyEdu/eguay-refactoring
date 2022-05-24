@@ -2,6 +2,7 @@ package com.test.eguay.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "da1knun38jg1va")
@@ -43,6 +44,24 @@ public class User {
     @Id
     @Column(name = "userid", nullable = false)
     private Integer userid;
+    @OneToMany(mappedBy = "usersBySellerid")
+    private Collection<Auction> auctionsByUserid;
+    @OneToMany(mappedBy = "usersByBiderid")
+    private Collection<Bid> bidsByUserid;
+    @OneToMany(mappedBy = "usersByUserid")
+    private Collection<FavoriteAuction> favoriteauctionsByUserid;
+    @OneToMany(mappedBy = "usersBySenderid")
+    private Collection<Mail> mailByUserid;
+    @OneToMany(mappedBy = "usersByUserid")
+    private Collection<PurchasedAuction> purchasedauctionsByUserid;
+    @OneToMany(mappedBy = "usersByUserid")
+    private Collection<UserCategory> userscategoriesByUserid;
+    @OneToMany(mappedBy = "usersByUserid")
+    private Collection<UserGroup> usersgroupsByUserid;
+    @OneToMany(mappedBy = "usersByUserid")
+    private Collection<UserMail> usersmailsByUserid;
+    @OneToMany(mappedBy = "usersByUserid")
+    private Collection<UserRol> usersrolsByUserid;
 
     public String getUsername() {
         return username;
@@ -178,5 +197,77 @@ public class User {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (userid != null ? userid.hashCode() : 0);
         return result;
+    }
+
+    public Collection<Auction> getAuctionsByUserid() {
+        return auctionsByUserid;
+    }
+
+    public void setAuctionsByUserid(Collection<Auction> auctionsByUserid) {
+        this.auctionsByUserid = auctionsByUserid;
+    }
+
+    public Collection<Bid> getBidsByUserid() {
+        return bidsByUserid;
+    }
+
+    public void setBidsByUserid(Collection<Bid> bidsByUserid) {
+        this.bidsByUserid = bidsByUserid;
+    }
+
+    public Collection<FavoriteAuction> getFavoriteauctionsByUserid() {
+        return favoriteauctionsByUserid;
+    }
+
+    public void setFavoriteauctionsByUserid(Collection<FavoriteAuction> favoriteauctionsByUserid) {
+        this.favoriteauctionsByUserid = favoriteauctionsByUserid;
+    }
+
+    public Collection<Mail> getMailByUserid() {
+        return mailByUserid;
+    }
+
+    public void setMailByUserid(Collection<Mail> mailByUserid) {
+        this.mailByUserid = mailByUserid;
+    }
+
+    public Collection<PurchasedAuction> getPurchasedauctionsByUserid() {
+        return purchasedauctionsByUserid;
+    }
+
+    public void setPurchasedauctionsByUserid(Collection<PurchasedAuction> purchasedauctionsByUserid) {
+        this.purchasedauctionsByUserid = purchasedauctionsByUserid;
+    }
+
+    public Collection<UserCategory> getUserscategoriesByUserid() {
+        return userscategoriesByUserid;
+    }
+
+    public void setUserscategoriesByUserid(Collection<UserCategory> userscategoriesByUserid) {
+        this.userscategoriesByUserid = userscategoriesByUserid;
+    }
+
+    public Collection<UserGroup> getUsersgroupsByUserid() {
+        return usersgroupsByUserid;
+    }
+
+    public void setUsersgroupsByUserid(Collection<UserGroup> usersgroupsByUserid) {
+        this.usersgroupsByUserid = usersgroupsByUserid;
+    }
+
+    public Collection<UserMail> getUsersmailsByUserid() {
+        return usersmailsByUserid;
+    }
+
+    public void setUsersmailsByUserid(Collection<UserMail> usersmailsByUserid) {
+        this.usersmailsByUserid = usersmailsByUserid;
+    }
+
+    public Collection<UserRol> getUsersrolsByUserid() {
+        return usersrolsByUserid;
+    }
+
+    public void setUsersrolsByUserid(Collection<UserRol> usersrolsByUserid) {
+        this.usersrolsByUserid = usersrolsByUserid;
     }
 }

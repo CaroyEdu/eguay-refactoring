@@ -2,6 +2,7 @@ package com.test.eguay.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity
 public class Mail {
@@ -21,6 +22,15 @@ public class Mail {
     @Basic
     @Column(name = "sentdate", nullable = true)
     private Date sentdate;
+    @OneToMany(mappedBy = "mailByMailid")
+    private Collection<GroupMail> groupsmailsByMailid;
+    @ManyToOne
+    @JoinColumn(name = "senderid", referencedColumnName = "userid", nullable = false)
+    private User usersBySenderid;
+    @OneToMany(mappedBy = "mailByMailid")
+    private Collection<Suggestedauction> suggestedauctionsByMailid;
+    @OneToMany(mappedBy = "mailByMailid")
+    private Collection<UserMail> usersmailsByMailid;
 
     public String getSubject() {
         return subject;
@@ -86,5 +96,37 @@ public class Mail {
         result = 31 * result + (senderid != null ? senderid.hashCode() : 0);
         result = 31 * result + (sentdate != null ? sentdate.hashCode() : 0);
         return result;
+    }
+
+    public Collection<GroupMail> getGroupsmailsByMailid() {
+        return groupsmailsByMailid;
+    }
+
+    public void setGroupsmailsByMailid(Collection<GroupMail> groupsmailsByMailid) {
+        this.groupsmailsByMailid = groupsmailsByMailid;
+    }
+
+    public User getUsersBySenderid() {
+        return usersBySenderid;
+    }
+
+    public void setUsersBySenderid(User usersBySenderid) {
+        this.usersBySenderid = usersBySenderid;
+    }
+
+    public Collection<Suggestedauction> getSuggestedauctionsByMailid() {
+        return suggestedauctionsByMailid;
+    }
+
+    public void setSuggestedauctionsByMailid(Collection<Suggestedauction> suggestedauctionsByMailid) {
+        this.suggestedauctionsByMailid = suggestedauctionsByMailid;
+    }
+
+    public Collection<UserMail> getUsersmailsByMailid() {
+        return usersmailsByMailid;
+    }
+
+    public void setUsersmailsByMailid(Collection<UserMail> usersmailsByMailid) {
+        this.usersmailsByMailid = usersmailsByMailid;
     }
 }

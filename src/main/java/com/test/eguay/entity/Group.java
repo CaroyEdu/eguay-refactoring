@@ -1,6 +1,7 @@
 package com.test.eguay.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "groups", schema = "public", catalog = "da1knun38jg1va")
@@ -12,6 +13,10 @@ public class Group {
     @Basic
     @Column(name = "name", nullable = true, length = -1)
     private String name;
+    @OneToMany(mappedBy = "groupsByGroupid")
+    private Collection<GroupMail> groupsmailsByGroupid;
+    @OneToMany(mappedBy = "groupsByGroupid")
+    private Collection<UserGroup> usersgroupsByGroupid;
 
     public Long getGroupid() {
         return groupid;
@@ -47,5 +52,21 @@ public class Group {
         int result = groupid != null ? groupid.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    public Collection<GroupMail> getGroupsmailsByGroupid() {
+        return groupsmailsByGroupid;
+    }
+
+    public void setGroupsmailsByGroupid(Collection<GroupMail> groupsmailsByGroupid) {
+        this.groupsmailsByGroupid = groupsmailsByGroupid;
+    }
+
+    public Collection<UserGroup> getUsersgroupsByGroupid() {
+        return usersgroupsByGroupid;
+    }
+
+    public void setUsersgroupsByGroupid(Collection<UserGroup> usersgroupsByGroupid) {
+        this.usersgroupsByGroupid = usersgroupsByGroupid;
     }
 }

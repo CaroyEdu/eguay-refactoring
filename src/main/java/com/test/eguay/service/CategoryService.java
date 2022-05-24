@@ -1,6 +1,11 @@
 package com.test.eguay.service;
 
+import com.test.eguay.dto.CategoryDTO;
+import com.test.eguay.entity.Category;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CategoryService {

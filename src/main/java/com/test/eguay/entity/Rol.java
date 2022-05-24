@@ -1,6 +1,7 @@
 package com.test.eguay.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Rol {
@@ -14,6 +15,8 @@ public class Rol {
     @Basic
     @Column(name = "name", nullable = false, length = -1)
     private String name;
+    @OneToMany(mappedBy = "rolByRolid")
+    private Collection<UserRol> usersrolsByRolid;
 
     public Long getRolid() {
         return rolid;
@@ -59,5 +62,13 @@ public class Rol {
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    public Collection<UserRol> getUsersrolsByRolid() {
+        return usersrolsByRolid;
+    }
+
+    public void setUsersrolsByRolid(Collection<UserRol> usersrolsByRolid) {
+        this.usersrolsByRolid = usersrolsByRolid;
     }
 }

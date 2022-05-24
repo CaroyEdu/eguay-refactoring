@@ -17,6 +17,12 @@ public class Bid {
     @Basic
     @Column(name = "auctionid", nullable = false)
     private Long auctionid;
+    @ManyToOne
+    @JoinColumn(name = "biderid", referencedColumnName = "userid", nullable = false)
+    private User usersByBiderid;
+    @ManyToOne
+    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false)
+    private Auction auctionByAuctionid;
 
     public Double getBid() {
         return bid;
@@ -72,5 +78,21 @@ public class Bid {
         result = 31 * result + (biderid != null ? biderid.hashCode() : 0);
         result = 31 * result + (auctionid != null ? auctionid.hashCode() : 0);
         return result;
+    }
+
+    public User getUsersByBiderid() {
+        return usersByBiderid;
+    }
+
+    public void setUsersByBiderid(User usersByBiderid) {
+        this.usersByBiderid = usersByBiderid;
+    }
+
+    public Auction getAuctionByAuctionid() {
+        return auctionByAuctionid;
+    }
+
+    public void setAuctionByAuctionid(Auction auctionByAuctionid) {
+        this.auctionByAuctionid = auctionByAuctionid;
     }
 }

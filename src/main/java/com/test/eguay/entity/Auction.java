@@ -1,7 +1,13 @@
 package com.test.eguay.entity;
 
+import com.test.eguay.dto.AuctionDTO;
+import com.test.eguay.service.CategoryService;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Auction {
@@ -42,6 +48,19 @@ public class Auction {
     @Basic
     @Column(name = "active", nullable = true)
     private Boolean active;
+    @ManyToOne
+    @JoinColumn(name = "sellerid", referencedColumnName = "userid", nullable = false)
+    private User usersBySellerid;
+    @OneToMany(mappedBy = "auctionByAuctionid")
+    private List<AuctionCategory> auctioncategoriesByAuctionid;
+    @OneToMany(mappedBy = "auctionByAuctionid")
+    private Collection<Bid> bidsByAuctionid;
+    @OneToMany(mappedBy = "auctionByAuctionid")
+    private Collection<FavoriteAuction> favoriteauctionsByAuctionid;
+    @OneToMany(mappedBy = "auctionByAuctionid")
+    private Collection<PurchasedAuction> purchasedauctionsByAuctionid;
+    @OneToMany(mappedBy = "auctionByAuctionid")
+    private Collection<Suggestedauction> suggestedauctionsByAuctionid;
 
     public Timestamp getStartdate() {
         return startdate;
@@ -178,5 +197,91 @@ public class Auction {
         result = 31 * result + (auctionid != null ? auctionid.hashCode() : 0);
         result = 31 * result + (active != null ? active.hashCode() : 0);
         return result;
+    }
+
+    public User getUsersBySellerid() {
+        return usersBySellerid;
+    }
+
+    public void setUsersBySellerid(User usersBySellerid) {
+        this.usersBySellerid = usersBySellerid;
+    }
+
+    public List<AuctionCategory> getAuctioncategoriesByAuctionid() {
+        return auctioncategoriesByAuctionid;
+    }
+
+    public void setAuctioncategoriesByAuctionid(List<AuctionCategory> auctioncategoriesByAuctionid) {
+        this.auctioncategoriesByAuctionid = auctioncategoriesByAuctionid;
+    }
+
+    public Collection<Bid> getBidsByAuctionid() {
+        return bidsByAuctionid;
+    }
+
+    public void setBidsByAuctionid(Collection<Bid> bidsByAuctionid) {
+        this.bidsByAuctionid = bidsByAuctionid;
+    }
+
+    public Collection<FavoriteAuction> getFavoriteauctionsByAuctionid() {
+        return favoriteauctionsByAuctionid;
+    }
+
+    public void setFavoriteauctionsByAuctionid(Collection<FavoriteAuction> favoriteauctionsByAuctionid) {
+        this.favoriteauctionsByAuctionid = favoriteauctionsByAuctionid;
+    }
+
+    public Collection<PurchasedAuction> getPurchasedauctionsByAuctionid() {
+        return purchasedauctionsByAuctionid;
+    }
+
+    public void setPurchasedauctionsByAuctionid(Collection<PurchasedAuction> purchasedauctionsByAuctionid) {
+        this.purchasedauctionsByAuctionid = purchasedauctionsByAuctionid;
+    }
+
+    public Collection<Suggestedauction> getSuggestedauctionsByAuctionid() {
+        return suggestedauctionsByAuctionid;
+    }
+
+    public void setSuggestedauctionsByAuctionid(Collection<Suggestedauction> suggestedauctionsByAuctionid) {
+        this.suggestedauctionsByAuctionid = suggestedauctionsByAuctionid;
+    }
+
+    public AuctionDTO toDTO(){
+        AuctionDTO dto = new AuctionDTO();
+
+        dto.setId(auctionid);
+
+        dto.setName(title);
+        dto.setCategory(auctioncategoriesByAuctionid.get(0).getName());
+        dto.setStartPrice(startprice);
+        dto.setActive(active);
+        dto.setCloseDate(closedate);
+        dto.setCloseNumberofBids(closenumberofbids);
+        dto.setClosePrice(closeprice);
+        dto.setMaxBid(maxbid);
+        dto.setStartDate(startdate);
+        dto.setFotourl(fotourl);
+        dto.setCategoryList(CategoryService.toDTO(auctioncategoriesByAuctionid));
+        dto.setStartPrice(startprice);
+
+        //dto.setUserList(UserService.toDTO(usersList));
+        dto.setSellerID(Long.parseLong(usersBySellerid.getUserid().toString()));
+        dto.setDescription(description);
+        dto.setCategoryId(auctioncategoriesByAuctionid.get(0).getCategoryid());
+
+        dto.setSeller(String.format("%s %s", usersBySellerid.getName(), usersBySellerid.getSurname()));
+
+        return dto;
+    }
+
+    public static List<AuctionDTO> toDTO(List<Auction> auctions){
+        List<AuctionDTO> dtos = new ArrayList<>(auctions.size());
+
+        for(Auction auction : auctions){
+            dtos.add(auction.toDTO());
+        }
+
+        return dtos;
     }
 }

@@ -1,6 +1,11 @@
 package com.test.eguay.entity;
 
+import com.test.eguay.dto.CategoryDTO;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Category {
@@ -11,6 +16,10 @@ public class Category {
     @Id
     @Column(name = "categoryid", nullable = false)
     private Long categoryid;
+    @OneToMany(mappedBy = "categoryByCategoryid")
+    private Collection<AuctionCategory> auctioncategoriesByCategoryid;
+    @OneToMany(mappedBy = "categoryByCategoryid")
+    private Collection<UserCategory> userscategoriesByCategoryid;
 
     public String getName() {
         return name;
@@ -46,5 +55,40 @@ public class Category {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (categoryid != null ? categoryid.hashCode() : 0);
         return result;
+    }
+
+    public Collection<AuctionCategory> getAuctioncategoriesByCategoryid() {
+        return auctioncategoriesByCategoryid;
+    }
+
+    public void setAuctioncategoriesByCategoryid(Collection<AuctionCategory> auctioncategoriesByCategoryid) {
+        this.auctioncategoriesByCategoryid = auctioncategoriesByCategoryid;
+    }
+
+    public Collection<UserCategory> getUserscategoriesByCategoryid() {
+        return userscategoriesByCategoryid;
+    }
+
+    public void setUserscategoriesByCategoryid(Collection<UserCategory> userscategoriesByCategoryid) {
+        this.userscategoriesByCategoryid = userscategoriesByCategoryid;
+    }
+
+    public CategoryDTO toDTO(){
+        CategoryDTO dto = new CategoryDTO();
+
+        dto.setId(categoryid);
+        dto.setName(name);
+
+        return dto;
+    }
+
+    public static List<CategoryDTO> toDTO(List<Category> categories){
+        List<CategoryDTO> dtos = new ArrayList<>(categories.size());
+
+        for(Category category : categories){
+            dtos.add(category.toDTO());
+        }
+
+        return dtos;
     }
 }
