@@ -48,6 +48,6 @@ public class IndexController {
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("auctionList", auctionList);
         model.addAttribute("favAuctions", auctionFavList);
-        return "prueba";
+        return "index";
     }
 }

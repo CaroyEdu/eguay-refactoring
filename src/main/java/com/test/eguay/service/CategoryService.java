@@ -3,6 +3,7 @@ package com.test.eguay.service;
 import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.entity.Category;
 import com.test.eguay.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +13,15 @@ import java.util.Optional;
 @Service
 public class CategoryService {
     CategoryRepository categoryRepository;
+
+    public CategoryRepository getCategoryRepository() {
+        return categoryRepository;
+    }
+
+    @Autowired
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     // Queries
 

@@ -37,14 +37,14 @@ public class Auction {
     private Integer closenumberofbids;
     @Basic
     @Column(name = "sellerid", nullable = false)
-    private int sellerid;
+    private Integer sellerid;
     @Basic
     @Column(name = "startprice", nullable = true, precision = 0)
     private Float startprice;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "auctionid", nullable = false)
-    private long auctionid;
+    private Long auctionid;
     @Basic
     @Column(name = "active", nullable = true)
     private Boolean active;
@@ -126,11 +126,11 @@ public class Auction {
         this.closenumberofbids = closenumberofbids;
     }
 
-    public int getSellerid() {
+    public Integer getSellerid() {
         return sellerid;
     }
 
-    public void setSellerid(int sellerid) {
+    public void setSellerid(Integer sellerid) {
         this.sellerid = sellerid;
     }
 
@@ -142,11 +142,11 @@ public class Auction {
         this.startprice = startprice;
     }
 
-    public long getAuctionid() {
+    public Long getAuctionid() {
         return auctionid;
     }
 
-    public void setAuctionid(long auctionid) {
+    public void setAuctionid(Long auctionid) {
         this.auctionid = auctionid;
     }
 
@@ -165,8 +165,6 @@ public class Auction {
 
         Auction auction = (Auction) o;
 
-        if (sellerid != auction.sellerid) return false;
-        if (auctionid != auction.auctionid) return false;
         if (startdate != null ? !startdate.equals(auction.startdate) : auction.startdate != null) return false;
         if (maxbid != null ? !maxbid.equals(auction.maxbid) : auction.maxbid != null) return false;
         if (title != null ? !title.equals(auction.title) : auction.title != null) return false;
@@ -176,7 +174,9 @@ public class Auction {
         if (closedate != null ? !closedate.equals(auction.closedate) : auction.closedate != null) return false;
         if (closenumberofbids != null ? !closenumberofbids.equals(auction.closenumberofbids) : auction.closenumberofbids != null)
             return false;
+        if (sellerid != null ? !sellerid.equals(auction.sellerid) : auction.sellerid != null) return false;
         if (startprice != null ? !startprice.equals(auction.startprice) : auction.startprice != null) return false;
+        if (auctionid != null ? !auctionid.equals(auction.auctionid) : auction.auctionid != null) return false;
         if (active != null ? !active.equals(auction.active) : auction.active != null) return false;
 
         return true;
@@ -192,9 +192,9 @@ public class Auction {
         result = 31 * result + (closeprice != null ? closeprice.hashCode() : 0);
         result = 31 * result + (closedate != null ? closedate.hashCode() : 0);
         result = 31 * result + (closenumberofbids != null ? closenumberofbids.hashCode() : 0);
-        result = 31 * result + sellerid;
+        result = 31 * result + (sellerid != null ? sellerid.hashCode() : 0);
         result = 31 * result + (startprice != null ? startprice.hashCode() : 0);
-        result = 31 * result + (int) (auctionid ^ (auctionid >>> 32));
+        result = 31 * result + (auctionid != null ? auctionid.hashCode() : 0);
         result = 31 * result + (active != null ? active.hashCode() : 0);
         return result;
     }
@@ -263,7 +263,7 @@ public class Auction {
         dto.setFotourl(fotourl);
         List<Category> categoryList = new ArrayList<>();
         Category category = new Category();
-        category.setCategoryid(this.auctioncategoriesByAuctionid.get(0).getCategoryid());
+        List<AuctionCategory> ac = this.getAuctioncategoriesByAuctionid();
         categoryList.add(category);
         dto.setCategoryList(CategoryService.toDTO(categoryList));
         dto.setStartPrice(startprice);
@@ -287,4 +287,5 @@ public class Auction {
 
         return dtos;
     }
+
 }

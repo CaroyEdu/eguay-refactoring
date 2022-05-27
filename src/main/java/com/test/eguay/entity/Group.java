@@ -9,20 +9,20 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "groupid", nullable = false)
-    private long groupid;
+    private Long groupid;
     @Basic
     @Column(name = "name", nullable = true, length = -1)
     private String name;
     @OneToMany(mappedBy = "groupsByGroupid")
     private Collection<GroupMail> groupsmailsByGroupid;
     @OneToMany(mappedBy = "groupsByGroupid")
-    private Collection<UserGroup> usersgroupsByGroupid;
+    private Collection<UserGroups> usersgroupsByGroupid;
 
-    public long getGroupid() {
+    public Long getGroupid() {
         return groupid;
     }
 
-    public void setGroupid(long groupid) {
+    public void setGroupid(Long groupid) {
         this.groupid = groupid;
     }
 
@@ -41,7 +41,7 @@ public class Group {
 
         Group group = (Group) o;
 
-        if (groupid != group.groupid) return false;
+        if (groupid != null ? !groupid.equals(group.groupid) : group.groupid != null) return false;
         if (name != null ? !name.equals(group.name) : group.name != null) return false;
 
         return true;
@@ -49,7 +49,7 @@ public class Group {
 
     @Override
     public int hashCode() {
-        int result = (int) (groupid ^ (groupid >>> 32));
+        int result = groupid != null ? groupid.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
@@ -62,11 +62,11 @@ public class Group {
         this.groupsmailsByGroupid = groupsmailsByGroupid;
     }
 
-    public Collection<UserGroup> getUsersgroupsByGroupid() {
+    public Collection<UserGroups> getUsersgroupsByGroupid() {
         return usersgroupsByGroupid;
     }
 
-    public void setUsersgroupsByGroupid(Collection<UserGroup> usersgroupsByGroupid) {
+    public void setUsersgroupsByGroupid(Collection<UserGroups> usersgroupsByGroupid) {
         this.usersgroupsByGroupid = usersgroupsByGroupid;
     }
 }

@@ -5,17 +5,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "auctioncategory", schema = "public", catalog = "da1knun38jg1va")
 public class AuctionCategory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
     @Basic
     @Column(name = "categoryid", nullable = false)
-    private long categoryid;
+    private Long categoryid;
     @Basic
     @Column(name = "auctionid", nullable = false)
-    private long auctionid;
+    private Long auctionid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "auctioncategory", nullable = false)
+    private Long auctioncategory;
     @ManyToOne
     @JoinColumn(name = "categoryid", referencedColumnName = "categoryid", nullable = false, insertable = false, updatable = false)
     private Category categoryByCategoryid;
@@ -23,28 +22,28 @@ public class AuctionCategory {
     @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false, insertable = false, updatable = false)
     private Auction auctionByAuctionid;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getCategoryid() {
+    public Long getCategoryid() {
         return categoryid;
     }
 
-    public void setCategoryid(long categoryid) {
+    public void setCategoryid(Long categoryid) {
         this.categoryid = categoryid;
     }
 
-    public long getAuctionid() {
+    public Long getAuctionid() {
         return auctionid;
     }
 
-    public void setAuctionid(long auctionid) {
+    public void setAuctionid(Long auctionid) {
         this.auctionid = auctionid;
+    }
+
+    public Long getAuctioncategory() {
+        return auctioncategory;
+    }
+
+    public void setAuctioncategory(Long auctioncategory) {
+        this.auctioncategory = auctioncategory;
     }
 
     @Override
@@ -54,16 +53,19 @@ public class AuctionCategory {
 
         AuctionCategory that = (AuctionCategory) o;
 
-        if (categoryid != that.categoryid) return false;
-        if (auctionid != that.auctionid) return false;
+        if (categoryid != null ? !categoryid.equals(that.categoryid) : that.categoryid != null) return false;
+        if (auctionid != null ? !auctionid.equals(that.auctionid) : that.auctionid != null) return false;
+        if (auctioncategory != null ? !auctioncategory.equals(that.auctioncategory) : that.auctioncategory != null)
+            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (categoryid ^ (categoryid >>> 32));
-        result = 31 * result + (int) (auctionid ^ (auctionid >>> 32));
+        int result = categoryid != null ? categoryid.hashCode() : 0;
+        result = 31 * result + (auctionid != null ? auctionid.hashCode() : 0);
+        result = 31 * result + (auctioncategory != null ? auctioncategory.hashCode() : 0);
         return result;
     }
 

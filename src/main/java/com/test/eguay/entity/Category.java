@@ -4,7 +4,6 @@ import com.test.eguay.dto.CategoryDTO;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -16,11 +15,11 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "categoryid", nullable = false)
-    private long categoryid;
+    private Long categoryid;
     @OneToMany(mappedBy = "categoryByCategoryid")
-    private Collection<AuctionCategory> auctioncategoriesByCategoryid;
+    private List<AuctionCategory> auctioncategoriesByCategoryid;
     @OneToMany(mappedBy = "categoryByCategoryid")
-    private Collection<UserCategory> userscategoriesByCategoryid;
+    private List<UserCategory> userscategoriesByCategoryid;
 
     public String getName() {
         return name;
@@ -30,11 +29,11 @@ public class Category {
         this.name = name;
     }
 
-    public long getCategoryid() {
+    public Long getCategoryid() {
         return categoryid;
     }
 
-    public void setCategoryid(long categoryid) {
+    public void setCategoryid(Long categoryid) {
         this.categoryid = categoryid;
     }
 
@@ -45,8 +44,8 @@ public class Category {
 
         Category category = (Category) o;
 
-        if (categoryid != category.categoryid) return false;
         if (name != null ? !name.equals(category.name) : category.name != null) return false;
+        if (categoryid != null ? !categoryid.equals(category.categoryid) : category.categoryid != null) return false;
 
         return true;
     }
@@ -54,23 +53,23 @@ public class Category {
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (int) (categoryid ^ (categoryid >>> 32));
+        result = 31 * result + (categoryid != null ? categoryid.hashCode() : 0);
         return result;
     }
 
-    public Collection<AuctionCategory> getAuctioncategoriesByCategoryid() {
+    public List<AuctionCategory> getAuctioncategoriesByCategoryid() {
         return auctioncategoriesByCategoryid;
     }
 
-    public void setAuctioncategoriesByCategoryid(Collection<AuctionCategory> auctioncategoriesByCategoryid) {
+    public void setAuctioncategoriesByCategoryid(List<AuctionCategory> auctioncategoriesByCategoryid) {
         this.auctioncategoriesByCategoryid = auctioncategoriesByCategoryid;
     }
 
-    public Collection<UserCategory> getUserscategoriesByCategoryid() {
+    public List<UserCategory> getUserscategoriesByCategoryid() {
         return userscategoriesByCategoryid;
     }
 
-    public void setUserscategoriesByCategoryid(Collection<UserCategory> userscategoriesByCategoryid) {
+    public void setUserscategoriesByCategoryid(List<UserCategory> userscategoriesByCategoryid) {
         this.userscategoriesByCategoryid = userscategoriesByCategoryid;
     }
 

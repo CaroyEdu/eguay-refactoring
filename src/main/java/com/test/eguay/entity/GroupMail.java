@@ -5,17 +5,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "groupsmail", schema = "public", catalog = "da1knun38jg1va")
 public class GroupMail {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
     @Basic
     @Column(name = "groupid", nullable = false)
-    private long groupid;
+    private Long groupid;
     @Basic
     @Column(name = "mailid", nullable = false)
-    private long mailid;
+    private Long mailid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "groupsmailid", nullable = false)
+    private Long groupsmailid;
     @ManyToOne
     @JoinColumn(name = "groupid", referencedColumnName = "groupid", nullable = false, insertable = false, updatable = false)
     private Group groupsByGroupid;
@@ -23,28 +22,28 @@ public class GroupMail {
     @JoinColumn(name = "mailid", referencedColumnName = "mailid", nullable = false, insertable = false, updatable = false)
     private Mail mailByMailid;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getGroupid() {
+    public Long getGroupid() {
         return groupid;
     }
 
-    public void setGroupid(long groupid) {
+    public void setGroupid(Long groupid) {
         this.groupid = groupid;
     }
 
-    public long getMailid() {
+    public Long getMailid() {
         return mailid;
     }
 
-    public void setMailid(long mailid) {
+    public void setMailid(Long mailid) {
         this.mailid = mailid;
+    }
+
+    public Long getGroupsmailid() {
+        return groupsmailid;
+    }
+
+    public void setGroupsmailid(Long groupsmailid) {
+        this.groupsmailid = groupsmailid;
     }
 
     @Override
@@ -54,16 +53,19 @@ public class GroupMail {
 
         GroupMail groupMail = (GroupMail) o;
 
-        if (groupid != groupMail.groupid) return false;
-        if (mailid != groupMail.mailid) return false;
+        if (groupid != null ? !groupid.equals(groupMail.groupid) : groupMail.groupid != null) return false;
+        if (mailid != null ? !mailid.equals(groupMail.mailid) : groupMail.mailid != null) return false;
+        if (groupsmailid != null ? !groupsmailid.equals(groupMail.groupsmailid) : groupMail.groupsmailid != null)
+            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (groupid ^ (groupid >>> 32));
-        result = 31 * result + (int) (mailid ^ (mailid >>> 32));
+        int result = groupid != null ? groupid.hashCode() : 0;
+        result = 31 * result + (mailid != null ? mailid.hashCode() : 0);
+        result = 31 * result + (groupsmailid != null ? groupsmailid.hashCode() : 0);
         return result;
     }
 

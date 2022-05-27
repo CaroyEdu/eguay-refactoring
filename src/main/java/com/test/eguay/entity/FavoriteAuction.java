@@ -5,17 +5,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "favoriteauction", schema = "public", catalog = "da1knun38jg1va")
 public class FavoriteAuction {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
     @Basic
     @Column(name = "userid", nullable = false)
-    private long userid;
+    private Long userid;
     @Basic
     @Column(name = "auctionid", nullable = false)
-    private long auctionid;
+    private Long auctionid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "favoriteauctionid", nullable = false)
+    private Long favoriteauctionid;
     @ManyToOne
     @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false, insertable = false, updatable = false)
     private User usersByUserid;
@@ -23,28 +22,28 @@ public class FavoriteAuction {
     @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false, insertable = false, updatable = false)
     private Auction auctionByAuctionid;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getUserid() {
+    public Long getUserid() {
         return userid;
     }
 
-    public void setUserid(long userid) {
+    public void setUserid(Long userid) {
         this.userid = userid;
     }
 
-    public long getAuctionid() {
+    public Long getAuctionid() {
         return auctionid;
     }
 
-    public void setAuctionid(long auctionid) {
+    public void setAuctionid(Long auctionid) {
         this.auctionid = auctionid;
+    }
+
+    public Long getFavoriteauctionid() {
+        return favoriteauctionid;
+    }
+
+    public void setFavoriteauctionid(Long favoriteauctionid) {
+        this.favoriteauctionid = favoriteauctionid;
     }
 
     @Override
@@ -54,16 +53,19 @@ public class FavoriteAuction {
 
         FavoriteAuction that = (FavoriteAuction) o;
 
-        if (userid != that.userid) return false;
-        if (auctionid != that.auctionid) return false;
+        if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
+        if (auctionid != null ? !auctionid.equals(that.auctionid) : that.auctionid != null) return false;
+        if (favoriteauctionid != null ? !favoriteauctionid.equals(that.favoriteauctionid) : that.favoriteauctionid != null)
+            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (userid ^ (userid >>> 32));
-        result = 31 * result + (int) (auctionid ^ (auctionid >>> 32));
+        int result = userid != null ? userid.hashCode() : 0;
+        result = 31 * result + (auctionid != null ? auctionid.hashCode() : 0);
+        result = 31 * result + (favoriteauctionid != null ? favoriteauctionid.hashCode() : 0);
         return result;
     }
 
