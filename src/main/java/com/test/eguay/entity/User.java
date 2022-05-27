@@ -43,7 +43,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "userid", nullable = false)
-    private Integer userid;
+    private int userid;
     @OneToMany(mappedBy = "usersBySellerid")
     private Collection<Auction> auctionsByUserid;
     @OneToMany(mappedBy = "usersByBiderid")
@@ -151,11 +151,11 @@ public class User {
         this.address = address;
     }
 
-    public Integer getUserid() {
+    public int getUserid() {
         return userid;
     }
 
-    public void setUserid(Integer userid) {
+    public void setUserid(int userid) {
         this.userid = userid;
     }
 
@@ -166,6 +166,7 @@ public class User {
 
         User user = (User) o;
 
+        if (userid != user.userid) return false;
         if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
@@ -177,7 +178,6 @@ public class User {
         if (country != null ? !country.equals(user.country) : user.country != null) return false;
         if (city != null ? !city.equals(user.city) : user.city != null) return false;
         if (address != null ? !address.equals(user.address) : user.address != null) return false;
-        if (userid != null ? !userid.equals(user.userid) : user.userid != null) return false;
 
         return true;
     }
@@ -195,7 +195,7 @@ public class User {
         result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (userid != null ? userid.hashCode() : 0);
+        result = 31 * result + userid;
         return result;
     }
 

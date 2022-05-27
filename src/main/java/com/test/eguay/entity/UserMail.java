@@ -5,32 +5,45 @@ import javax.persistence.*;
 @Entity
 @Table(name = "usersmail", schema = "public", catalog = "da1knun38jg1va")
 public class UserMail {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @Basic
     @Column(name = "userid", nullable = false)
-    private Long userid;
+    private long userid;
     @Basic
     @Column(name = "mailid", nullable = false)
-    private Long mailid;
+    private long mailid;
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)
+    @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false, insertable = false, updatable = false)
     private User usersByUserid;
     @ManyToOne
-    @JoinColumn(name = "mailid", referencedColumnName = "mailid", nullable = false)
+    @JoinColumn(name = "mailid", referencedColumnName = "mailid", nullable = false, insertable = false, updatable = false)
     private Mail mailByMailid;
 
-    public Long getUserid() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public long getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
+    public void setUserid(long userid) {
         this.userid = userid;
     }
 
-    public Long getMailid() {
+    public long getMailid() {
         return mailid;
     }
 
-    public void setMailid(Long mailid) {
+    public void setMailid(long mailid) {
         this.mailid = mailid;
     }
 
@@ -41,16 +54,16 @@ public class UserMail {
 
         UserMail userMail = (UserMail) o;
 
-        if (userid != null ? !userid.equals(userMail.userid) : userMail.userid != null) return false;
-        if (mailid != null ? !mailid.equals(userMail.mailid) : userMail.mailid != null) return false;
+        if (userid != userMail.userid) return false;
+        if (mailid != userMail.mailid) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = userid != null ? userid.hashCode() : 0;
-        result = 31 * result + (mailid != null ? mailid.hashCode() : 0);
+        int result = (int) (userid ^ (userid >>> 32));
+        result = 31 * result + (int) (mailid ^ (mailid >>> 32));
         return result;
     }
 

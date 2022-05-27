@@ -4,6 +4,11 @@ import javax.persistence.*;
 
 @Entity
 public class PurchasedAuction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @Basic
     @Column(name = "userid", nullable = true)
     private Long userid;
@@ -11,11 +16,19 @@ public class PurchasedAuction {
     @Column(name = "auctionid", nullable = true)
     private Long auctionid;
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userid")
+    @JoinColumn(name = "userid", referencedColumnName = "userid", insertable = false, updatable = false)
     private User usersByUserid;
     @ManyToOne
-    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid")
+    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", insertable = false, updatable = false)
     private Auction auctionByAuctionid;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getUserid() {
         return userid;

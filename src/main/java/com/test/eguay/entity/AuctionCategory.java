@@ -4,32 +4,45 @@ import javax.persistence.*;
 
 @Entity
 public class AuctionCategory {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @Basic
     @Column(name = "categoryid", nullable = false)
-    private Long categoryid;
+    private long categoryid;
     @Basic
     @Column(name = "auctionid", nullable = false)
-    private Long auctionid;
+    private long auctionid;
     @ManyToOne
-    @JoinColumn(name = "categoryid", referencedColumnName = "categoryid", nullable = false)
+    @JoinColumn(name = "categoryid", referencedColumnName = "categoryid", nullable = false, insertable = false, updatable = false)
     private Category categoryByCategoryid;
     @ManyToOne
-    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false)
+    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false, insertable = false, updatable = false)
     private Auction auctionByAuctionid;
 
-    public Long getCategoryid() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public long getCategoryid() {
         return categoryid;
     }
 
-    public void setCategoryid(Long categoryid) {
+    public void setCategoryid(long categoryid) {
         this.categoryid = categoryid;
     }
 
-    public Long getAuctionid() {
+    public long getAuctionid() {
         return auctionid;
     }
 
-    public void setAuctionid(Long auctionid) {
+    public void setAuctionid(long auctionid) {
         this.auctionid = auctionid;
     }
 
@@ -40,16 +53,16 @@ public class AuctionCategory {
 
         AuctionCategory that = (AuctionCategory) o;
 
-        if (categoryid != null ? !categoryid.equals(that.categoryid) : that.categoryid != null) return false;
-        if (auctionid != null ? !auctionid.equals(that.auctionid) : that.auctionid != null) return false;
+        if (categoryid != that.categoryid) return false;
+        if (auctionid != that.auctionid) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = categoryid != null ? categoryid.hashCode() : 0;
-        result = 31 * result + (auctionid != null ? auctionid.hashCode() : 0);
+        int result = (int) (categoryid ^ (categoryid >>> 32));
+        result = 31 * result + (int) (auctionid ^ (auctionid >>> 32));
         return result;
     }
 

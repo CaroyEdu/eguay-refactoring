@@ -10,18 +10,18 @@ public class Bid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "bidid", nullable = false)
-    private Long bidid;
+    private long bidid;
     @Basic
     @Column(name = "biderid", nullable = false)
-    private Long biderid;
+    private long biderid;
     @Basic
     @Column(name = "auctionid", nullable = false)
-    private Long auctionid;
+    private long auctionid;
     @ManyToOne
-    @JoinColumn(name = "biderid", referencedColumnName = "userid", nullable = false)
+    @JoinColumn(name = "biderid", referencedColumnName = "userid", nullable = false, insertable = false, updatable = false)
     private User usersByBiderid;
     @ManyToOne
-    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false)
+    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false, insertable = false, updatable = false)
     private Auction auctionByAuctionid;
 
     public Double getBid() {
@@ -32,27 +32,27 @@ public class Bid {
         this.bid = bid;
     }
 
-    public Long getBidid() {
+    public long getBidid() {
         return bidid;
     }
 
-    public void setBidid(Long bidid) {
+    public void setBidid(long bidid) {
         this.bidid = bidid;
     }
 
-    public Long getBiderid() {
+    public long getBiderid() {
         return biderid;
     }
 
-    public void setBiderid(Long biderid) {
+    public void setBiderid(long biderid) {
         this.biderid = biderid;
     }
 
-    public Long getAuctionid() {
+    public long getAuctionid() {
         return auctionid;
     }
 
-    public void setAuctionid(Long auctionid) {
+    public void setAuctionid(long auctionid) {
         this.auctionid = auctionid;
     }
 
@@ -63,10 +63,10 @@ public class Bid {
 
         Bid bid1 = (Bid) o;
 
+        if (bidid != bid1.bidid) return false;
+        if (biderid != bid1.biderid) return false;
+        if (auctionid != bid1.auctionid) return false;
         if (bid != null ? !bid.equals(bid1.bid) : bid1.bid != null) return false;
-        if (bidid != null ? !bidid.equals(bid1.bidid) : bid1.bidid != null) return false;
-        if (biderid != null ? !biderid.equals(bid1.biderid) : bid1.biderid != null) return false;
-        if (auctionid != null ? !auctionid.equals(bid1.auctionid) : bid1.auctionid != null) return false;
 
         return true;
     }
@@ -74,9 +74,9 @@ public class Bid {
     @Override
     public int hashCode() {
         int result = bid != null ? bid.hashCode() : 0;
-        result = 31 * result + (bidid != null ? bidid.hashCode() : 0);
-        result = 31 * result + (biderid != null ? biderid.hashCode() : 0);
-        result = 31 * result + (auctionid != null ? auctionid.hashCode() : 0);
+        result = 31 * result + (int) (bidid ^ (bidid >>> 32));
+        result = 31 * result + (int) (biderid ^ (biderid >>> 32));
+        result = 31 * result + (int) (auctionid ^ (auctionid >>> 32));
         return result;
     }
 

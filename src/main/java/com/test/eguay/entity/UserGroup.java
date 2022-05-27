@@ -5,6 +5,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "usersgroups", schema = "public", catalog = "da1knun38jg1va")
 public class UserGroup {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @Basic
     @Column(name = "userid", nullable = true)
     private Long userid;
@@ -12,11 +17,19 @@ public class UserGroup {
     @Column(name = "groupid", nullable = true)
     private Long groupid;
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userid")
+    @JoinColumn(name = "userid", referencedColumnName = "userid", insertable = false, updatable = false)
     private User usersByUserid;
     @ManyToOne
-    @JoinColumn(name = "groupid", referencedColumnName = "groupid")
+    @JoinColumn(name = "groupid", referencedColumnName = "groupid", insertable = false, updatable = false)
     private Group groupsByGroupid;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getUserid() {
         return userid;

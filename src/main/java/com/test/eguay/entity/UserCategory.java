@@ -5,32 +5,45 @@ import javax.persistence.*;
 @Entity
 @Table(name = "userscategory", schema = "public", catalog = "da1knun38jg1va")
 public class UserCategory {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @Basic
     @Column(name = "userid", nullable = false)
-    private Long userid;
+    private long userid;
     @Basic
     @Column(name = "categoryid", nullable = false)
-    private Long categoryid;
+    private long categoryid;
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)
+    @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false, insertable = false, updatable = false)
     private User usersByUserid;
     @ManyToOne
-    @JoinColumn(name = "categoryid", referencedColumnName = "categoryid", nullable = false)
+    @JoinColumn(name = "categoryid", referencedColumnName = "categoryid", nullable = false, insertable = false, updatable = false)
     private Category categoryByCategoryid;
 
-    public Long getUserid() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public long getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
+    public void setUserid(long userid) {
         this.userid = userid;
     }
 
-    public Long getCategoryid() {
+    public long getCategoryid() {
         return categoryid;
     }
 
-    public void setCategoryid(Long categoryid) {
+    public void setCategoryid(long categoryid) {
         this.categoryid = categoryid;
     }
 
@@ -41,16 +54,16 @@ public class UserCategory {
 
         UserCategory that = (UserCategory) o;
 
-        if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
-        if (categoryid != null ? !categoryid.equals(that.categoryid) : that.categoryid != null) return false;
+        if (userid != that.userid) return false;
+        if (categoryid != that.categoryid) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = userid != null ? userid.hashCode() : 0;
-        result = 31 * result + (categoryid != null ? categoryid.hashCode() : 0);
+        int result = (int) (userid ^ (userid >>> 32));
+        result = 31 * result + (int) (categoryid ^ (categoryid >>> 32));
         return result;
     }
 

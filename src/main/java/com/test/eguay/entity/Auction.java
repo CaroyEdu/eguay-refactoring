@@ -6,7 +6,6 @@ import com.test.eguay.service.CategoryService;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -37,19 +36,19 @@ public class Auction {
     private Integer closenumberofbids;
     @Basic
     @Column(name = "sellerid", nullable = false)
-    private Integer sellerid;
+    private int sellerid;
     @Basic
     @Column(name = "startprice", nullable = true, precision = 0)
     private Float startprice;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "auctionid", nullable = false)
-    private Long auctionid;
+    private long auctionid;
     @Basic
     @Column(name = "active", nullable = true)
     private Boolean active;
     @ManyToOne
-    @JoinColumn(name = "sellerid", referencedColumnName = "userid", nullable = false)
+    @JoinColumn(name = "sellerid", referencedColumnName = "userid", nullable = false, insertable = false, updatable = false)
     private User usersBySellerid;
     @OneToMany(mappedBy = "auctionByAuctionid")
     private List<AuctionCategory> auctioncategoriesByAuctionid;
@@ -60,7 +59,7 @@ public class Auction {
     @OneToMany(mappedBy = "auctionByAuctionid")
     private List<PurchasedAuction> purchasedauctionsByAuctionid;
     @OneToMany(mappedBy = "auctionByAuctionid")
-    private List<Suggestedauction> suggestedauctionsByAuctionid;
+    private List<SuggestedAuction> suggestedauctionsByAuctionid;
 
     public Timestamp getStartdate() {
         return startdate;
@@ -126,11 +125,11 @@ public class Auction {
         this.closenumberofbids = closenumberofbids;
     }
 
-    public Integer getSellerid() {
+    public int getSellerid() {
         return sellerid;
     }
 
-    public void setSellerid(Integer sellerid) {
+    public void setSellerid(int sellerid) {
         this.sellerid = sellerid;
     }
 
@@ -142,11 +141,11 @@ public class Auction {
         this.startprice = startprice;
     }
 
-    public Long getAuctionid() {
+    public long getAuctionid() {
         return auctionid;
     }
 
-    public void setAuctionid(Long auctionid) {
+    public void setAuctionid(long auctionid) {
         this.auctionid = auctionid;
     }
 
@@ -165,6 +164,8 @@ public class Auction {
 
         Auction auction = (Auction) o;
 
+        if (sellerid != auction.sellerid) return false;
+        if (auctionid != auction.auctionid) return false;
         if (startdate != null ? !startdate.equals(auction.startdate) : auction.startdate != null) return false;
         if (maxbid != null ? !maxbid.equals(auction.maxbid) : auction.maxbid != null) return false;
         if (title != null ? !title.equals(auction.title) : auction.title != null) return false;
@@ -174,9 +175,7 @@ public class Auction {
         if (closedate != null ? !closedate.equals(auction.closedate) : auction.closedate != null) return false;
         if (closenumberofbids != null ? !closenumberofbids.equals(auction.closenumberofbids) : auction.closenumberofbids != null)
             return false;
-        if (sellerid != null ? !sellerid.equals(auction.sellerid) : auction.sellerid != null) return false;
         if (startprice != null ? !startprice.equals(auction.startprice) : auction.startprice != null) return false;
-        if (auctionid != null ? !auctionid.equals(auction.auctionid) : auction.auctionid != null) return false;
         if (active != null ? !active.equals(auction.active) : auction.active != null) return false;
 
         return true;
@@ -192,9 +191,9 @@ public class Auction {
         result = 31 * result + (closeprice != null ? closeprice.hashCode() : 0);
         result = 31 * result + (closedate != null ? closedate.hashCode() : 0);
         result = 31 * result + (closenumberofbids != null ? closenumberofbids.hashCode() : 0);
-        result = 31 * result + (sellerid != null ? sellerid.hashCode() : 0);
+        result = 31 * result + sellerid;
         result = 31 * result + (startprice != null ? startprice.hashCode() : 0);
-        result = 31 * result + (auctionid != null ? auctionid.hashCode() : 0);
+        result = 31 * result + (int) (auctionid ^ (auctionid >>> 32));
         result = 31 * result + (active != null ? active.hashCode() : 0);
         return result;
     }
@@ -239,11 +238,11 @@ public class Auction {
         this.purchasedauctionsByAuctionid = purchasedauctionsByAuctionid;
     }
 
-    public List<Suggestedauction> getSuggestedauctionsByAuctionid() {
+    public List<SuggestedAuction> getSuggestedauctionsByAuctionid() {
         return suggestedauctionsByAuctionid;
     }
 
-    public void setSuggestedauctionsByAuctionid(List<Suggestedauction> suggestedauctionsByAuctionid) {
+    public void setSuggestedauctionsByAuctionid(List<SuggestedAuction> suggestedauctionsByAuctionid) {
         this.suggestedauctionsByAuctionid = suggestedauctionsByAuctionid;
     }
 
@@ -253,7 +252,6 @@ public class Auction {
         dto.setId(auctionid);
 
         dto.setName(title);
-        dto.setCategory(auctioncategoriesByAuctionid.get(0).getCategoryByCategoryid().getName());
         dto.setStartPrice(startprice);
         dto.setActive(active);
         dto.setCloseDate(closedate);
@@ -263,12 +261,14 @@ public class Auction {
         dto.setStartDate(startdate);
         dto.setFotourl(fotourl);
         List<Category> categoryList = new ArrayList<>();
-        categoryList.add(this.auctioncategoriesByAuctionid.get(0).getCategoryByCategoryid());
+        Category category = new Category();
+        category.setCategoryid(this.auctioncategoriesByAuctionid.get(0).getCategoryid());
+        categoryList.add(category);
         dto.setCategoryList(CategoryService.toDTO(categoryList));
         dto.setStartPrice(startprice);
 
         //dto.setUserList(UserService.toDTO(usersList));
-        dto.setSellerID(Long.parseLong(usersBySellerid.getUserid().toString()));
+        dto.setSellerID((long) usersBySellerid.getUserid());
         dto.setDescription(description);
         dto.setCategoryId(auctioncategoriesByAuctionid.get(0).getCategoryid());
 

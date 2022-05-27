@@ -1,24 +1,41 @@
 package com.test.eguay.service;
 
+import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.entity.Auction;
 import com.test.eguay.entity.AuctionCategory;
 import com.test.eguay.entity.Category;
-import com.test.eguay.entity.User;
-import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.repository.AuctionRepository;
 import com.test.eguay.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AuctionService {
     
     private AuctionRepository auctionRepository;
     private UserRepository userRepository;
+
+    public AuctionRepository getAuctionRepository() {
+        return auctionRepository;
+    }
+
+    @Autowired
+    public void setAuctionRepository(AuctionRepository auctionRepository) {
+        this.auctionRepository = auctionRepository;
+    }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     // Query
     public AuctionDTO findById(Long id){

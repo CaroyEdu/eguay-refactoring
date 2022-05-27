@@ -9,7 +9,7 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "groupid", nullable = false)
-    private Long groupid;
+    private long groupid;
     @Basic
     @Column(name = "name", nullable = true, length = -1)
     private String name;
@@ -18,11 +18,11 @@ public class Group {
     @OneToMany(mappedBy = "groupsByGroupid")
     private Collection<UserGroup> usersgroupsByGroupid;
 
-    public Long getGroupid() {
+    public long getGroupid() {
         return groupid;
     }
 
-    public void setGroupid(Long groupid) {
+    public void setGroupid(long groupid) {
         this.groupid = groupid;
     }
 
@@ -41,7 +41,7 @@ public class Group {
 
         Group group = (Group) o;
 
-        if (groupid != null ? !groupid.equals(group.groupid) : group.groupid != null) return false;
+        if (groupid != group.groupid) return false;
         if (name != null ? !name.equals(group.name) : group.name != null) return false;
 
         return true;
@@ -49,7 +49,7 @@ public class Group {
 
     @Override
     public int hashCode() {
-        int result = groupid != null ? groupid.hashCode() : 0;
+        int result = (int) (groupid ^ (groupid >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }

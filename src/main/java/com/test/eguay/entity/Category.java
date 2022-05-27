@@ -15,9 +15,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "categoryid", nullable = false)
-    private Long categoryid;
+    private long categoryid;
     @OneToMany(mappedBy = "categoryByCategoryid")
-    private List<AuctionCategory> auctioncategoriesByCategoryid;
+    private Collection<AuctionCategory> auctioncategoriesByCategoryid;
     @OneToMany(mappedBy = "categoryByCategoryid")
     private Collection<UserCategory> userscategoriesByCategoryid;
 
@@ -29,11 +29,11 @@ public class Category {
         this.name = name;
     }
 
-    public Long getCategoryid() {
+    public long getCategoryid() {
         return categoryid;
     }
 
-    public void setCategoryid(Long categoryid) {
+    public void setCategoryid(long categoryid) {
         this.categoryid = categoryid;
     }
 
@@ -44,8 +44,8 @@ public class Category {
 
         Category category = (Category) o;
 
+        if (categoryid != category.categoryid) return false;
         if (name != null ? !name.equals(category.name) : category.name != null) return false;
-        if (categoryid != null ? !categoryid.equals(category.categoryid) : category.categoryid != null) return false;
 
         return true;
     }
@@ -53,15 +53,15 @@ public class Category {
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (categoryid != null ? categoryid.hashCode() : 0);
+        result = 31 * result + (int) (categoryid ^ (categoryid >>> 32));
         return result;
     }
 
-    public List<AuctionCategory> getAuctioncategoriesByCategoryid() {
+    public Collection<AuctionCategory> getAuctioncategoriesByCategoryid() {
         return auctioncategoriesByCategoryid;
     }
 
-    public void setAuctioncategoriesByCategoryid(List<AuctionCategory> auctioncategoriesByCategoryid) {
+    public void setAuctioncategoriesByCategoryid(Collection<AuctionCategory> auctioncategoriesByCategoryid) {
         this.auctioncategoriesByCategoryid = auctioncategoriesByCategoryid;
     }
 

@@ -5,6 +5,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "usersrol", schema = "public", catalog = "da1knun38jg1va")
 public class UserRol {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @Basic
     @Column(name = "userid", nullable = true)
     private Long userid;
@@ -12,11 +17,19 @@ public class UserRol {
     @Column(name = "rolid", nullable = true)
     private Long rolid;
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userid")
+    @JoinColumn(name = "userid", referencedColumnName = "userid", insertable = false, updatable = false)
     private User usersByUserid;
     @ManyToOne
-    @JoinColumn(name = "rolid", referencedColumnName = "rolid")
+    @JoinColumn(name = "rolid", referencedColumnName = "rolid", insertable = false, updatable = false)
     private Rol rolByRolid;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getUserid() {
         return userid;

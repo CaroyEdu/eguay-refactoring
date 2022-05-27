@@ -3,33 +3,46 @@ package com.test.eguay.entity;
 import javax.persistence.*;
 
 @Entity
-public class Suggestedauction {
+public class SuggestedAuction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @Basic
     @Column(name = "mailid", nullable = false)
-    private Long mailid;
+    private long mailid;
     @Basic
     @Column(name = "auctionid", nullable = false)
-    private Long auctionid;
+    private long auctionid;
     @ManyToOne
-    @JoinColumn(name = "mailid", referencedColumnName = "mailid", nullable = false)
+    @JoinColumn(name = "mailid", referencedColumnName = "mailid", nullable = false, insertable = false, updatable = false)
     private Mail mailByMailid;
     @ManyToOne
-    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false)
+    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false, insertable = false, updatable = false)
     private Auction auctionByAuctionid;
 
-    public Long getMailid() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public long getMailid() {
         return mailid;
     }
 
-    public void setMailid(Long mailid) {
+    public void setMailid(long mailid) {
         this.mailid = mailid;
     }
 
-    public Long getAuctionid() {
+    public long getAuctionid() {
         return auctionid;
     }
 
-    public void setAuctionid(Long auctionid) {
+    public void setAuctionid(long auctionid) {
         this.auctionid = auctionid;
     }
 
@@ -38,18 +51,18 @@ public class Suggestedauction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Suggestedauction that = (Suggestedauction) o;
+        SuggestedAuction that = (SuggestedAuction) o;
 
-        if (mailid != null ? !mailid.equals(that.mailid) : that.mailid != null) return false;
-        if (auctionid != null ? !auctionid.equals(that.auctionid) : that.auctionid != null) return false;
+        if (mailid != that.mailid) return false;
+        if (auctionid != that.auctionid) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = mailid != null ? mailid.hashCode() : 0;
-        result = 31 * result + (auctionid != null ? auctionid.hashCode() : 0);
+        int result = (int) (mailid ^ (mailid >>> 32));
+        result = 31 * result + (int) (auctionid ^ (auctionid >>> 32));
         return result;
     }
 

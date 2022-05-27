@@ -4,32 +4,45 @@ import javax.persistence.*;
 
 @Entity
 public class FavoriteAuction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @Basic
     @Column(name = "userid", nullable = false)
-    private Long userid;
+    private long userid;
     @Basic
     @Column(name = "auctionid", nullable = false)
-    private Long auctionid;
+    private long auctionid;
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)
+    @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false, insertable = false, updatable = false)
     private User usersByUserid;
     @ManyToOne
-    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false)
+    @JoinColumn(name = "auctionid", referencedColumnName = "auctionid", nullable = false, insertable = false, updatable = false)
     private Auction auctionByAuctionid;
 
-    public Long getUserid() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public long getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
+    public void setUserid(long userid) {
         this.userid = userid;
     }
 
-    public Long getAuctionid() {
+    public long getAuctionid() {
         return auctionid;
     }
 
-    public void setAuctionid(Long auctionid) {
+    public void setAuctionid(long auctionid) {
         this.auctionid = auctionid;
     }
 
@@ -40,16 +53,16 @@ public class FavoriteAuction {
 
         FavoriteAuction that = (FavoriteAuction) o;
 
-        if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
-        if (auctionid != null ? !auctionid.equals(that.auctionid) : that.auctionid != null) return false;
+        if (userid != that.userid) return false;
+        if (auctionid != that.auctionid) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = userid != null ? userid.hashCode() : 0;
-        result = 31 * result + (auctionid != null ? auctionid.hashCode() : 0);
+        int result = (int) (userid ^ (userid >>> 32));
+        result = 31 * result + (int) (auctionid ^ (auctionid >>> 32));
         return result;
     }
 

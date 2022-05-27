@@ -15,20 +15,20 @@ public class Mail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "mailid", nullable = false)
-    private Long mailid;
+    private long mailid;
     @Basic
     @Column(name = "senderid", nullable = false)
-    private Long senderid;
+    private long senderid;
     @Basic
     @Column(name = "sentdate", nullable = true)
     private Date sentdate;
     @OneToMany(mappedBy = "mailByMailid")
     private Collection<GroupMail> groupsmailsByMailid;
     @ManyToOne
-    @JoinColumn(name = "senderid", referencedColumnName = "userid", nullable = false)
+    @JoinColumn(name = "senderid", referencedColumnName = "userid", nullable = false, insertable = false, updatable = false)
     private User usersBySenderid;
     @OneToMany(mappedBy = "mailByMailid")
-    private Collection<Suggestedauction> suggestedauctionsByMailid;
+    private Collection<SuggestedAuction> suggestedauctionsByMailid;
     @OneToMany(mappedBy = "mailByMailid")
     private Collection<UserMail> usersmailsByMailid;
 
@@ -48,19 +48,19 @@ public class Mail {
         this.body = body;
     }
 
-    public Long getMailid() {
+    public long getMailid() {
         return mailid;
     }
 
-    public void setMailid(Long mailid) {
+    public void setMailid(long mailid) {
         this.mailid = mailid;
     }
 
-    public Long getSenderid() {
+    public long getSenderid() {
         return senderid;
     }
 
-    public void setSenderid(Long senderid) {
+    public void setSenderid(long senderid) {
         this.senderid = senderid;
     }
 
@@ -79,10 +79,10 @@ public class Mail {
 
         Mail mail = (Mail) o;
 
+        if (mailid != mail.mailid) return false;
+        if (senderid != mail.senderid) return false;
         if (subject != null ? !subject.equals(mail.subject) : mail.subject != null) return false;
         if (body != null ? !body.equals(mail.body) : mail.body != null) return false;
-        if (mailid != null ? !mailid.equals(mail.mailid) : mail.mailid != null) return false;
-        if (senderid != null ? !senderid.equals(mail.senderid) : mail.senderid != null) return false;
         if (sentdate != null ? !sentdate.equals(mail.sentdate) : mail.sentdate != null) return false;
 
         return true;
@@ -92,8 +92,8 @@ public class Mail {
     public int hashCode() {
         int result = subject != null ? subject.hashCode() : 0;
         result = 31 * result + (body != null ? body.hashCode() : 0);
-        result = 31 * result + (mailid != null ? mailid.hashCode() : 0);
-        result = 31 * result + (senderid != null ? senderid.hashCode() : 0);
+        result = 31 * result + (int) (mailid ^ (mailid >>> 32));
+        result = 31 * result + (int) (senderid ^ (senderid >>> 32));
         result = 31 * result + (sentdate != null ? sentdate.hashCode() : 0);
         return result;
     }
@@ -114,11 +114,11 @@ public class Mail {
         this.usersBySenderid = usersBySenderid;
     }
 
-    public Collection<Suggestedauction> getSuggestedauctionsByMailid() {
+    public Collection<SuggestedAuction> getSuggestedauctionsByMailid() {
         return suggestedauctionsByMailid;
     }
 
-    public void setSuggestedauctionsByMailid(Collection<Suggestedauction> suggestedauctionsByMailid) {
+    public void setSuggestedauctionsByMailid(Collection<SuggestedAuction> suggestedauctionsByMailid) {
         this.suggestedauctionsByMailid = suggestedauctionsByMailid;
     }
 
