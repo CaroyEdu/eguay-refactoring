@@ -3,6 +3,7 @@ package com.test.eguay.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "bid", schema = "public", catalog = "da1knun38jg1va")
 public class Bid {
     @Basic
     @Column(name = "bid", nullable = true, precision = 0)

@@ -3,9 +3,10 @@ package com.test.eguay.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "auctioncategory", schema = "public", catalog = "da1knun38jg1va")
 public class AuctionCategory {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 

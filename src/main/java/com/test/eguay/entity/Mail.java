@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.Collection;
 
 @Entity
+@Table(name = "mail", schema = "public", catalog = "da1knun38jg1va")
 public class Mail {
     @Basic
     @Column(name = "subject", nullable = true, length = -1)

@@ -3,6 +3,7 @@ package com.test.eguay.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "purchasedauction", schema = "public", catalog = "da1knun38jg1va")
 public class PurchasedAuction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

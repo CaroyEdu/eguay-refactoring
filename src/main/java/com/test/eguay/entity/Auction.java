@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "auction", schema = "public", catalog = "da1knun38jg1va")
 public class Auction {
     @Basic
     @Column(name = "startdate", nullable = false)

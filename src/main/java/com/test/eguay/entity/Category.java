@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Table(name = "category", schema = "public", catalog = "da1knun38jg1va")
 public class Category {
     @Basic
     @Column(name = "name", nullable = true, length = -1)

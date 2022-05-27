@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Table(name = "rol", schema = "public", catalog = "da1knun38jg1va")
 public class Rol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
