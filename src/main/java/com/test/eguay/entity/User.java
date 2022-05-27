@@ -1,8 +1,13 @@
 package com.test.eguay.entity;
 
+import com.test.eguay.dto.UserDTO;
+import com.test.eguay.service.CategoryService;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "da1knun38jg1va")
@@ -269,5 +274,35 @@ public class User {
 
     public void setUsersrolsByUserid(Collection<UserRol> usersrolsByUserid) {
         this.usersrolsByUserid = usersrolsByUserid;
+    }
+
+    public UserDTO toDTO() {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setBirthyear(this.birthyear);
+        userDTO.setAddress(this.address);
+        userDTO.setCity(this.city);
+        userDTO.setPassword(this.password);
+        userDTO.setCountry(this.country);
+        userDTO.setEmail(this.email);
+        userDTO.setId(this.userid);
+        userDTO.setSex(this.sex);
+        userDTO.setSurname(this.surname);
+        userDTO.setUsername(this.username);
+        userDTO.setName(this.name);
+
+        //relations ( dummy )
+        List<Category> categoryList = new ArrayList<>();
+        Category categoryFav = new Category();
+        categoryList.add(categoryFav);
+        userDTO.setFavCategories(CategoryService.toDTO(categoryList));
+
+//        List<Auction> favAuction = new ArrayList<>();
+//        Auction auction = new Auction();
+//        favAuction.add(auction);
+//        userDTO.setFavAuctions(Auction.toDTO(favAuction));
+
+//
+
+        return userDTO;
     }
 }

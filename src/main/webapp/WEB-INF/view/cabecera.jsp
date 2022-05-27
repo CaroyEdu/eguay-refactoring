@@ -42,8 +42,8 @@
             <%
             } else {
             %>
-            <li><a href="LoginServlet">Login</a></li>
-            <li><a href="AddUserServlet">Registrar</a></li>
+            <li><a href="login">Login</a></li>
+            <li><a href="register">Registrar</a></li>
             <%
                 }
             %>

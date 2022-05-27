@@ -1,52 +1,60 @@
-//package com.test.eguay.service;
-//
-//import com.test.eguay.dto.AuctionDTO;
-//import com.test.eguay.dto.CategoryDTO;
-//import com.test.eguay.dto.UserDTO;
-//import com.test.eguay.entity.Auction;
-//import com.test.eguay.entity.Category;
-//import com.test.eguay.entity.Group;
-//import com.test.eguay.entity.User;
-//import com.test.eguay.repository.AuctionRepository;
-//import com.test.eguay.repository.CategoryRepository;
-//import com.test.eguay.repository.UserRepository;
-//import org.springframework.stereotype.Service;
-//
-//import javax.servlet.http.HttpSession;
-//import java.util.ArrayList;
-//import java.util.Date;
-//import java.util.List;
-//
-//@Service
-//public class UserService {
-//    UserRepository userRepository;
-//    CategoryRepository categoryRepository;
-//    AuctionRepository auctionRepository;
-//    MailService mailService;
-//    AuctionService auctionService;
-//    CategoryService categoryService;
-//
-//    // Query
-//
-//    public User getUser(Integer id) {
-//        return userRepository.find(id);
-//    }
-//
+package com.test.eguay.service;
+
+import com.test.eguay.dto.AuctionDTO;
+import com.test.eguay.dto.CategoryDTO;
+import com.test.eguay.dto.UserDTO;
+import com.test.eguay.entity.Auction;
+import com.test.eguay.entity.Category;
+import com.test.eguay.entity.Group;
+import com.test.eguay.entity.User;
+import com.test.eguay.repository.AuctionRepository;
+import com.test.eguay.repository.CategoryRepository;
+import com.test.eguay.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Service
+public class UserService {
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    UserRepository userRepository;
+    CategoryRepository categoryRepository;
+    AuctionRepository auctionRepository;
+   // MailService mailService;
+    AuctionService auctionService;
+    CategoryService categoryService;
+
+    // Query
+
+
+
 //    public List<CategoryDTO> getFavCategories(UserDTO userDTO){
 //        User user = this.toDAO(userDTO);
 //        return Category.toDTO(userRepository.userFavCategory(user));
 //    }
-//
-//    public UserDTO loginUser(String username, String password)
-//    {
-//        User user = this.userRepository.userLogin(username, password);
-//        if(user != null)
-//        {
-//            return user.toDTO();
-//        }else{
-//            return null;
-//        }
-//    }
+
+    public UserDTO loginUser(String username, String password)
+    {
+        User user = this.userRepository.findUserByusernameAndPassword(username, password);
+        if(user != null)
+        {
+            return user.toDTO();
+        }else{
+            return null;
+        }
+    }
 //
 //    public List<UserDTO> getAllUsersDTO(){
 //        return toDTO(getAllUsers());
@@ -319,5 +327,5 @@
 //        User user = this.userRepository.find(id);
 //        return user.toDTO();
 //    }
-//}
-//
+}
+

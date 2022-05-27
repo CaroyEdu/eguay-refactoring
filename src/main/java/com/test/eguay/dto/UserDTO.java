@@ -19,27 +19,37 @@ public class UserDTO {
     private String country;
     private String city;
     private String address;
-    private List<AuctionDTO> auctions;
-    private List<CategoryDTO> categories;
+    private List<AuctionDTO> favAuctions;
+    private List<CategoryDTO> favCategories;
 
-    public void setCategories(List<CategoryDTO> categories)
-    {
-        this.categories = categories;
+    public List<AuctionDTO> getPurchasedAuction() {
+        return purchasedAuction;
     }
 
-    public List<CategoryDTO> getCategories()
-    {
-        return this.categories;
+    public void setPurchasedAuction(List<AuctionDTO> purchasedAuction) {
+        this.purchasedAuction = purchasedAuction;
     }
 
-    public void setAuctions(List<AuctionDTO> auctions)
+    private List<AuctionDTO> purchasedAuction;
+
+    public void setFavCategories(List<CategoryDTO> favCategories)
     {
-        this.auctions = auctions;
+        this.favCategories = favCategories;
     }
 
-    public List<AuctionDTO> getAuctions()
+    public List<CategoryDTO> getFavCategories()
     {
-        return this.auctions;
+        return this.favCategories;
+    }
+
+    public void setFavAuctions(List<AuctionDTO> favAuctions)
+    {
+        this.favAuctions = favAuctions;
+    }
+
+    public List<AuctionDTO> getFavAuctions()
+    {
+        return this.favAuctions;
     }
     private boolean isAdmin;
     private boolean isMarketing;
