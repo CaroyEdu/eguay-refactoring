@@ -42,7 +42,7 @@ public class ProfileController {
                                @RequestParam("username") String user, @RequestParam("password") String password) {
         String goTo = "redirect:/";
         UserDTO admin = this.userService.loginUser(user, password);
-        session.setAttribute("User", admin);
+        session.setAttribute("user", admin);
         if (admin == null) {
             model.addAttribute("error", "Credenciales incorrectas");
             goTo = "login";
