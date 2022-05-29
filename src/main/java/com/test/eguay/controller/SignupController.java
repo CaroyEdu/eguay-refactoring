@@ -56,7 +56,7 @@ public class SignupController {
         }
         userService.createUser(username,name,surname,address,city,email,country,password,birthdayDate,0);
 
-        return "/login";
+        return "redirect:/";
 
     }
 

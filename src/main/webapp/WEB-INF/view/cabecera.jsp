@@ -37,7 +37,7 @@
             <li><a href="ShowGroupList">Lista de Grupos</a></li>
             <li><a href="ShowSendMailPage">Enviar Correo</a></li>
             <% } %>
-            <li><a href="CheckProfileServlet">Mi Perfil</a>
+            <li><a href="profile">Mi Perfil</a>
             <li><a href="DisconnectServlet" style="font-weight: bold; color: red">Desconexión</a></li>
             <%
             } else {

@@ -1,55 +1,39 @@
 package com.test.eguay.controller;
 
-import com.test.eguay.dto.UserDTO;
-import com.test.eguay.service.UserService;
+import com.test.eguay.dto.AuctionDTO;
+import com.test.eguay.dto.CategoryDTO;
+import com.test.eguay.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
 @RequestMapping("/")
 public class ProfileController {
 
-    protected UserService userService ;
+    protected CategoryService categoryService;
 
-
-    public UserService getUserService() {
-        return userService;
+    public CategoryService getCategoryService() {
+        return categoryService;
     }
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
 
-    @GetMapping("/login")
+    @GetMapping("/profile")
     public String doListar (Model model) {
 
+        List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
+        model.addAttribute("categoryList", categoryList);
 
-        return "login";
+
+        return "perfil";
     }
-
-        @PostMapping("/authenticate")
-        public String doAutentica (Model model, HttpSession session,
-                               @RequestParam("username") String user, @RequestParam("password") String password) {
-        String goTo = "redirect:/";
-        UserDTO admin = this.userService.loginUser(user, password);
-        session.setAttribute("user", admin);
-        if (admin == null) {
-            model.addAttribute("error", "Credenciales incorrectas");
-            goTo = "login";
-        }
-
-
-        return goTo;
-    }
-
 }
