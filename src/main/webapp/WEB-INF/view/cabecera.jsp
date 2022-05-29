@@ -43,7 +43,7 @@
             } else {
             %>
             <li><a href="login">Login</a></li>
-            <li><a href="register">Registrar</a></li>
+            <li><a href="signup">Registrar</a></li>
             <%
                 }
             %>

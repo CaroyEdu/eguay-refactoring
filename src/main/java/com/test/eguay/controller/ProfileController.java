@@ -38,7 +38,7 @@ public class ProfileController {
     }
 
         @PostMapping("/authenticate")
-    public String doAutentica (Model model, HttpSession session,
+        public String doAutentica (Model model, HttpSession session,
                                @RequestParam("username") String user, @RequestParam("password") String password) {
         String goTo = "redirect:/";
         UserDTO admin = this.userService.loginUser(user, password);

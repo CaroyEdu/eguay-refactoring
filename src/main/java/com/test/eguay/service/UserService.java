@@ -64,14 +64,7 @@ public class UserService {
 //        return this.userRepository.findAll();
 //    }
 //
-//    public UserDTO login(String username, String password) {
-//        User user = this.userRepository.userLogin(username, password);
-//        if(user == null) {
-//            return null;
-//        }
-//
-//        return user.toDTO();
-//    }
+
 //
 //    public List<User> getUsersInterestedIn(Category category){
 //        List<User> userList = this.userRepository.findAll();
@@ -106,31 +99,32 @@ public class UserService {
 //
 //    // Logic
 //
-//    public void createUser(String username , String name , String surname , String address ,
-//                           String city , String email , String country , String password , Date birthday , int sex){
-//
-//        User user = new User();
-//        user.setName(name);
-//        user.setAddress(address);
-//        user.setSurname(surname);
-//        user.setCity(city);
-//        user.setEmail(email);
-//        user.setCountry(country);
-//        user.setPassword(password);
-//        user.setUsername(username);
-//        user.setBirthyear(birthday);
-//        user.setSex(sex);
-//        user.setAuctionList(null);
-//        user.setAuctionList1(null);
-//        user.setAuctionList2(null);
-//        user.setBidList(null);
-//        user.setCategoryList(null);
-//        user.setMailList(null);
-//        user.setMailList1(null);
-//        user.setRolList(null);
-//
-//        userRepository.save(user);
-//    }
+    public void createUser(String username , String name , String surname , String address ,
+                           String city , String email , String country , String password , Date birthday , int sex){
+
+        User user = new User();
+        user.setName(name);
+        user.setAddress(address);
+        user.setSurname(surname);
+        user.setCity(city);
+        user.setEmail(email);
+        user.setCountry(country);
+        user.setPassword(password);
+        user.setUsername(username);
+        java.sql.Date sqlDate = new java.sql.Date(birthday.getTime());
+        user.setBirthyear(sqlDate);
+        user.setSex(sex);
+        user.setAuctionsByUserid(null);
+        user.setBidsByUserid(null);
+        user.setFavoriteauctionsByUserid(null);
+        user.setPurchasedauctionsByUserid(null);
+        user.setUserscategoriesByUserid(null);
+        user.setUsersgroupsByUserid(null);
+        user.setMailByUserid(null);
+        user.setUsersrolsByUserid(null);
+
+        userRepository.save(user);
+    }
 //
 //    public void editFavCategories(UserDTO userDTO , CategoryDTO categoryDTO ,String check ){
 //
