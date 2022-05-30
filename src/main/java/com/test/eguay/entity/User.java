@@ -2,6 +2,7 @@ package com.test.eguay.entity;
 
 import com.test.eguay.dto.UserDTO;
 import com.test.eguay.service.CategoryService;
+import com.test.eguay.service.UserService;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -50,7 +51,7 @@ public class User {
     @Column(name = "userid", nullable = false)
     private Integer userid;
     @OneToMany(mappedBy = "usersBySellerid")
-    private Collection<Auction> auctionsByUserid;
+    private List<Auction> auctionsByUserid;
     @OneToMany(mappedBy = "usersByBiderid")
     private Collection<Bid> bidsByUserid;
     @OneToMany(mappedBy = "usersByUserid")
@@ -204,11 +205,11 @@ public class User {
         return result;
     }
 
-    public Collection<Auction> getAuctionsByUserid() {
+    public List<Auction> getAuctionsByUserid() {
         return auctionsByUserid;
     }
 
-    public void setAuctionsByUserid(Collection<Auction> auctionsByUserid) {
+    public void setAuctionsByUserid(List<Auction> auctionsByUserid) {
         this.auctionsByUserid = auctionsByUserid;
     }
 
@@ -289,6 +290,7 @@ public class User {
         userDTO.setSurname(this.surname);
         userDTO.setUsername(this.username);
         userDTO.setName(this.name);
+        userDTO.setUserAuctions(Auction.toDTO(auctionsByUserid));
 
         //relations ( dummy )
         List<Category> categoryList = new ArrayList<>();

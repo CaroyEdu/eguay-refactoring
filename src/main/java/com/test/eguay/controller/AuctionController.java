@@ -3,12 +3,16 @@ package com.test.eguay.controller;
 import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.dto.UserDTO;
+import com.test.eguay.entity.AuctionCategory;
+import com.test.eguay.service.AuctionCategoryService;
 import com.test.eguay.service.AuctionService;
 import com.test.eguay.service.CategoryService;
+import com.test.eguay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,6 +26,26 @@ public class AuctionController {
 
     private CategoryService categoryService;
     private AuctionService auctionService;
+    private UserService userService;
+    private AuctionCategoryService auctionCategoryService;
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public AuctionCategoryService getAuctionCategoryService() {
+        return auctionCategoryService;
+    }
+
+    @Autowired
+    public void setAuctionCategoryService(AuctionCategoryService auctionCategoryService) {
+        this.auctionCategoryService = auctionCategoryService;
+    }
 
     public CategoryService getCategoryService() {
         return categoryService;
@@ -41,20 +65,62 @@ public class AuctionController {
         this.auctionService = auctionService;
     }
 
+    @GetMapping("/myAuctions")
+    public String goMyAuctions(Model model, HttpSession session,
+                               @RequestParam(name="seachbar", required = false) String filter){
+
+        // Categorías para la cabecera
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        List<CategoryDTO> categoryList =  categoryService.getAllCategories();
+        model.addAttribute("categoryList", categoryList);
+
+        // Filtramos las subastas
+        List<AuctionDTO> userAuctions = auctionService.filterAuctionOrderedByUser(user.getId());
+
+        if(filter==null)
+        {
+            model.addAttribute("userAuctions", userAuctions);
+        }else{
+            List<AuctionDTO> auctionList = auctionService.filterAuctionByUser(filter, user.getId());
+            if(auctionList.isEmpty())
+            {
+                model.addAttribute("userAuctions", userAuctions);
+                model.addAttribute("error", "No se ha encontrado ninguna subasta con este filtro. Se ha devuelto el listado completo de sus subastas.");
+            }else{
+                model.addAttribute("userAuctions", auctionList);
+            }
+        }
+
+        return "myAuctions";
+    }
+
     @GetMapping("/addAuction")
     public String goAddAuction(Model model){
         List<CategoryDTO> categoryList =  categoryService.getAllCategories();
         model.addAttribute("categoryList", categoryList);
 
-//        if(idParameter!=null)
-//        {
-//            Long id = Long.parseLong(idParameter);
-//            AuctionDTO auction = auctionService.findById(id);
-//            model.addAttribute("auction", auction);
-//            model.addAttribute("active", auction.isActive());
-//        }
-
         return "addEditAuction";
+    }
+
+    @GetMapping("/deleteAuction/{id}/")
+    public String goDeleteAuction(HttpSession session, @PathVariable("id") Long id)
+    {
+        AuctionDTO auction = auctionService.findById(id);
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        if(auction != null)
+        {
+            auctionCategoryService.removeAuctionCategoryByCategoryIdAndAuctionId(auction.getCategoryId(), auction.getId());
+            auctionService.removeAuction(auction);
+
+            List<AuctionDTO> usersSubmitedAuctions = user.getUserAuctions();
+            usersSubmitedAuctions.remove(auction);
+            user.setUserAuctions(usersSubmitedAuctions);
+            userService.editUser(user);
+        }
+
+        session.setAttribute("user", user);
+
+        return "redirect:/myAuctions";
     }
 
     @PostMapping("/insertAuction")

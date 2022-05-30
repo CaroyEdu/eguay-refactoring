@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuctionCategoryRepository extends JpaRepository<AuctionCategory, Long> {
+
+    public AuctionCategory findAuctionCategoryByCategoryidAndAuctionid(Long categoryId, Long auctionId);
 }

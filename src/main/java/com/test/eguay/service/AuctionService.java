@@ -51,9 +51,9 @@ public class AuctionService {
     // Query
     public AuctionDTO findById(Long id){
 
-        List<Auction> auctionList = auctionRepository.findAll();
+        Auction auction = auctionRepository.findAuctionByAuctionid(id);
 
-        return auctionList.get(0).toDTO();
+        return auction.toDTO();
     }
 
     // Auxiliary functions
@@ -74,18 +74,18 @@ public class AuctionService {
         List<Auction> auctions ;
         if(filter == null || filter.isEmpty())
         {
-            auctions = this.auctionRepository.findAuctionsByTitleAndUsersBySellerid("", userid);
+            auctions = this.auctionRepository.findAuctionByTitleAndSellerid("", userid);
         }
         else
         {
-            auctions = this.auctionRepository.findAuctionsByTitleAndUsersBySellerid(filter, userid);
+            auctions = this.auctionRepository.findAuctionByTitleAndSellerid(filter, userid);
         }
         return AuctionService.toDTO(auctions);
     }
 
-    public List<AuctionDTO> filterAuctionOrederedByUser(int userid){
+    public List<AuctionDTO> filterAuctionOrderedByUser(int userid){
         List<Auction> auctions ;
-        auctions = (List<Auction>) this.auctionRepository.findAuctionsByUsersBySelleridOrderByUsersBySellerid(userid);
+        auctions = (List<Auction>) this.auctionRepository.findAuctionsBySellerid(userid);
         return AuctionService.toDTO(auctions);
     }
 
@@ -111,6 +111,16 @@ public class AuctionService {
 
     private Timestamp getTimestamp(java.util.Date date){
         return date == null ? null : new java.sql.Timestamp(date.getTime());
+    }
+
+    public List<Auction> listToDAO(List<AuctionDTO> auctionList)
+    {
+        List<Auction> list = new ArrayList<>();
+        for(AuctionDTO a : auctionList)
+        {
+            list.add(toDAO(a));
+        }
+        return list;
     }
 
     public  Auction toDAO(AuctionDTO auction)
