@@ -21,7 +21,7 @@
 <body>
 <div class="container">
     <div class="logo">
-        <a href="IndexServlet"><img src="img/logo.png" width="125px"></a>
+        <a href="/"><img src="img/logo.png" width="125px"></a>
     </div>
     <nav class="nav">
         <ul>
@@ -31,7 +31,7 @@
             <% if(user.isAdmin()) { %>
             <li><a href="Admin/Usuarios">Dashboard</a></li>
             <% } %>
-            <li><a href="AddProductServlet">Añadir Subasta</a></li>
+            <li><a href="addAuction">Añadir Subasta</a></li>
             <% if(user.isMarketing()) { %>
             <li><a href="ShowMailbox">Correo</a></li>
             <li><a href="ShowGroupList">Lista de Grupos</a></li>

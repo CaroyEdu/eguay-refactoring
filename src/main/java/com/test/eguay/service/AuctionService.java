@@ -4,6 +4,7 @@ import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.entity.Auction;
 import com.test.eguay.entity.AuctionCategory;
 import com.test.eguay.entity.Category;
+import com.test.eguay.repository.AuctionCategoryRepository;
 import com.test.eguay.repository.AuctionRepository;
 import com.test.eguay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,16 @@ public class AuctionService {
     
     private AuctionRepository auctionRepository;
     private UserRepository userRepository;
+    private AuctionCategoryRepository auctionCategoryRepository;
+
+    public AuctionCategoryRepository getAuctionCategoryRepository() {
+        return auctionCategoryRepository;
+    }
+
+    @Autowired
+    public void setAuctionCategoryRepository(AuctionCategoryRepository auctionCategoryRepository) {
+        this.auctionCategoryRepository = auctionCategoryRepository;
+    }
 
     public AuctionRepository getAuctionRepository() {
         return auctionRepository;
@@ -98,6 +109,10 @@ public class AuctionService {
         return Auction.toDTO(auctionRepository.findAll());
     }
 
+    private Timestamp getTimestamp(java.util.Date date){
+        return date == null ? null : new java.sql.Timestamp(date.getTime());
+    }
+
     public  Auction toDAO(AuctionDTO auction)
     {
         Auction a = new Auction();
@@ -107,32 +122,47 @@ public class AuctionService {
         a.setAuctionid(auction.getId());
         a.setTitle(auction.getName());
         a.setDescription(auction.getDescription());
-        a.setClosedate((Timestamp) auction.getCloseDate());
+        a.setClosedate(this.getTimestamp(auction.getCloseDate()));
         a.setCloseprice(auction.getClosePrice());
         a.setClosenumberofbids(auction.getCloseNumberofBids());
         a.setSellerid(Math.toIntExact(auction.getSellerID()));
-        a.setStartdate((Timestamp) auction.getStartDate());
+        a.setStartdate(this.getTimestamp(auction.getStartDate()));
 
         // Añadimos la categoría
-        List<Category> categoryList = new ArrayList<>();
-
-        Category category = new Category();
-        category.setCategoryid(auction.getCategoryList().get(0).getId());
-
         List<AuctionCategory> auctionList = new ArrayList<>();
-        auctionList.add(a.getAuctioncategoriesByAuctionid().get(0));
+        AuctionCategory auctionCategory = new AuctionCategory();
+        Category category = new Category();
 
-        category.setAuctioncategoriesByCategoryid(auctionList);
-        categoryList.add(category);
+        category.setCategoryid(auction.getCategoryList().get(0).getId());
+        auctionCategory.setCategoryid(auction.getCategoryList().get(0).getId());
+        auctionCategory.setCategoryByCategoryid(category);
+
+        auctionList.add(auctionCategory);
 
         a.setAuctioncategoriesByAuctionid(auctionList);
+        auctionCategory.setAuctionByAuctionid(a);
 
         return a;
     }
 
     public void createAuction(AuctionDTO auction)
     {
-        auctionRepository.save(toDAO(auction));
+        Auction a = auctionRepository.save(toDAO(auction));
+
+        //Añadimos una nueva entrada en la tabla AuctionCategory
+        AuctionCategory auctionCategory = new AuctionCategory();
+        List<AuctionCategory> auctionList = new ArrayList<>();
+        Category category = new Category();
+
+        category.setCategoryid(a.getAuctioncategoriesByAuctionid().get(0).getCategoryid());
+        auctionCategory.setCategoryid(auction.getCategoryList().get(0).getId());
+        auctionCategory.setAuctionid(a.getAuctionid());
+        auctionList.add(auctionCategory);
+        auctionCategory.setAuctionByAuctionid(a);
+        category.setAuctioncategoriesByCategoryid(auctionList);
+        auctionCategory.setCategoryByCategoryid(category);
+
+        this.auctionCategoryRepository.save(auctionCategory);
     }
 
     public void editAuction(AuctionDTO auction)
