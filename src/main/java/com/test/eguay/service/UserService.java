@@ -17,6 +17,9 @@ import java.util.List;
 
 @Service
 public class UserService {
+
+    private UserRepository userRepository;
+
     public UserRepository getUserRepository() {
         return userRepository;
     }
@@ -26,21 +29,20 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    UserRepository userRepository;
-
-    public CategoryRepository getCategoryRepository() {
-        return categoryRepository;
-    }
-
-    public void setCategoryRepository(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-    @Autowired
     CategoryRepository categoryRepository;
     AuctionRepository auctionRepository;
    // MailService mailService;
-    AuctionService auctionService;
+    private AuctionService auctionService;
     CategoryService categoryService;
+
+    public AuctionService getAuctionService() {
+        return auctionService;
+    }
+
+    @Autowired
+    public void setAuctionService(AuctionService auctionService) {
+        this.auctionService = auctionService;
+    }
 
     // Query
 
@@ -299,14 +301,14 @@ public class UserService {
 //        return (UserDTO) session.getAttribute("user");
 //    }
 //
-//    public User toDAO(UserDTO user)
-//    {
-//
-//        User u = new User();
-//        u = this.userRepository.getUserByID(Long.parseLong(user.getId().toString()));
-//        return u;
-//
-//    }
+    public User toDAO(UserDTO user)
+    {
+
+        User u = this.userRepository.findUserByUserid(user.getId());
+        u.setAuctionsByUserid(this.auctionService.listToDAO(user.getUserAuctions()));
+        return u;
+
+    }
 //
 //    private void registerUserFavAuction(UserDTO user , List<AuctionDTO> auctions){
 //        User userDao = userRepository.find(user.getId()) ;
@@ -318,10 +320,10 @@ public class UserService {
 //        this.userRepository.save(userDao);
 //    }
 //
-//    public void editUser(UserDTO user)
-//    {
-//        this.userRepository.save(toDAO(user));
-//    }
+    public void editUser(UserDTO user)
+    {
+        this.userRepository.save(toDAO(user));
+    }
 //
 //    public void AddAuctionToOwner(UserDTO userDto, AuctionDTO auctionDto) {
 //

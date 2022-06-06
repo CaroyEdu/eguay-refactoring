@@ -21,6 +21,15 @@ public class UserDTO {
     private String address;
     private List<AuctionDTO> favAuctions;
     private List<CategoryDTO> favCategories;
+    private List<AuctionDTO> userAuctions;
+
+    public List<AuctionDTO> getUserAuctions() {
+        return userAuctions;
+    }
+
+    public void setUserAuctions(List<AuctionDTO> userAuctions) {
+        this.userAuctions = userAuctions;
+    }
 
     public List<AuctionDTO> getPurchasedAuction() {
         return purchasedAuction;

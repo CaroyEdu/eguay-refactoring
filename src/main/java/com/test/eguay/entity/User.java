@@ -2,6 +2,7 @@ package com.test.eguay.entity;
 
 import com.test.eguay.dto.UserDTO;
 import com.test.eguay.service.CategoryService;
+import com.test.eguay.service.UserService;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -289,6 +290,7 @@ public class User {
         userDTO.setSurname(this.surname);
         userDTO.setUsername(this.username);
         userDTO.setName(this.name);
+        userDTO.setUserAuctions(Auction.toDTO(auctionsByUserid));
 
         //relations ( dummy )
         List<Category> categoryList = new ArrayList<>();

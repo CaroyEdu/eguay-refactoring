@@ -33,7 +33,7 @@
         }
     }
 %>
-<%--<jsp:include page="userConnectedCheck.jsp"/>--%>
+<jsp:include page="userConnectedCheck.jsp"/>
 <jsp:include page="cabecera.jsp"/>
 
 <body>

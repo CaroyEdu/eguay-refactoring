@@ -11,12 +11,12 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     public List<Auction> findAuctionsByTitle(String title);
 
-    public List<Auction> findAuctionsByTitleAndUsersBySellerid(String title, int userid);
-
-    public List<Auction> findAuctionsByUsersBySelleridOrderByStartdateDesc(int userid);
+    public List<Auction> findAuctionByTitleAndSellerid(String title, int userid);
 
     public List<Auction> findAuctionsByActiveTrue();
 
-    public List<Auction> findAuctionsByUsersBySelleridOrderByUsersBySellerid(int userid);
+    public List<Auction> findAuctionsBySellerid(int userid);
+
+    public Auction findAuctionByAuctionid(Long id);
 
 }
