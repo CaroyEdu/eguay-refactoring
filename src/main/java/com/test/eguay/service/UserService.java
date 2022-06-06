@@ -3,10 +3,7 @@ package com.test.eguay.service;
 import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.dto.UserDTO;
-import com.test.eguay.entity.Auction;
-import com.test.eguay.entity.Category;
-import com.test.eguay.entity.Group;
-import com.test.eguay.entity.User;
+import com.test.eguay.entity.*;
 import com.test.eguay.repository.AuctionRepository;
 import com.test.eguay.repository.CategoryRepository;
 import com.test.eguay.repository.UserRepository;
@@ -30,6 +27,15 @@ public class UserService {
     }
 
     UserRepository userRepository;
+
+    public CategoryRepository getCategoryRepository() {
+        return categoryRepository;
+    }
+
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+    @Autowired
     CategoryRepository categoryRepository;
     AuctionRepository auctionRepository;
    // MailService mailService;
@@ -124,6 +130,20 @@ public class UserService {
         user.setUsersrolsByUserid(null);
 
         userRepository.save(user);
+    }
+    public List<CategoryDTO> userFavCategory(UserDTO userDTO){
+        List<Category> cats = categoryRepository.findUserFavCategory(Long.valueOf(userDTO.getId()));
+        return Category.toDTO(cats);
+    }
+
+    public void addFavCategories(UserDTO userDTO, Long categoryID) {
+        User user = this.userRepository.findUserByUserid(userDTO.getId());
+        Category category = this.categoryRepository.findById(categoryID).orElse(null);
+
+        UserCategory userCategory = new UserCategory();
+
+
+
     }
 //
 //    public void editFavCategories(UserDTO userDTO , CategoryDTO categoryDTO ,String check ){

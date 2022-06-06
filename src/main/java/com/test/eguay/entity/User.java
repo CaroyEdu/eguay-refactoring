@@ -50,23 +50,23 @@ public class User {
     @Column(name = "userid", nullable = false)
     private Integer userid;
     @OneToMany(mappedBy = "usersBySellerid")
-    private Collection<Auction> auctionsByUserid;
+    private List<Auction> auctionsByUserid;
     @OneToMany(mappedBy = "usersByBiderid")
-    private Collection<Bid> bidsByUserid;
+    private List<Bid> bidsByUserid;
     @OneToMany(mappedBy = "usersByUserid")
-    private Collection<FavoriteAuction> favoriteauctionsByUserid;
+    private List<FavoriteAuction> favoriteauctionsByUserid;
     @OneToMany(mappedBy = "usersBySenderid")
-    private Collection<Mail> mailByUserid;
+    private List<Mail> mailByUserid;
     @OneToMany(mappedBy = "usersByUserid")
-    private Collection<PurchasedAuction> purchasedauctionsByUserid;
+    private List<PurchasedAuction> purchasedauctionsByUserid;
     @OneToMany(mappedBy = "usersByUserid")
-    private Collection<UserCategory> userscategoriesByUserid;
+    private List<UserCategory> userscategoriesByUserid;
     @OneToMany(mappedBy = "usersByUserid")
-    private Collection<UserGroups> usersgroupsByUserid;
+    private List<UserGroups> usersgroupsByUserid;
     @OneToMany(mappedBy = "usersByUserid")
-    private Collection<UserMail> usersmailsByUserid;
+    private List<UserMail> usersmailsByUserid;
     @OneToMany(mappedBy = "usersByUserid")
-    private Collection<UserRol> usersrolsByUserid;
+    private List<UserRol> usersrolsByUserid;
 
     public String getUsername() {
         return username;
@@ -204,75 +204,75 @@ public class User {
         return result;
     }
 
-    public Collection<Auction> getAuctionsByUserid() {
+    public List<Auction> getAuctionsByUserid() {
         return auctionsByUserid;
     }
 
-    public void setAuctionsByUserid(Collection<Auction> auctionsByUserid) {
+    public void setAuctionsByUserid(List<Auction> auctionsByUserid) {
         this.auctionsByUserid = auctionsByUserid;
     }
 
-    public Collection<Bid> getBidsByUserid() {
+    public List<Bid> getBidsByUserid() {
         return bidsByUserid;
     }
 
-    public void setBidsByUserid(Collection<Bid> bidsByUserid) {
+    public void setBidsByUserid(List<Bid> bidsByUserid) {
         this.bidsByUserid = bidsByUserid;
     }
 
-    public Collection<FavoriteAuction> getFavoriteauctionsByUserid() {
+    public List<FavoriteAuction> getFavoriteauctionsByUserid() {
         return favoriteauctionsByUserid;
     }
 
-    public void setFavoriteauctionsByUserid(Collection<FavoriteAuction> favoriteauctionsByUserid) {
+    public void setFavoriteauctionsByUserid(List<FavoriteAuction> favoriteauctionsByUserid) {
         this.favoriteauctionsByUserid = favoriteauctionsByUserid;
     }
 
-    public Collection<Mail> getMailByUserid() {
+    public List<Mail> getMailByUserid() {
         return mailByUserid;
     }
 
-    public void setMailByUserid(Collection<Mail> mailByUserid) {
+    public void setMailByUserid(List<Mail> mailByUserid) {
         this.mailByUserid = mailByUserid;
     }
 
-    public Collection<PurchasedAuction> getPurchasedauctionsByUserid() {
+    public List<PurchasedAuction> getPurchasedauctionsByUserid() {
         return purchasedauctionsByUserid;
     }
 
-    public void setPurchasedauctionsByUserid(Collection<PurchasedAuction> purchasedauctionsByUserid) {
+    public void setPurchasedauctionsByUserid(List<PurchasedAuction> purchasedauctionsByUserid) {
         this.purchasedauctionsByUserid = purchasedauctionsByUserid;
     }
 
-    public Collection<UserCategory> getUserscategoriesByUserid() {
+    public List<UserCategory> getUserscategoriesByUserid() {
         return userscategoriesByUserid;
     }
 
-    public void setUserscategoriesByUserid(Collection<UserCategory> userscategoriesByUserid) {
+    public void setUserscategoriesByUserid(List<UserCategory> userscategoriesByUserid) {
         this.userscategoriesByUserid = userscategoriesByUserid;
     }
 
-    public Collection<UserGroups> getUsersgroupsByUserid() {
+    public List<UserGroups> getUsersgroupsByUserid() {
         return usersgroupsByUserid;
     }
 
-    public void setUsersgroupsByUserid(Collection<UserGroups> usersgroupsByUserid) {
+    public void setUsersgroupsByUserid(List<UserGroups> usersgroupsByUserid) {
         this.usersgroupsByUserid = usersgroupsByUserid;
     }
 
-    public Collection<UserMail> getUsersmailsByUserid() {
+    public List<UserMail> getUsersmailsByUserid() {
         return usersmailsByUserid;
     }
 
-    public void setUsersmailsByUserid(Collection<UserMail> usersmailsByUserid) {
+    public void setUsersmailsByUserid(List<UserMail> usersmailsByUserid) {
         this.usersmailsByUserid = usersmailsByUserid;
     }
 
-    public Collection<UserRol> getUsersrolsByUserid() {
+    public List<UserRol> getUsersrolsByUserid() {
         return usersrolsByUserid;
     }
 
-    public void setUsersrolsByUserid(Collection<UserRol> usersrolsByUserid) {
+    public void setUsersrolsByUserid(List<UserRol> usersrolsByUserid) {
         this.usersrolsByUserid = usersrolsByUserid;
     }
 
