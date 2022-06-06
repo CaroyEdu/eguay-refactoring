@@ -2,6 +2,7 @@ package com.test.eguay.controller;
 
 import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.dto.UserDTO;
+import com.test.eguay.entity.AuxFavCategory;
 import com.test.eguay.entity.Category;
 import com.test.eguay.entity.User;
 import com.test.eguay.service.CategoryService;
@@ -46,19 +47,37 @@ public class FavCategoryController {
         model.addAttribute("categoryList", categoryList);
 
         UserDTO user = (UserDTO) session.getAttribute("user");
-       // List<CategoryDTO> categoryFavList= this.userService.userFavCategory(user);
-      //  model.addAttribute("favCategoryList",categoryFavList);
+        AuxFavCategory auxFavCategory = new AuxFavCategory();
 
-        return "favcategory";
+        model.addAttribute("auxFavCategory",auxFavCategory);
+
+
+        return "addFavCategory";
     }
 
-    @GetMapping("/save/{id}")
-    public String doSave (@PathVariable("id") Long categoryID  , HttpSession session ){
+    @PostMapping("/save")
+    public String doSave (@ModelAttribute("auxFavCategory") AuxFavCategory auxFavCategory, HttpSession session ){
         List<CategoryDTO> categoryList =  categoryService.getAllCategories();
         UserDTO user = (UserDTO) session.getAttribute("user");
-     //   userService.addFavCategories(user, categoryID);
+        List<String>categoryDTOS =  auxFavCategory.getFavCategories();
+        
+        userService.addFavCategories(user, categoryDTOS);
 
-            return "/profile";
+        return "redirect:/";
 
+    }
+
+    @GetMapping("/showCategories")
+    public String showFavCategories (Model model , HttpSession session) {
+
+        List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
+        model.addAttribute("categoryList", categoryList);
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        List<CategoryDTO> favCategories = this.userService.showFavCategories(user);
+        model.addAttribute("favCategories" , favCategories);
+
+
+
+        return "myFavCategories";
     }
 }

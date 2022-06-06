@@ -17,6 +17,7 @@ import java.util.List;
 public class UserService {
 
     private UserRepository userRepository;
+    private UserCategoryRepository userCategoryRepository;
 
     public BidRepository getBidRepository() {
         return bidRepository;
@@ -56,6 +57,14 @@ public class UserService {
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public CategoryRepository getCategoryRepository() {
+        return categoryRepository;
+    }
+    @Autowired
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
     CategoryRepository categoryRepository;
@@ -175,6 +184,12 @@ public class UserService {
         return Auction.toDTO(purchasedAuctions) ;
     }
 
+    public List<CategoryDTO> showFavCategories(UserDTO userDTO){
+        User user = this.userRepository.findById(userDTO.getId()).orElse(null);
+        List<Category> favCategories = this.userRepository.findFavCategories(user);
+        return Category.toDTO(favCategories) ;
+    }
+
     public void addFavAuction(UserDTO userDTO , AuctionDTO auctionDTO){
         User user = this.userRepository.findUserByUserid(userDTO.getId());
         Auction auction = this.auctionRepository.findAuctionByAuctionid(auctionDTO.getId());
@@ -235,6 +250,30 @@ public class UserService {
         bid.setAuctionByAuctionid(auction);
 
         this.bidRepository.save(bid);
+    }
+
+    public void addFavCategories(UserDTO userDTO , List<String>categoryIds){
+        User user = this.userRepository.findUserByUserid(userDTO.getId());
+        for(String categoryID : categoryIds){
+            Long catId = Long.valueOf(categoryID);
+            List<UserCategory> categoryList = this.userCategoryRepository.findAllFavUserCategories(catId ,user);
+            if(categoryList.isEmpty()){
+                this.createFavCategory(userDTO , catId);
+            }
+        }
+    }
+
+    public void createFavCategory(UserDTO userDTO , Long catID){
+        UserCategory userCategory = new UserCategory();
+        User user = this.userRepository.findUserByUserid(userDTO.getId());
+       Category category = this.categoryRepository.findById(catID).orElse(null);
+
+        userCategory.setCategoryByCategoryid(category);
+        userCategory.setCategoryid(catID);
+        userCategory.setUserid(Long.valueOf(user.getUserid()));
+        userCategory.setUsersByUserid(user);
+
+        this.userCategoryRepository.save(userCategory);
     }
 
 //
@@ -413,6 +452,14 @@ public class UserService {
     public void editUser(UserDTO user)
     {
         this.userRepository.save(toDAO(user));
+    }
+
+    public UserCategoryRepository getUserCategoryRepository() {
+        return userCategoryRepository;
+    }
+    @Autowired
+    public void setUserCategoryRepository(UserCategoryRepository userCategoryRepository) {
+        this.userCategoryRepository = userCategoryRepository;
     }
 //
 //    public void AddAuctionToOwner(UserDTO userDto, AuctionDTO auctionDto) {

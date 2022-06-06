@@ -1,6 +1,7 @@
 package com.test.eguay.repository;
 
 import com.test.eguay.entity.Auction;
+import com.test.eguay.entity.Category;
 import com.test.eguay.entity.FavoriteAuction;
 import com.test.eguay.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select f.auctionByAuctionid from PurchasedAuction f where f.usersByUserid = :user")
     public List<Auction> findPurchasedAuctions(@Param("user") User user );
+
+    @Query("select f.categoryByCategoryid from UserCategory f where f.usersByUserid = :user")
+    public List<Category> findFavCategories(@Param("user") User user );
 }
