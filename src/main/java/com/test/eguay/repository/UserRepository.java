@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select f.auctionByAuctionid from FavoriteAuction f where f.usersByUserid = :user")
     public List<Auction> findFavAuctions(@Param("user") User user );
+
+    @Query("select f.auctionByAuctionid from PurchasedAuction f where f.usersByUserid = :user")
+    public List<Auction> findPurchasedAuctions(@Param("user") User user );
 }

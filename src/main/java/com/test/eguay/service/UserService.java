@@ -171,6 +171,12 @@ public class UserService {
         return Auction.toDTO(favoriteAuctions) ;
     }
 
+    public List<AuctionDTO> showPurchasedAuctions(UserDTO userDTO){
+        User user = this.userRepository.findById(userDTO.getId()).orElse(null);
+        List<Auction> purchasedAuctions = this.userRepository.findPurchasedAuctions(user);
+        return Auction.toDTO(purchasedAuctions) ;
+    }
+
     public void addFavAuction(UserDTO userDTO , AuctionDTO auctionDTO){
         User user = this.userRepository.findUserByUserid(userDTO.getId());
         Auction auction = this.auctionRepository.findAuctionByAuctionid(auctionDTO.getId());
@@ -207,6 +213,17 @@ public class UserService {
 
         this.purchasedAuctionRepository.save(purchasedAuction);
 
+    }
+
+    public void deletepurchasedAuction ( UserDTO userDTO , AuctionDTO auctionDTO){
+        User user = this.userRepository.findUserByUserid(userDTO.getId());
+        Auction auction = this.auctionRepository.findAuctionByAuctionid(auctionDTO.getId());
+
+        List<PurchasedAuction> purchasedAuctionList =  this.purchasedAuctionRepository.FindPurchasedAuctionOfUser(auction,user);
+
+        for(PurchasedAuction purchasedAuction : purchasedAuctionList){
+            this.purchasedAuctionRepository.delete(purchasedAuction);
+        }
     }
 
 
