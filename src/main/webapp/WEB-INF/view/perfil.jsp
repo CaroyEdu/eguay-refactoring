@@ -19,7 +19,7 @@
 <h1 class="wrapper">Perfil</h1>
 <form>
     <input class="wrapper" type="button" onclick="window.location.href='/EditFavCategory/';" value="Editar Categorias Favorias" />
-    <input class="wrapper" type="button" onclick="window.location.href='EditFavAuctionServlet';" value="Editar pujas favoritas" />
+    <input class="wrapper" type="button" onclick="window.location.href='/FavAuctions';" value="Editar pujas favoritas" />
     <input class="wrapper" type="button" onclick="window.location.href='CheckPurchasedAuctionsServlet';" value="Pujas Compradas" />
     <input class="wrapper" type="button" onclick="window.location.href='/myAuctions';" value="Mis Subastas" />
 

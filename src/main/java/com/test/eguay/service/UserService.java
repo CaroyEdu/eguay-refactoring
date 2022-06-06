@@ -6,6 +6,7 @@ import com.test.eguay.dto.UserDTO;
 import com.test.eguay.entity.*;
 import com.test.eguay.repository.AuctionRepository;
 import com.test.eguay.repository.CategoryRepository;
+import com.test.eguay.repository.FavAuctionRepository;
 import com.test.eguay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,17 @@ public class UserService {
 
     private UserRepository userRepository;
 
+    public FavAuctionRepository getFavAuctionRepository() {
+        return favAuctionRepository;
+    }
+
+    @Autowired
+    public void setFavAuctionRepository(FavAuctionRepository favAuctionRepository) {
+        this.favAuctionRepository = favAuctionRepository;
+    }
+
+    private FavAuctionRepository favAuctionRepository;
+
     public UserRepository getUserRepository() {
         return userRepository;
     }
@@ -30,6 +42,15 @@ public class UserService {
     }
 
     CategoryRepository categoryRepository;
+
+    public AuctionRepository getAuctionRepository() {
+        return auctionRepository;
+    }
+    @Autowired
+    public void setAuctionRepository(AuctionRepository auctionRepository) {
+        this.auctionRepository = auctionRepository;
+    }
+
     AuctionRepository auctionRepository;
    // MailService mailService;
     private AuctionService auctionService;
@@ -133,20 +154,42 @@ public class UserService {
 
         userRepository.save(user);
     }
-    public List<CategoryDTO> userFavCategory(UserDTO userDTO){
-        List<Category> cats = categoryRepository.findUserFavCategory(Long.valueOf(userDTO.getId()));
-        return Category.toDTO(cats);
+//    public List<CategoryDTO> userFavCategory(UserDTO userDTO){
+//        List<Category> cats = categoryRepository.findUserFavCategory(Long.valueOf(userDTO.getId()));
+//        return Category.toDTO(cats);
+//    }
+//
+//    public void addFavCategories(UserDTO userDTO, Long categoryID) {
+//        User user = this.userRepository.findUserByUserid(userDTO.getId());
+//        Category category = this.categoryRepository.findById(categoryID).orElse(null);
+//
+//        UserCategory userCategory = new UserCategory();
+//
+//    }
+
+    public List<AuctionDTO> showFavAuctions(UserDTO userDTO){
+        User user = this.userRepository.findById(userDTO.getId()).orElse(null);
+        List<Auction> favoriteAuctions = this.userRepository.findFavAuctions(user);
+        return Auction.toDTO(favoriteAuctions) ;
     }
 
-    public void addFavCategories(UserDTO userDTO, Long categoryID) {
+    public void addFavAuction(UserDTO userDTO , AuctionDTO auctionDTO){
         User user = this.userRepository.findUserByUserid(userDTO.getId());
-        Category category = this.categoryRepository.findById(categoryID).orElse(null);
+        Auction auction = this.auctionRepository.findAuctionByAuctionid(auctionDTO.getId());
 
-        UserCategory userCategory = new UserCategory();
+        FavoriteAuction newFavoriteAuction = new FavoriteAuction();
 
+        newFavoriteAuction.setAuctionByAuctionid(auction);
+        newFavoriteAuction.setAuctionid(auction.getAuctionid());
+        newFavoriteAuction.setUsersByUserid(user);
+        newFavoriteAuction.setUserid(Long.valueOf(user.getUserid()));
 
+        this.favAuctionRepository.save(newFavoriteAuction);
 
     }
+
+
+
 //
 //    public void editFavCategories(UserDTO userDTO , CategoryDTO categoryDTO ,String check ){
 //

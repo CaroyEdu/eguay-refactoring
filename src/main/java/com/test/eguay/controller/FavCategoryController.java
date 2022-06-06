@@ -44,9 +44,10 @@ public class FavCategoryController {
 
         List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
         model.addAttribute("categoryList", categoryList);
+
         UserDTO user = (UserDTO) session.getAttribute("user");
-        List<CategoryDTO> categoryFavList= this.userService.userFavCategory(user);
-        model.addAttribute("favCategoryList",categoryFavList);
+       // List<CategoryDTO> categoryFavList= this.userService.userFavCategory(user);
+      //  model.addAttribute("favCategoryList",categoryFavList);
 
         return "favcategory";
     }
@@ -55,7 +56,7 @@ public class FavCategoryController {
     public String doSave (@PathVariable("id") Long categoryID  , HttpSession session ){
         List<CategoryDTO> categoryList =  categoryService.getAllCategories();
         UserDTO user = (UserDTO) session.getAttribute("user");
-        userService.addFavCategories(user, categoryID);
+     //   userService.addFavCategories(user, categoryID);
 
             return "/profile";
 

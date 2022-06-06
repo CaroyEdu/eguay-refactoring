@@ -77,19 +77,10 @@
         <% if(a.getClosePrice()!=null)
         { %>
         <p class="description" >¡Puja <%= a.getClosePrice() %>€ y te lo llevas!</p>
+        <% } if(user != null) { %>
+
+        <a href="/addFav/<%= a.getId() %>">Add Favorite</a>
         <% } %>
-
-        <% if (user!=null) {
-
-        %>
-        <div><button onclick="location.href='ProductServlet?id=<%= a.getId() %>'"/>Pujar
-            <%
-                if(auctionFavList!=null){if(auctionFavList.size()>0){if( auctionFavList.contains(a)){
-            %>
-            <button onclick="location.href='RegisterFavAuction?id=<%= a.getId() %>'" class="like-buttonlike-button"/>♥ </div>
-        <% } else{ %>
-        <button onclick="location.href='RegisterFavAuction?id=<%= a.getId() %>'" class="dislike-button"/>x</div>
-    <% }}}} %>
 </div>
 <%
     cantidad++;
