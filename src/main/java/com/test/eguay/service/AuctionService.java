@@ -1,11 +1,14 @@
 package com.test.eguay.service;
 
 import com.test.eguay.dto.AuctionDTO;
+import com.test.eguay.dto.BidDTO;
 import com.test.eguay.entity.Auction;
 import com.test.eguay.entity.AuctionCategory;
+import com.test.eguay.entity.Bid;
 import com.test.eguay.entity.Category;
 import com.test.eguay.repository.AuctionCategoryRepository;
 import com.test.eguay.repository.AuctionRepository;
+import com.test.eguay.repository.BidRepository;
 import com.test.eguay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ public class AuctionService {
     private AuctionRepository auctionRepository;
     private UserRepository userRepository;
     private AuctionCategoryRepository auctionCategoryRepository;
+    private BidRepository bidRepository;
 
     public AuctionCategoryRepository getAuctionCategoryRepository() {
         return auctionCategoryRepository;
@@ -175,6 +179,18 @@ public class AuctionService {
         this.auctionCategoryRepository.save(auctionCategory);
     }
 
+    public BidDTO getHighestBid(AuctionDTO auctionDTO ) {
+        Auction auction = this.auctionRepository.findAuctionByAuctionid(auctionDTO.getId());
+        List<Bid> highestBids = this.bidRepository.findHighestBid(auction);
+        Bid bid = null;
+        BidDTO returnBid = null ;
+        if(highestBids != null){
+            bid = highestBids.get(0);
+            returnBid = bid.toDTO();
+        }
+        return returnBid;
+    }
+
     public void editAuction(AuctionDTO auction)
     {
         auctionRepository.save(toDAO(auction));
@@ -183,6 +199,15 @@ public class AuctionService {
     public void removeAuction(AuctionDTO auction)
     {
         auctionRepository.delete(toDAO(auction));
+    }
+
+    public BidRepository getBidRepository() {
+        return bidRepository;
+    }
+
+    @Autowired
+    public void setBidRepository(BidRepository bidRepository) {
+        this.bidRepository = bidRepository;
     }
 }
 

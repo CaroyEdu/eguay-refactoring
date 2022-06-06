@@ -46,7 +46,7 @@
 <% } %>
 <button onclick="window.location.href='/showAuction/purchaseAuction/<%= auction.getId() %>';">
     Puja Directa</button>
-<button onclick="window.location.href='SubmitBidServlet?id=<%= auction.getId() %>';"> Puja </button>
+<button onclick="window.location.href='/showAuction/submitBid/<%= auction.getId() %>';"> Puja </button>
 
 
 <script>

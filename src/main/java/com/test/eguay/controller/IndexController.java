@@ -1,6 +1,7 @@
 package com.test.eguay.controller;
 
 import com.test.eguay.dto.AuctionDTO;
+import com.test.eguay.dto.BidDTO;
 import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.dto.UserDTO;
 import com.test.eguay.service.AuctionService;
@@ -123,4 +124,24 @@ public class IndexController {
         this.userService.purchaseAuction(user, auctionDTO);
         return "redirect:/";
     }
+    @GetMapping("/showAuction/submitBid/{id}")
+    public String submitBid(Model model,HttpSession session, @PathVariable("id") Long id){
+        AuctionDTO auctionDTO = this.auctionService.findById(id);
+        model.addAttribute("auction",auctionDTO);
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        model.addAttribute("user",user);
+        BidDTO bidDTO = auctionService.getHighestBid(auctionDTO);
+        model.addAttribute("highestBid",bidDTO);
+        return "puja";
+    }
+    @PostMapping("/showAuction/submitBid/finilizeSubmitingBid")
+    public String finilizeSubmittingBid(Model model,HttpSession session, @RequestParam("Bid") Double amount,
+                                                                    @RequestParam("AuctionID") Long auctionID){
+        AuctionDTO auctionDTO = this.auctionService.findById(auctionID);
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        this.userService.submitBid(user,auctionDTO,amount);
+
+        return "redirect:/";
+    }
+
 }

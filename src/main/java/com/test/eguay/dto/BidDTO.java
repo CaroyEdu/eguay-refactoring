@@ -1,50 +1,50 @@
 package com.test.eguay.dto;
 
+import com.test.eguay.entity.Auction;
+import com.test.eguay.entity.User;
+
 import java.util.Objects;
 
 public class BidDTO {
-    // DB
-    private Long id;
-
-    // Conceptual
-    private Long auction;
-    private double bid;
-
-    // Relationships
-    private Long bider;
-
-    public Long getAuction() {
-        return auction;
+    public Long getBidid() {
+        return bidid;
     }
 
-    public void setAuction(Long auction) {
-        this.auction = auction;
+    public void setBidid(Long bidid) {
+        this.bidid = bidid;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getBider() {
-        return bider;
-    }
-
-    public void setBider(Long bider) {
-        this.bider = bider;
-    }
-
-    public double getBid()
-    {
+    public Double getBid() {
         return bid;
     }
 
-    public void setBid(Double bid){
+    public void setBid(Double bid) {
         this.bid = bid;
     }
+
+    public UserDTO getUsersByBiderid() {
+        return usersByBiderid;
+    }
+
+    public void setUsersByBiderid(UserDTO usersByBiderid) {
+        this.usersByBiderid = usersByBiderid;
+    }
+
+    public AuctionDTO getAuctionByAuctionid() {
+        return auctionByAuctionid;
+    }
+
+    public void setAuctionByAuctionid(AuctionDTO auctionByAuctionid) {
+        this.auctionByAuctionid = auctionByAuctionid;
+    }
+
+    // DB
+    private Long bidid;
+
+    // Conceptual
+    private Double bid;
+    private UserDTO usersByBiderid;
+    private AuctionDTO auctionByAuctionid;
 
     @Override
     public boolean equals(Object obj) {
@@ -58,7 +58,7 @@ public class BidDTO {
             return false;
         }
         final BidDTO other = (BidDTO) obj;
-        return Objects.equals(this.id, other.getId());
+        return Objects.equals(this.bidid, other.getBidid());
     }
 }
 
