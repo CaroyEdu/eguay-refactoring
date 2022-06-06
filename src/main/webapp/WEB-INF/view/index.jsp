@@ -78,8 +78,11 @@
         { %>
         <p class="description" >¡Puja <%= a.getClosePrice() %>€ y te lo llevas!</p>
         <% } if(user != null) { %>
-
-        <a href="/addFav/<%= a.getId() %>">Add Favorite</a>
+        <% if(auctionFavList != null && auctionFavList.contains(a)){ %>
+            <a href="/deleteFav/<%= a.getId() %>">Delete Favorite</a>
+        <% }else { %>
+            <a href="/addFav/<%= a.getId() %>">Add Favorite</a>
+        <% } %>
         <% } %>
 </div>
 <%

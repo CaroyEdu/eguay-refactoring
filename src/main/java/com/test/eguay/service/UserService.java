@@ -185,6 +185,16 @@ public class UserService {
         newFavoriteAuction.setUserid(Long.valueOf(user.getUserid()));
 
         this.favAuctionRepository.save(newFavoriteAuction);
+    }
+
+    public void deleteFavAuction (UserDTO userDTO , AuctionDTO auctionDTO){
+        User user = this.userRepository.findUserByUserid(userDTO.getId());
+        Auction auction = this.auctionRepository.findAuctionByAuctionid(auctionDTO.getId());
+
+        List<FavoriteAuction> favs =  this.favAuctionRepository.FindFavoriteAuctionOfUser(auction,user);
+        for(FavoriteAuction fav : favs){
+            this.favAuctionRepository.delete(fav);
+        }
 
     }
 

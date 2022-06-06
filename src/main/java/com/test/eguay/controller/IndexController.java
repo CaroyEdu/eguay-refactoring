@@ -52,12 +52,15 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String index(Model model)
+    public String index(Model model , HttpSession session )
     {
         List<AuctionDTO> auctionList = this.auctionService.getAllAuctions();
         List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
         List<AuctionDTO> auctionFavList = null;
-
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        if(user != null){
+            auctionFavList = this.userService.showFavAuctions(user);
+        }
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("auctionList", auctionList);
         model.addAttribute("favAuctions", auctionFavList);
@@ -70,15 +73,37 @@ public class IndexController {
         List<AuctionDTO> auctionList = this.auctionService.getAllAuctions();
         List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
         List<AuctionDTO> auctionFavList = null;
-
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        if(user != null){
+            auctionFavList = this.userService.showFavAuctions(user);
+        }
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("auctionList", auctionList);
         model.addAttribute("favAuctions", auctionFavList);
 
-        UserDTO user = (UserDTO) session.getAttribute("user");
+
 
         AuctionDTO auctionDTO = this.auctionService.findById(id);
         this.userService.addFavAuction(user , auctionDTO);
+
+        return "redirect:/";
+    }
+    @GetMapping("/deleteFav/{id}")
+    public String deleteFav(Model model , HttpSession session , @PathVariable("id") Long id)
+    {
+        List<AuctionDTO> auctionList = this.auctionService.getAllAuctions();
+        List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
+        List<AuctionDTO> auctionFavList = null;
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        if(user != null){
+            auctionFavList = this.userService.showFavAuctions(user);
+        }
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("auctionList", auctionList);
+        model.addAttribute("favAuctions", auctionFavList);
+
+        AuctionDTO auctionDTO = this.auctionService.findById(id);
+        this.userService.deleteFavAuction(user , auctionDTO);
 
         return "redirect:/";
     }
