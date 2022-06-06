@@ -107,4 +107,20 @@ public class IndexController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/showAuction/{id}")
+    public String showAuction(Model model, @PathVariable("id") Long id){
+        AuctionDTO auctionDTO = this.auctionService.findById(id);
+        model.addAttribute("auction",auctionDTO);
+        return "product";
+    }
+
+    @GetMapping("/showAuction/purchaseAuction/{id}")
+    public String purchaseAuction(Model model,HttpSession session, @PathVariable("id") Long id){
+        AuctionDTO auctionDTO = this.auctionService.findById(id);
+        model.addAttribute("auction",auctionDTO);
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        this.userService.purchaseAuction(user, auctionDTO);
+        return "redirect:/";
+    }
 }

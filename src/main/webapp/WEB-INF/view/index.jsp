@@ -58,7 +58,7 @@
         <img src="img/placeholder.png" style="width:100%; height: 50%">
         <% } %>
         <% if(user != null) { %>
-        <h4><a href="ProductServlet?id=<%= a.getId()%>"><%= a.getName() %></a></h4>
+        <h4><a href="/showAuction/<%= a.getId()%>"><%= a.getName() %></a></h4>
         <% }else {  %>
         <h4><a href="LoginServlet"><%= a.getName() %></a></h4>
         <% } %>

@@ -4,10 +4,7 @@ import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.dto.UserDTO;
 import com.test.eguay.entity.*;
-import com.test.eguay.repository.AuctionRepository;
-import com.test.eguay.repository.CategoryRepository;
-import com.test.eguay.repository.FavAuctionRepository;
-import com.test.eguay.repository.UserRepository;
+import com.test.eguay.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +17,16 @@ import java.util.List;
 public class UserService {
 
     private UserRepository userRepository;
+
+    public PurchasedAuctionRepository getPurchasedAuctionRepository() {
+        return purchasedAuctionRepository;
+    }
+    @Autowired
+    public void setPurchasedAuctionRepository(PurchasedAuctionRepository purchasedAuctionRepository) {
+        this.purchasedAuctionRepository = purchasedAuctionRepository;
+    }
+
+    private PurchasedAuctionRepository purchasedAuctionRepository;
 
     public FavAuctionRepository getFavAuctionRepository() {
         return favAuctionRepository;
@@ -64,15 +71,6 @@ public class UserService {
     public void setAuctionService(AuctionService auctionService) {
         this.auctionService = auctionService;
     }
-
-    // Query
-
-
-
-//    public List<CategoryDTO> getFavCategories(UserDTO userDTO){
-//        User user = this.toDAO(userDTO);
-//        return Category.toDTO(userRepository.userFavCategory(user));
-//    }
 
     public UserDTO loginUser(String username, String password)
     {
@@ -195,9 +193,21 @@ public class UserService {
         for(FavoriteAuction fav : favs){
             this.favAuctionRepository.delete(fav);
         }
-
     }
 
+    public void purchaseAuction (UserDTO userDTO, AuctionDTO auctionDTO){
+        User user = this.userRepository.findUserByUserid(userDTO.getId());
+        Auction auction = this.auctionRepository.findAuctionByAuctionid(auctionDTO.getId());
+
+        PurchasedAuction purchasedAuction = new PurchasedAuction();
+        purchasedAuction.setUsersByUserid(user);
+        purchasedAuction.setAuctionByAuctionid(auction);
+        purchasedAuction.setUserid(Long.valueOf(user.getUserid()));
+        purchasedAuction.setAuctionid(auction.getAuctionid());
+
+        this.purchasedAuctionRepository.save(purchasedAuction);
+
+    }
 
 
 //
