@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,6 +23,8 @@ public class AuctionService {
     private UserRepository userRepository;
     private AuctionCategoryRepository auctionCategoryRepository;
     private BidRepository bidRepository;
+
+    private UserService userService;
 
     public AuctionCategoryRepository getAuctionCategoryRepository() {
         return auctionCategoryRepository;
@@ -206,6 +209,33 @@ public class AuctionService {
     @Autowired
     public void setBidRepository(BidRepository bidRepository) {
         this.bidRepository = bidRepository;
+    }
+
+    @Scheduled(initialDelay = 1000, fixedDelay=10200)
+    public void cacheRefresh() {
+        Date now = new Date();
+        List<Auction> activeAuctions = this.auctionRepository.findAllByActiveIsTrue();
+        for(Auction a : activeAuctions)
+        {
+            if(a.getClosedate() != null){
+                if(now.compareTo(a.getClosedate()) >= 0)
+                {
+                    List<Bid> bidList = this.bidRepository.findHighestBid(a);
+                    if(bidList.size()>0)
+                    {
+                        Bid higherBid = bidList.get(0);
+                        User user = higherBid.getUsersByBiderid();
+                        userService.purchaseAuction(user, a);
+                        System.out.println("La subasta " + a.getAuctionid() + " con titulo:  " + a.getTitle() + " ha sido ganada por " + user.getName() );
+                    }else{
+                        a.setActive(Boolean.FALSE);
+                        auctionRepository.save(a);
+                        System.out.println("La subasta " + a.getAuctionid() + " con titulo:  " + a.getTitle() + " ha sido cerrada sin ganador");
+                    }
+                }
+            }
+        }
+
     }
 
 

@@ -19,4 +19,6 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     public Auction findAuctionByAuctionid(Long id);
 
+    public List<Auction> findAllByActiveIsTrue() ;
+
 }

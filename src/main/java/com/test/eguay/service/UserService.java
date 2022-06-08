@@ -249,6 +249,22 @@ public class UserService {
 
     }
 
+    public void purchaseAuction (User user, Auction auction){
+
+        PurchasedAuction purchasedAuction = new PurchasedAuction();
+        purchasedAuction.setUsersByUserid(user);
+        purchasedAuction.setAuctionByAuctionid(auction);
+        purchasedAuction.setUserid(Long.valueOf(user.getUserid()));
+        purchasedAuction.setAuctionid(auction.getAuctionid());
+
+        this.purchasedAuctionRepository.save(purchasedAuction);
+
+        auction.setActive(Boolean.FALSE);
+
+        this.auctionRepository.save(auction);
+
+    }
+
     public void deletepurchasedAuction ( UserDTO userDTO , AuctionDTO auctionDTO){
         User user = this.userRepository.findUserByUserid(userDTO.getId());
         Auction auction = this.auctionRepository.findAuctionByAuctionid(auctionDTO.getId());
