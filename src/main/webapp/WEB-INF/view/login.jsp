@@ -60,7 +60,7 @@
                                     </label>
                                 </div>
 
-                                <a href="IndexServlet">Volver al Inicio</a>
+                                <a href="redirect:/">Volver al Inicio</a>
                             </div>
                         </form>
                     </div>

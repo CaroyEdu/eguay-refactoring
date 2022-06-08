@@ -50,5 +50,12 @@ public class LoginController {
 
         return goTo;
     }
+    @GetMapping("/Disconnect")
+    public String doLogout (Model model , HttpSession session) {
+        session.setAttribute("user", null);
+
+        return "redirect:/";
+    }
+
 
 }
