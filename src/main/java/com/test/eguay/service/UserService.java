@@ -243,7 +243,7 @@ public class UserService {
 
         this.purchasedAuctionRepository.save(purchasedAuction);
 
-        auction.setActive(Boolean.TRUE);
+        auction.setActive(Boolean.FALSE);
 
         this.auctionRepository.save(auction);
 

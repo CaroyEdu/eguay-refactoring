@@ -2,15 +2,13 @@ package com.test.eguay.service;
 
 import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.dto.BidDTO;
-import com.test.eguay.entity.Auction;
-import com.test.eguay.entity.AuctionCategory;
-import com.test.eguay.entity.Bid;
-import com.test.eguay.entity.Category;
+import com.test.eguay.entity.*;
 import com.test.eguay.repository.AuctionCategoryRepository;
 import com.test.eguay.repository.AuctionRepository;
 import com.test.eguay.repository.BidRepository;
 import com.test.eguay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -209,5 +207,7 @@ public class AuctionService {
     public void setBidRepository(BidRepository bidRepository) {
         this.bidRepository = bidRepository;
     }
+
+
 }
 
