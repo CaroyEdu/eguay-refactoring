@@ -226,6 +226,10 @@ public class UserService {
 
         this.purchasedAuctionRepository.save(purchasedAuction);
 
+        auction.setActive(Boolean.TRUE);
+
+        this.auctionRepository.save(auction);
+
     }
 
     public void deletepurchasedAuction ( UserDTO userDTO , AuctionDTO auctionDTO){

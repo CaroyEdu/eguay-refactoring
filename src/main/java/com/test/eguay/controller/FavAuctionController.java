@@ -1,6 +1,7 @@
 package com.test.eguay.controller;
 
 
+import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.dto.UserDTO;
 import com.test.eguay.service.CategoryService;
 import com.test.eguay.service.UserService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RequestMapping("/FavAuctions")
 @Controller
@@ -41,7 +43,10 @@ public class FavAuctionController {
     public String doShow(Model model , HttpSession session){
         UserDTO user = (UserDTO) session.getAttribute("user");
 
+        List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
+        model.addAttribute("categoryList", categoryList);
         model.addAttribute("favCats",this.userService.showFavAuctions(user));
+
 
         return "favAuction";
     }

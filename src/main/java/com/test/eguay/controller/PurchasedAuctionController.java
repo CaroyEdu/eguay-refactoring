@@ -1,8 +1,10 @@
 package com.test.eguay.controller;
 
 import com.test.eguay.dto.AuctionDTO;
+import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.dto.UserDTO;
 import com.test.eguay.service.AuctionService;
+import com.test.eguay.service.CategoryService;
 import com.test.eguay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/PurchasedAuctions")
@@ -25,6 +28,16 @@ public class PurchasedAuctionController {
     }
 
     protected UserService userService;
+
+    public CategoryService getCategoryService() {
+        return categoryService;
+    }
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    protected CategoryService categoryService;
 
     public AuctionService getAuctionService() {
         return auctionService;
@@ -40,6 +53,8 @@ public class PurchasedAuctionController {
     public String doShow(Model model , HttpSession session){
         UserDTO user = (UserDTO) session.getAttribute("user");
 
+        List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
+        model.addAttribute("categoryList", categoryList);
         model.addAttribute("purchasedAucs", this.userService.showPurchasedAuctions(user));
         model.addAttribute("user",user);
         return "purchasedAuctions";
@@ -50,7 +65,7 @@ public class PurchasedAuctionController {
         UserDTO user = (UserDTO) session.getAttribute("user");
         AuctionDTO auctionDTO = this.auctionService.findById(id);
         this.userService.deletepurchasedAuction(user , auctionDTO);
-        return "redirect/purchasedAuctions";
+        return "redirect:/purchasedAuctions";
     }
 
 }
