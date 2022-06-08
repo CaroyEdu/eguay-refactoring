@@ -91,6 +91,11 @@
         <% } %>
     </form>
 </div>
+
+
+
+
+
 <script>
     document.getElementById("closePrice").addEventListener('change', function(){
         document.getElementById("inputClosePrice").required = this.checked;

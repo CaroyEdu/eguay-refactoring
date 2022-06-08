@@ -3,6 +3,7 @@ package com.test.eguay.controller;
 import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.dto.UserDTO;
+import com.test.eguay.entity.Auction;
 import com.test.eguay.entity.AuctionCategory;
 import com.test.eguay.service.AuctionCategoryService;
 import com.test.eguay.service.AuctionService;
@@ -11,10 +12,7 @@ import com.test.eguay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -116,6 +114,7 @@ public class AuctionController {
             usersSubmitedAuctions.remove(auction);
             user.setUserAuctions(usersSubmitedAuctions);
             userService.editUser(user);
+
         }
 
         session.setAttribute("user", user);
@@ -123,6 +122,20 @@ public class AuctionController {
         return "redirect:/myAuctions";
     }
 
+    @GetMapping("/editAuction/{id}/")
+    public String doEdit(Model model , @PathVariable("id") long id ){
+        AuctionDTO auction = this.auctionService.findById(id);
+        List<CategoryDTO> categoryDTOS = this.categoryService.getAllCategories();
+        model.addAttribute("auction" , auction);
+        List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
+        model.addAttribute("categoryList", categoryList);
+        return "editAuction";
+    }
+    @PostMapping("/editSelectedAuction")
+    public String editSelectedAuction(Model model, @ModelAttribute("auction") AuctionDTO auctionDTO){
+        this.auctionService.editAuctionForm(auctionDTO) ;
+        return "redirect:/";
+    }
     @PostMapping("/insertAuction")
     public String goInsertAuction(Model model, HttpSession session, @RequestParam("title") String title,
                                   @RequestParam(name="description", required = false) String description, @RequestParam(name="fotourl", required = false) String fotourl,

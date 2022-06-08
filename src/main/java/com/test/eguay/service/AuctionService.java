@@ -160,6 +160,16 @@ public class AuctionService {
         return a;
     }
 
+    public void editAuctionForm(AuctionDTO auctionDTO){
+        Auction auction = this.auctionRepository.findAuctionByAuctionid(auctionDTO.getId());
+        AuctionDTO aux = auction.toDTO();
+        aux.setStartPrice(auctionDTO.getStartPrice());
+        aux.setFotourl(auctionDTO.getFotourl());
+        aux.setName(auctionDTO.getName());
+        aux.setDescription(auctionDTO.getDescription());
+        editAuction(aux);
+    }
+
     public void createAuction(AuctionDTO auction)
     {
         Auction a = auctionRepository.save(toDAO(auction));
