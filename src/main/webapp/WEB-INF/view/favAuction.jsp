@@ -7,6 +7,14 @@
 <br>
 <hr>
 <br>
+<form method="POST" action="/FavAuctions/filter">
+
+    <input type="text" name="filter">
+    <input type="submit" name="buscar" placeholder="filtrar">
+</form>
+<br>
+<hr>
+<br>
 <%
     List<AuctionDTO> auctionDTOS = (List<AuctionDTO>) request.getAttribute("favCats") ;
     for(AuctionDTO a : auctionDTOS){

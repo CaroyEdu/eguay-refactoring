@@ -9,9 +9,7 @@ import com.test.eguay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -68,4 +66,19 @@ public class PurchasedAuctionController {
         return "redirect:/purchasedAuctions";
     }
 
+
+    @PostMapping("/filter")
+    public String doFilter(Model model, HttpSession session , @RequestParam("filter") String filter){
+        UserDTO user = (UserDTO) session.getAttribute("user");
+
+        List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
+        model.addAttribute("categoryList", categoryList);
+        if(filter == null || filter.isEmpty()){
+            model.addAttribute("purchasedAucs",this.userService.showPurchasedAuctions(user));
+        }else{
+            model.addAttribute("purchasedAucs",this.userService.filterPurchasedAuctions(user,filter));
+        }
+        model.addAttribute("user",user);
+        return "purchasedAuctions";
+    }
 }

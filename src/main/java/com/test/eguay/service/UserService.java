@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class UserService {
@@ -178,9 +179,25 @@ public class UserService {
         return Auction.toDTO(favoriteAuctions) ;
     }
 
+    public List<AuctionDTO> filterFavAuctions(UserDTO userDTO , String filter){
+        User user = this.userRepository.findById(userDTO.getId()).orElse(null);
+        if (filter == null) filter = "";
+        filter = "%" + filter + "%" ;
+        List<Auction> favoriteAuctions = this.userRepository.filterFavAuctions(user,filter.toLowerCase(Locale.ROOT));
+        return Auction.toDTO(favoriteAuctions) ;
+    }
+
     public List<AuctionDTO> showPurchasedAuctions(UserDTO userDTO){
         User user = this.userRepository.findById(userDTO.getId()).orElse(null);
         List<Auction> purchasedAuctions = this.userRepository.findPurchasedAuctions(user);
+        return Auction.toDTO(purchasedAuctions) ;
+    }
+
+    public List<AuctionDTO> filterPurchasedAuctions(UserDTO userDTO , String filter){
+        User user = this.userRepository.findById(userDTO.getId()).orElse(null);
+        if (filter == null) filter = "";
+        filter = "%" + filter + "%" ;
+        List<Auction> purchasedAuctions = this.userRepository.filterPurchasedAuctions(user,filter.toLowerCase(Locale.ROOT));
         return Auction.toDTO(purchasedAuctions) ;
     }
 

@@ -4,8 +4,16 @@
 
 
 <jsp:include page="cabecera.jsp"/>
-<h1>Subastas compradas</h1>
+<h1>Subastas compradas</h1> <br>
+
+<form method="POST" action="/PurchasedAuctions/filter">
+
+    <input type="text" name="filter">
+    <input type="submit" name="buscar" placeholder="filtrar">
+</form>
+
 <%
+
     List<AuctionDTO> auctionDTOS = (List<AuctionDTO>) request.getAttribute("purchasedAucs") ;
   if(auctionDTOS != null){
     for(AuctionDTO a : auctionDTOS){
@@ -16,7 +24,8 @@
     <br>
     <br>
     <br>
-    <a href="/PurchasedAuctions/delete/<%= a.getId() %>">Borrar</a>
+
+    <button href="/PurchasedAuctions/delete/<%= a.getId() %>">Borrar</button>
     <br>
     <hr>
 <% }} %>

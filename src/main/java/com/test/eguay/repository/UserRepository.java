@@ -25,4 +25,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select f.categoryByCategoryid from UserCategory f where f.usersByUserid = :user")
     public List<Category> findFavCategories(@Param("user") User user );
+
+    @Query("select f.auctionByAuctionid from FavoriteAuction f where f.usersByUserid = :user and lower( f.auctionByAuctionid.title ) like :name")
+    public List<Auction> filterFavAuctions(@Param("user") User user , @Param("name") String filter );
+
+    @Query("select f.auctionByAuctionid from PurchasedAuction f where f.usersByUserid = :user and lower( f.auctionByAuctionid.title ) like :name")
+    public List<Auction> filterPurchasedAuctions(@Param("user") User user , @Param("name") String filter );
 }
