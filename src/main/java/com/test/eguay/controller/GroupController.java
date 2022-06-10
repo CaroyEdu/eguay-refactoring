@@ -40,8 +40,14 @@ public class GroupController {
     }
 
     @GetMapping("delete")
-    public String doDelete(Model model, @RequestParam(name = "checked") long[] ids){
+    public String doDelete(@RequestParam(name = "checked") long[] ids){
         this.groupService.delete(ids);
+        return "redirect:/group";
+    }
+
+    @GetMapping("join")
+    public String doJoin(@RequestParam(name = "checked") long[] ids){
+        this.groupService.join(ids);
         return "redirect:/group";
     }
 

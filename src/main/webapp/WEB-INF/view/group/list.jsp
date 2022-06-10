@@ -34,6 +34,7 @@
         </c:forEach>
     </table>
     <input type="submit" formaction="/group/delete" value="Eliminar"/>
+    <input type="submit" formaction="/group/join" value="Unir"/>
 </form>
 </body>
 </html>

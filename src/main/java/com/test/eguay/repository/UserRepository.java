@@ -34,4 +34,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public List<Auction> filterPurchasedAuctions(@Param("user") User user , @Param("name") String filter );
 
     public List<User> findAllByUseridIn(int[] ids);
+
+    @Query("select u from User u join UserGroups ug on u.userid = ug.userid join Group g on g.groupid = ug.userid where g.groupid in :groupIds")
+    List<User> findAllByUsersGroup_Group_IdIn(@Param("groupIds") long[] ids);
 }

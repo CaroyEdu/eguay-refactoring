@@ -2,6 +2,7 @@ package com.test.eguay.service;
 
 import com.test.eguay.dto.GroupDTO;
 import com.test.eguay.entity.Group;
+import com.test.eguay.entity.User;
 import com.test.eguay.entity.UserGroups;
 import com.test.eguay.repository.GroupRepository;
 import com.test.eguay.repository.UserGroupsRepository;
@@ -76,5 +77,20 @@ public class GroupService {
 
     public GroupDTO get(long id) {
         return this.groupRepository.getById(id).toDtoLinked();
+    }
+
+    public void join(long[] ids) {
+        List<User> users = this.userRepository.findAllByUsersGroup_Group_IdIn(ids);
+        Group group = new Group();
+        group.setName(String.join("-", this.groupRepository.findAllByGroupidIn(ids).stream().map(group1 -> group1.getName()).collect(Collectors.toList())));
+        UserGroups relationship;
+
+        this.groupRepository.save(group);
+        for (User user : users){
+            relationship = new UserGroups();
+            relationship.setGroupid(group.getId());
+            relationship.setUserid((long) user.getUserid());
+            this.userGroupsRepository.save(relationship);
+        }
     }
 }
