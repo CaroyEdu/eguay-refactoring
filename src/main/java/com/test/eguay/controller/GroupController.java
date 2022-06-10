@@ -6,9 +6,7 @@ import com.test.eguay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("group")
@@ -49,10 +47,14 @@ public class GroupController {
 
     @GetMapping("new")
     public String doShowNew(Model model){
-        GroupDTO dummy = new GroupDTO();
-        //dummy.setName("name");
-        model.addAttribute("group", dummy);
+        model.addAttribute("group", new GroupDTO());
         model.addAttribute("users", this.userService.getAll());
         return "group/new";
+    }
+
+    @PostMapping("new")
+    public String doShowNew(@ModelAttribute("group") GroupDTO group, @RequestParam("checked") int[] userIds){
+        this.groupService.create(group.getName(), userIds);
+        return "redirect:/group";
     }
 }

@@ -15,7 +15,7 @@
 <body>
 <h1>Nuevo Grupo</h1>
 <form:form modelAttribute="group" action="/group/new">
-    Nombre: <form:input path="name"/>
+    Nombre: <form:input path="name" id="name"/>
     <table>
         <tr>
             <th>Nombre de usuario</th>
@@ -24,7 +24,7 @@
         <c:forEach var="user" items="${users}">
             <tr>
                 <td>${user.username}</td>
-                <td><input type="checkbox" value="${user.id}" id="name"/></td>
+                <td><input type="checkbox" name="checked" value="${user.id}"/></td>
             </tr>
         </c:forEach>
     </table>
