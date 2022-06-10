@@ -5,6 +5,7 @@ import com.test.eguay.entity.Group;
 import com.test.eguay.entity.UserGroups;
 import com.test.eguay.repository.GroupRepository;
 import com.test.eguay.repository.UserGroupsRepository;
+import com.test.eguay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 public class GroupService {
     private GroupRepository groupRepository;
     private UserGroupsRepository userGroupsRepository;
+    private UserRepository userRepository;
 
     public GroupRepository getGroupRepository() {
         return groupRepository;
@@ -34,6 +36,15 @@ public class GroupService {
         this.userGroupsRepository = userGroupsRepository;
     }
 
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public List<GroupDTO> getAll(){
         return this.groupRepository.findAll().stream().map(group -> group.toDtoLinked()).collect(Collectors.toList());
     }
@@ -49,6 +60,9 @@ public class GroupService {
         Group group = new Group();
         group.setGroupid(groupDTO.getId());
         group.setName(groupDTO.getName());
+        if(group.getName() == null || group.getName().isEmpty())
+            group.setName(String.join("-", this.userRepository.findAllByUseridIn(userIds).stream().map(user -> user.getUsername()).collect(Collectors.toList())));
+
         this.groupRepository.save(group);
 
         UserGroups relationship;

@@ -14,7 +14,7 @@
 </head>
 <body>
 <h1>Nuevo Grupo</h1>
-<form:form modelAttribute="group" action="/group/${group.id}/edit">
+<form:form modelAttribute="group" action="/group/new">
     Nombre: <form:input path="name" id="name"/>
     <table>
         <tr>
