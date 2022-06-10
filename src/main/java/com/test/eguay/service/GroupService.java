@@ -25,4 +25,10 @@ public class GroupService {
     public List<GroupDTO> getAll(){
         return this.groupRepository.findAll().stream().map(group -> group.toDtoSimple()).collect(Collectors.toList());
     }
+
+    public void delete(long[] ids) {
+        for (long id : ids){
+            this.groupRepository.deleteByGroupid(id);
+        }
+    }
 }

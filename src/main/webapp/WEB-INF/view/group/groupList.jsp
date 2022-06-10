@@ -12,19 +12,27 @@
 <head>
     <title>Group List</title>
 </head>
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
 <body>
 <h1>Group List</h1>
-<table>
-    <tr>
-        <th>Nombre</th>
-        <th>Seleccionado</th>
-    </tr>
-    <c:forEach var="group" items="${groups}">
+<form>
+    <table>
         <tr>
-            <td><a href="/group/${group.id}">${group.name}</a></td>
-            <td><input type="checkbox" name="checked" value="${group.id}"/></td>
+            <th>Nombre</th>
+            <th>Seleccionado</th>
         </tr>
-    </c:forEach>
-</table>
+        <c:forEach var="group" items="${groups}">
+            <tr>
+                <td><a href="/group/${group.id}">${group.name}</a></td>
+                <td><input type="checkbox" name="checked" value="${group.id}"/></td>
+            </tr>
+        </c:forEach>
+    </table>
+    <input type="submit" formaction="/group/delete" value="Eliminar"/>
+</form>
 </body>
 </html>
