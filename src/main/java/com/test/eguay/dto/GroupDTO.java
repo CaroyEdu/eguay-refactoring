@@ -1,5 +1,6 @@
 package com.test.eguay.dto;
 
+import java.util.List;
 import java.util.Objects;
 
 public class GroupDTO {
@@ -8,6 +9,11 @@ public class GroupDTO {
 
     // Conceptual
     private String name;
+
+    // Relationships
+    private List<UserDTO> users;
+
+    public GroupDTO() {}
 
     public Long getId() {
         return id;
@@ -23,5 +29,13 @@ public class GroupDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<UserDTO> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserDTO> users) {
+        this.users = users;
     }
 }

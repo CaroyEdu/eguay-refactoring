@@ -4,7 +4,7 @@ import com.test.eguay.dto.GroupDTO;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "groups", schema = "public", catalog = "da1knun38jg1va")
@@ -45,9 +45,7 @@ public class Group {
         Group group = (Group) o;
 
         if (groupid != null ? !groupid.equals(group.groupid) : group.groupid != null) return false;
-        if (name != null ? !name.equals(group.name) : group.name != null) return false;
-
-        return true;
+        return name != null ? name.equals(group.name) : group.name == null;
     }
 
     @Override
@@ -73,7 +71,13 @@ public class Group {
         this.usersgroupsByGroupid = usersgroupsByGroupid;
     }
 
-    public GroupDTO toDtoSimple() {
+    public GroupDTO toDtoLinked() {
+        GroupDTO dto = this.toDto();
+        dto.setUsers(this.usersgroupsByGroupid.stream().map(userGroups -> userGroups.getUsersByUserid().toDtoLinked()).collect(Collectors.toList()));
+        return dto;
+    }
+
+    public GroupDTO toDto() {
         GroupDTO dto = new GroupDTO();
 
         dto.setId(this.getId());

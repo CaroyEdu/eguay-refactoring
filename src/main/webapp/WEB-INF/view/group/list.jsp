@@ -20,6 +20,7 @@
 <body>
 <h1>Group List</h1>
 <form>
+    <input type="submit" formaction="/group/new" value="Nuevo grupo"/>
     <table>
         <tr>
             <th>Nombre</th>

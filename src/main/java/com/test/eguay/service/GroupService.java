@@ -23,7 +23,7 @@ public class GroupService {
 
 
     public List<GroupDTO> getAll(){
-        return this.groupRepository.findAll().stream().map(group -> group.toDtoSimple()).collect(Collectors.toList());
+        return this.groupRepository.findAll().stream().map(group -> group.toDtoLinked()).collect(Collectors.toList());
     }
 
     public void delete(long[] ids) {
