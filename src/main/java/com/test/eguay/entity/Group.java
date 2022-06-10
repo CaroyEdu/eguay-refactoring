@@ -1,7 +1,10 @@
 package com.test.eguay.entity;
 
+import com.test.eguay.dto.GroupDTO;
+
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "groups", schema = "public", catalog = "da1knun38jg1va")
@@ -18,7 +21,7 @@ public class Group {
     @OneToMany(mappedBy = "groupsByGroupid")
     private Collection<UserGroups> usersgroupsByGroupid;
 
-    public Long getGroupid() {
+    public Long getId() {
         return groupid;
     }
 
@@ -68,5 +71,14 @@ public class Group {
 
     public void setUsersgroupsByGroupid(Collection<UserGroups> usersgroupsByGroupid) {
         this.usersgroupsByGroupid = usersgroupsByGroupid;
+    }
+
+    public GroupDTO toDtoSimple() {
+        GroupDTO dto = new GroupDTO();
+
+        dto.setId(this.getId());
+        dto.setName(this.getName());
+
+        return dto;
     }
 }
