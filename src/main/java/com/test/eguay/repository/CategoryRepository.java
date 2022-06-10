@@ -13,4 +13,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("select distinct c from Category c join UserCategory uc on (c.categoryid = uc.categoryid) where uc.userid = :user")
     List<Category> findUserFavCategory(@Param("user") Long id);
+
+
 }

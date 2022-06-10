@@ -3,10 +3,7 @@ package com.test.eguay.service;
 import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.dto.BidDTO;
 import com.test.eguay.entity.*;
-import com.test.eguay.repository.AuctionCategoryRepository;
-import com.test.eguay.repository.AuctionRepository;
-import com.test.eguay.repository.BidRepository;
-import com.test.eguay.repository.UserRepository;
+import com.test.eguay.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -23,6 +20,22 @@ public class AuctionService {
     private UserRepository userRepository;
     private AuctionCategoryRepository auctionCategoryRepository;
     private BidRepository bidRepository;
+    private CategoryRepository categoryRepository;
+    private PurchasedAuctionRepository purchasedAuctionRepository;
+
+    public FavAuctionRepository getFavAuctionRepository() {
+        return favAuctionRepository;
+    }
+
+    @Autowired
+    public void setFavAuctionRepository(FavAuctionRepository favAuctionRepository) {
+        this.favAuctionRepository = favAuctionRepository;
+    }
+
+    private FavAuctionRepository favAuctionRepository;
+
+
+
 
     private UserService userService;
 
@@ -162,12 +175,34 @@ public class AuctionService {
 
     public void editAuctionForm(AuctionDTO auctionDTO){
         Auction auction = this.auctionRepository.findAuctionByAuctionid(auctionDTO.getId());
-        AuctionDTO aux = auction.toDTO();
-        aux.setStartPrice(auctionDTO.getStartPrice());
-        aux.setFotourl(auctionDTO.getFotourl());
-        aux.setName(auctionDTO.getName());
-        aux.setDescription(auctionDTO.getDescription());
-        editAuction(aux);
+        Category category = this.categoryRepository.findById(auctionDTO.getAuctionCategory()).orElse(null);
+        auction.setStartprice(auctionDTO.getStartPrice());
+        auction.setFotourl(auctionDTO.getFotourl());
+        auction.setTitle(auctionDTO.getName());
+        auction.setDescription(auctionDTO.getDescription());
+
+        //nueva auctionCategory
+        AuctionCategory auctionCategory = new AuctionCategory();
+
+        auctionCategory.setAuctionid(auction.getAuctionid());
+        auctionCategory.setCategoryid(category.getCategoryid());
+        auctionCategory.setAuctionByAuctionid(auction);
+        auctionCategory.setCategoryByCategoryid(category);
+
+
+        this.auctionCategoryRepository.save(auctionCategory);
+        //-------------------
+        //borramos todos los auctionCategories anteriores
+        List<AuctionCategory> anteriorCategories =  this.auctionCategoryRepository.findAuctionCategoryByAuctionByAuctionid(auction);
+        for(AuctionCategory a : anteriorCategories){
+            this.auctionCategoryRepository.delete(a);
+        }
+        //-------------------
+        List<AuctionCategory> nuevaAuctionCategry = new ArrayList<>();
+        nuevaAuctionCategry.add(auctionCategory);
+       // auction.setAuctioncategoriesByAuctionid(nuevaAuctionCategry);
+
+        this.auctionRepository.save(auction);
     }
 
     public void createAuction(AuctionDTO auction)
@@ -186,6 +221,8 @@ public class AuctionService {
         auctionCategory.setAuctionByAuctionid(a);
         category.setAuctioncategoriesByCategoryid(auctionList);
         auctionCategory.setCategoryByCategoryid(category);
+
+
 
         this.auctionCategoryRepository.save(auctionCategory);
     }
@@ -209,6 +246,28 @@ public class AuctionService {
 
     public void removeAuction(AuctionDTO auction)
     {
+        Auction auction1 = this.auctionRepository.findAuctionByAuctionid(auction.getId());
+        List<FavoriteAuction> favs =  this.favAuctionRepository.findFavoriteAuctionByAuctionByAuctionid(auction1) ;
+        if(favs!= null){
+            for(FavoriteAuction fav : favs){
+                this.favAuctionRepository.delete(fav);
+            }
+        }
+
+        List<PurchasedAuction> purchaseds =  this.purchasedAuctionRepository.findPurchasedAuctionByAuctionByAuctionid(auction1);
+        if(favs!= null){
+            for(PurchasedAuction purs : purchaseds){
+                this.purchasedAuctionRepository.delete(purs);
+            }
+        }
+
+        List<Bid> bids = this.bidRepository.findBidByAuctionByAuctionid(auction1);
+        if(bids!= null){
+            for(Bid bid : bids){
+                this.bidRepository.delete(bid);
+            }
+        }
+
         auctionRepository.delete(toDAO(auction));
     }
 
@@ -249,5 +308,21 @@ public class AuctionService {
     }
 
 
+    public CategoryRepository getCategoryRepository() {
+        return categoryRepository;
+    }
+    @Autowired
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
+    public PurchasedAuctionRepository getPurchasedAuctionRepository() {
+        return purchasedAuctionRepository;
+    }
+
+    @Autowired
+    public void setPurchasedAuctionRepository(PurchasedAuctionRepository purchasedAuctionRepository) {
+        this.purchasedAuctionRepository = purchasedAuctionRepository;
+    }
 }
 

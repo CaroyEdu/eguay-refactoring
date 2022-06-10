@@ -38,6 +38,9 @@
          Descripción:<form:input path="description" /><br/>
             URL Foto:<form:input path="fotourl" /><br/>
             Precio Inicial:<form:input path="startPrice" />        <br/>
+            CategoriaDTO:<form:select path="auctionCategory" >
+                <form:options items="${categoryList}" itemLabel="name" itemValue="id"  ></form:options>
+        </form:select>
 
             <form:hidden path="id" ></form:hidden>
         <br/>

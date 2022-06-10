@@ -15,4 +15,6 @@ public interface FavAuctionRepository extends JpaRepository<FavoriteAuction , Lo
 
     @Query("select f from FavoriteAuction f where f.auctionByAuctionid = :auctionid and f.usersByUserid = :userid")
     public List<FavoriteAuction> FindFavoriteAuctionOfUser(@Param("auctionid") Auction auctionid ,@Param("userid") User userid);
+
+    public List<FavoriteAuction> findFavoriteAuctionByAuctionByAuctionid(Auction auction);
 }

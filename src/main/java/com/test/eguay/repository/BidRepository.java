@@ -15,5 +15,7 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
     @Query("SELECT bi FROM Bid bi where bi.bidid = ( SELECT MAX(bii.bidid) from Bid bii WHERE bii.auctionByAuctionid = :auction) ")
     public List<Bid> findHighestBid(@Param("auction") Auction auction );
 
+    public List<Bid> findBidByAuctionByAuctionid(Auction auction);
+
 
 }

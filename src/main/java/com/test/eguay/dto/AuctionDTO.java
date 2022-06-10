@@ -24,6 +24,11 @@ public class AuctionDTO {
     private List<UserDTO> userList;
     private Long sellerID;
     private Long categoryId;
+    private Long auctionCategory;
+
+
+
+
 
     // Relationships
     private String seller;
@@ -173,6 +178,14 @@ public class AuctionDTO {
 
     public void setSeller(String seller) {
         this.seller = seller;
+    }
+
+    public Long getAuctionCategory() {
+        return auctionCategory;
+    }
+
+    public void setAuctionCategory(Long auctionCategory) {
+        this.auctionCategory = auctionCategory;
     }
 
     @Override

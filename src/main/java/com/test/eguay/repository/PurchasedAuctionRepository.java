@@ -16,4 +16,6 @@ public interface PurchasedAuctionRepository extends JpaRepository<PurchasedAucti
 
     @Query("select p from PurchasedAuction p where p.auctionByAuctionid = :auctionid and p.usersByUserid = :userid")
     public List<PurchasedAuction> FindPurchasedAuctionOfUser(@Param("auctionid") Auction auctionid , @Param("userid") User userid);
+
+    public List<PurchasedAuction> findPurchasedAuctionByAuctionByAuctionid(Auction id);
 }

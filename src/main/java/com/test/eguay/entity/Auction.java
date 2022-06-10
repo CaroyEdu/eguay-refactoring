@@ -274,6 +274,7 @@ public class Auction {
         dto.setCategoryId(auctioncategoriesByAuctionid.get(0).getCategoryid());
 
         dto.setSeller(String.format("%s %s", usersBySellerid.getName(), usersBySellerid.getSurname()));
+        dto.setAuctionCategory(auctioncategoriesByAuctionid.get(0).getCategoryid());
 
         return dto;
     }
