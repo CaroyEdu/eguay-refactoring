@@ -16,6 +16,7 @@
 <h1>Nuevo Grupo</h1>
 <form:form modelAttribute="group" action="/group/new">
     Nombre: <form:input path="name" id="name"/>
+    <form:errors path="name"/>
     <table>
         <tr>
             <th>Nombre de usuario</th>

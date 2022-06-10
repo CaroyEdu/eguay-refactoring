@@ -29,9 +29,8 @@
                 if (user != null) {
             %>
             <% if(user.isMarketing()) { %>
-            <li><a href="ShowMailbox">Correo</a></li>
-            <li><a href="ShowGroupList">Lista de Grupos</a></li>
-            <li><a href="ShowSendMailPage">Enviar Correo</a></li>
+            <li><a href="/mail">Correo</a></li>
+            <li><a href="/group">Grupos</a></li>
             <% } %>
             <% if(user.isAdmin()) { %>
             <li><a href="Admin/Usuarios">Dashboard</a></li>
