@@ -185,26 +185,4 @@ public class UserDTO {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final UserDTO other = (UserDTO) obj;
-        return Objects.equals(this.id, other.id);
-    }
 }

@@ -11,7 +11,7 @@ public class GroupDTO {
     private String name;
 
     // Relationships
-    private List<UserDTO> users;
+    private List<Integer> userIds;
 
     public GroupDTO() {}
 
@@ -31,11 +31,11 @@ public class GroupDTO {
         this.name = name;
     }
 
-    public List<UserDTO> getUsers() {
-        return users;
+    public List<Integer> getUserIds() {
+        return userIds;
     }
 
-    public void setUsers(List<UserDTO> users) {
-        this.users = users;
+    public void setUserIds(List<Integer> userIds) {
+        this.userIds = userIds;
     }
 }

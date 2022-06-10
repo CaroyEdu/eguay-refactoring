@@ -28,7 +28,7 @@
         </tr>
         <c:forEach var="group" items="${groups}">
             <tr>
-                <td><a href="/group/${group.id}">${group.name}</a></td>
+                <td><a href="/group/${group.id}/edit">${group.name}</a></td>
                 <td><input type="checkbox" name="checked" value="${group.id}"/></td>
             </tr>
         </c:forEach>

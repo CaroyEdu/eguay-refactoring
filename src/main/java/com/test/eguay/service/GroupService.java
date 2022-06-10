@@ -40,13 +40,15 @@ public class GroupService {
 
     public void delete(long[] ids) {
         for (long id : ids){
+            this.userGroupsRepository.deleteAllByGroupid(id);
             this.groupRepository.deleteByGroupid(id);
         }
     }
 
-    public void create(String name, int[] userIds) {
+    public void save(GroupDTO groupDTO, int[] userIds) {
         Group group = new Group();
-        group.setName(name);
+        group.setGroupid(groupDTO.getId());
+        group.setName(groupDTO.getName());
         this.groupRepository.save(group);
 
         UserGroups relationship;
@@ -56,5 +58,9 @@ public class GroupService {
             relationship.setUserid((long) id);
             this.userGroupsRepository.save(relationship);
         }
+    }
+
+    public GroupDTO get(long id) {
+        return this.groupRepository.getById(id).toDtoLinked();
     }
 }

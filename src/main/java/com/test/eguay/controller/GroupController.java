@@ -53,8 +53,24 @@ public class GroupController {
     }
 
     @PostMapping("new")
-    public String doShowNew(@ModelAttribute("group") GroupDTO group, @RequestParam("checked") int[] userIds){
-        this.groupService.create(group.getName(), userIds);
+    public String doNew(@ModelAttribute("group") GroupDTO group, @RequestParam("checked") int[] userIds){
+        return doSave(group, userIds);
+    }
+
+    private String doSave(GroupDTO group, int[] userIds) {
+        this.groupService.save(group, userIds);
         return "redirect:/group";
+    }
+
+    @GetMapping("{id}/edit")
+    public String doShowEdit(Model model, @PathVariable("id") long id){
+        model.addAttribute("group", this.groupService.get(id));
+        model.addAttribute("users", this.userService.getAll());
+        return "/group/edit";
+    }
+
+    @PostMapping("edit")
+    public String doEdit(@ModelAttribute("group") GroupDTO group, @RequestParam("checked") int[] userIds){
+        return doSave(group, userIds);
     }
 }

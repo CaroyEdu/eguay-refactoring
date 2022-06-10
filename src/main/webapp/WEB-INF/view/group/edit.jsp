@@ -10,11 +10,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Nuevo Grupo</title>
+    <title>Editar Grupo</title>
 </head>
 <body>
-<h1>Nuevo Grupo</h1>
-<form:form modelAttribute="group" action="/group/${group.id}/edit">
+<h1>Editar Grupo</h1>
+<form:form modelAttribute="group" action="/group/edit">
+    <form:hidden path="id"/>
     Nombre: <form:input path="name" id="name"/>
     <table>
         <tr>
@@ -24,11 +25,11 @@
         <c:forEach var="user" items="${users}">
             <tr>
                 <td>${user.username}</td>
-                <td><input type="checkbox" name="checked" value="${user.id}"/></td>
+                <td><input type="checkbox" name="checked" value="${user.id}" ${group.userIds.contains(user.id) ? "checked": ""}/></td>
             </tr>
         </c:forEach>
     </table>
-    <form:button>Crear</form:button>
+    <form:button>Editar</form:button>
 </form:form>
 <script>
     $("#name").attr('required', '');

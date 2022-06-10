@@ -73,7 +73,7 @@ public class Group {
 
     public GroupDTO toDtoLinked() {
         GroupDTO dto = this.toDto();
-        dto.setUsers(this.usersgroupsByGroupid.stream().map(userGroups -> userGroups.getUsersByUserid().toDtoLinked()).collect(Collectors.toList()));
+        dto.setUserIds(this.usersgroupsByGroupid.stream().map(userGroups -> userGroups.getUsersByUserid().getUserid()).collect(Collectors.toList()));
         return dto;
     }
 
