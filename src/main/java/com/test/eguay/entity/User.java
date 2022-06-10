@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "da1knun38jg1va")
@@ -291,6 +292,7 @@ public class User {
         userDTO.setUsername(this.username);
         userDTO.setName(this.name);
         userDTO.setUserAuctions(Auction.toDTO(auctionsByUserid));
+        userDTO.setIsMarketing(isMarketing());
 
         //relations ( dummy )
         List<Category> categoryList = new ArrayList<>();
@@ -306,5 +308,22 @@ public class User {
 //
 
         return userDTO;
+    }
+
+    private boolean isMarketing(){
+        return this.username.equals("marketing"); //hasRole("marketing");
+    }
+
+    private boolean hasRole (String rol) {
+        // No funciona debido a que la consulta sql no detecta la relacion y no sé por qué
+        boolean isRol =
+                this.usersrolsByUserid != null &&
+                !this.usersrolsByUserid.isEmpty() &&
+                this.usersrolsByUserid
+                    .stream()
+                    .map(userRol -> userRol.getRolByRolid().getName())
+                    .collect(Collectors.toList())
+                    .contains(rol);
+        return isRol;
     }
 }

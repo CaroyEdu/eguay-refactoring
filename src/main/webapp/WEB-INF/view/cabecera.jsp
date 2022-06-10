@@ -28,15 +28,15 @@
             <%
                 if (user != null) {
             %>
-            <% if(user.isAdmin()) { %>
-            <li><a href="Admin/Usuarios">Dashboard</a></li>
-            <% } %>
-            <li><a href="addAuction">Añadir Subasta</a></li>
             <% if(user.isMarketing()) { %>
             <li><a href="ShowMailbox">Correo</a></li>
             <li><a href="ShowGroupList">Lista de Grupos</a></li>
             <li><a href="ShowSendMailPage">Enviar Correo</a></li>
             <% } %>
+            <% if(user.isAdmin()) { %>
+            <li><a href="Admin/Usuarios">Dashboard</a></li>
+            <% } %>
+            <li><a href="addAuction">Añadir Subasta</a></li>
             <li><a href="profile">Mi Perfil</a>
             <li><a href="Disconnect" style="font-weight: bold; color: red">Desconexión</a></li>
             <%
