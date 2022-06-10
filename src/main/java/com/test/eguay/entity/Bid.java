@@ -1,6 +1,5 @@
 package com.test.eguay.entity;
 
-import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.dto.BidDTO;
 
 import javax.persistence.*;
@@ -105,7 +104,7 @@ public class Bid {
         bidDTO.setBid(this.bid);
         bidDTO.setBidid(this.bidid);
         bidDTO.setAuctionByAuctionid(this.getAuctionByAuctionid().toDTO());
-        bidDTO.setUsersByBiderid(this.usersByBiderid.toDTO());
+        bidDTO.setUsersByBiderid(this.usersByBiderid.toDtoLinked());
         return bidDTO;
     }
 }

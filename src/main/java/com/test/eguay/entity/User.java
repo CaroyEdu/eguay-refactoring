@@ -2,13 +2,12 @@ package com.test.eguay.entity;
 
 import com.test.eguay.dto.UserDTO;
 import com.test.eguay.service.CategoryService;
-import com.test.eguay.service.UserService;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "da1knun38jg1va")
@@ -277,34 +276,51 @@ public class User {
         this.usersrolsByUserid = usersrolsByUserid;
     }
 
-    public UserDTO toDTO() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setBirthyear(this.birthyear);
-        userDTO.setAddress(this.address);
-        userDTO.setCity(this.city);
-        userDTO.setPassword(this.password);
-        userDTO.setCountry(this.country);
-        userDTO.setEmail(this.email);
-        userDTO.setId(this.userid);
-        userDTO.setSex(this.sex);
-        userDTO.setSurname(this.surname);
-        userDTO.setUsername(this.username);
-        userDTO.setName(this.name);
-        userDTO.setUserAuctions(Auction.toDTO(auctionsByUserid));
+    public UserDTO toDtoLinked() {
+        UserDTO userDTO = this.toDto();
 
-        //relations ( dummy )
+        userDTO.setUserAuctions(Auction.toDTO(auctionsByUserid));
         List<Category> categoryList = new ArrayList<>();
         Category categoryFav = new Category();
         categoryList.add(categoryFav);
         userDTO.setFavCategories(CategoryService.toDTO(categoryList));
 
-//        List<Auction> favAuction = new ArrayList<>();
-//        Auction auction = new Auction();
-//        favAuction.add(auction);
-//        userDTO.setFavAuctions(Auction.toDTO(favAuction));
-
-//
-
         return userDTO;
+    }
+
+    public UserDTO toDto(){
+        UserDTO dto = new UserDTO();
+
+        dto.setBirthyear(this.birthyear);
+        dto.setAddress(this.address);
+        dto.setCity(this.city);
+        dto.setPassword(this.password);
+        dto.setCountry(this.country);
+        dto.setEmail(this.email);
+        dto.setId(this.userid);
+        dto.setSex(this.sex);
+        dto.setSurname(this.surname);
+        dto.setUsername(this.username);
+        dto.setName(this.name);
+        dto.setIsMarketing(isMarketing());
+
+        return dto;
+    }
+
+    private boolean isMarketing(){
+        return this.username.equals("marketing"); //hasRole("marketing");
+    }
+
+    private boolean hasRole (String rol) {
+        // No funciona debido a que la consulta sql no detecta la relacion y no sé por qué
+        boolean isRol =
+                this.usersrolsByUserid != null &&
+                !this.usersrolsByUserid.isEmpty() &&
+                this.usersrolsByUserid
+                    .stream()
+                    .map(userRol -> userRol.getRolByRolid().getName())
+                    .collect(Collectors.toList())
+                    .contains(rol);
+        return isRol;
     }
 }

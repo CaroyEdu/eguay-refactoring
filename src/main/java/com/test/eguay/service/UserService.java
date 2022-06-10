@@ -8,11 +8,10 @@ import com.test.eguay.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -97,7 +96,7 @@ public class UserService {
         User user = this.userRepository.findUserByusernameAndPassword(username, password);
         if(user != null)
         {
-            return user.toDTO();
+            return user.toDtoLinked();
         }else{
             return null;
         }
@@ -497,6 +496,10 @@ public class UserService {
     @Autowired
     public void setUserCategoryRepository(UserCategoryRepository userCategoryRepository) {
         this.userCategoryRepository = userCategoryRepository;
+    }
+
+    public List<UserDTO> getAll() {
+        return this.userRepository.findAll().stream().map(user -> user.toDto()).collect(Collectors.toList());
     }
 //
 //    public void AddAuctionToOwner(UserDTO userDto, AuctionDTO auctionDto) {

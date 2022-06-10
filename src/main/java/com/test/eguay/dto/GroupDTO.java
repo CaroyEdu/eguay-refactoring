@@ -1,5 +1,6 @@
 package com.test.eguay.dto;
 
+import java.util.List;
 import java.util.Objects;
 
 public class GroupDTO {
@@ -8,6 +9,11 @@ public class GroupDTO {
 
     // Conceptual
     private String name;
+
+    // Relationships
+    private List<Integer> userIds;
+
+    public GroupDTO() {}
 
     public Long getId() {
         return id;
@@ -25,18 +31,11 @@ public class GroupDTO {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final GroupDTO other = (GroupDTO) obj;
-        return Objects.equals(this.id, other.getId());
+    public List<Integer> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<Integer> userIds) {
+        this.userIds = userIds;
     }
 }
