@@ -290,6 +290,14 @@ public class UserService {
 
     public void addFavCategories(UserDTO userDTO , List<String>categoryIds){
         User user = this.userRepository.findUserByUserid(userDTO.getId());
+        List<UserCategory> existentCategories = this.userCategoryRepository.findAllByUsersByUserid(user);
+
+        if(existentCategories != null || !existentCategories.isEmpty()){
+            for(UserCategory userCategory : existentCategories ){
+                this.userCategoryRepository.delete(userCategory);
+            }
+        }
+
         for(String categoryID : categoryIds){
             Long catId = Long.valueOf(categoryID);
             List<UserCategory> categoryList = this.userCategoryRepository.findAllFavUserCategories(catId ,user);

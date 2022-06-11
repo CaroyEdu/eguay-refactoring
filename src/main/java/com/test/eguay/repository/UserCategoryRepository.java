@@ -15,4 +15,6 @@ public interface UserCategoryRepository extends JpaRepository<UserCategory, Long
 
     @Query("select c from UserCategory c where c.categoryid = :categoryId AND c.usersByUserid <> :user")
     public List<UserCategory> findAllFavUserCategories(@Param("categoryId") long categoryId , @Param("user") User user);
+
+    public List<UserCategory> findAllByUsersByUserid(User Userid);
 }
