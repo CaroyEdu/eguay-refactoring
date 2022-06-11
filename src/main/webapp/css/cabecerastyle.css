@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 .container{
     position: relative;
@@ -86,19 +86,27 @@ a:hover
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 300px;
-    margin: auto;
-    text-align: center;
-    font-family: arial;
-  }
-  
-  .price {
-    color: red;
-    font-size: 24px;
   }
 
-  .description{
-      font-size: 12px;
+.card-title{
+    margin: 15px 0px 0px 15px;
+    font-weight: bold;
+}
+
+.card-description{
+    margin: 15px 0px 0px 17px;
+    font-weight: lighter;
+    font-size: 12px;
+}
+  
+  .card-price {
+    color: red;
+    font-size: 24px;
+      margin: 15px 0px 0px 15px;
+  }
+
+  .card-emoji{
+      margin: 15px 0px 0px 15px;
   }
   
   .card button {
@@ -120,21 +128,38 @@ a:hover
   .flex-container {
     margin: 20px 100px 0 100px;
     display: flex;
-    background-color: burlywood;
-    justify-content: center;
   }
   
   .flex-container > div {
     background-color: white;
-    margin: 10px;
-    padding: 20px;
+      margin: 0px 25px 0px 0px;
     font-size: 30px;
+      max-height: 325px;
+      min-height: 325px;
+      max-width: 200px;
+      min-width: 200px;
   }
 
   .title{
-      text-align: center;
+      color: #333;
+      margin-left: 100px;
       margin-top: 25px;
       font-size: 24px;
+      font-weight: bold;
+  }
+
+  .title-description{
+      color: #333;
+      margin-left: 100px;
+  }
+
+  .card-countdown{
+      position: absolute;
+      color: #333;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 11px;
+      text-align: center;
   }
   
   .form-add{
@@ -148,3 +173,39 @@ a:hover
   .table-cell{
       display: table-cell;
   }
+
+.product-bottom-details {
+    overflow: hidden;
+    padding-top: 20px;
+}
+
+.product-price {
+    font-size: 18px;
+    margin-left: 15px;
+    color: #fbb72c;
+    font-weight: 600;
+}
+
+.product-price small {
+    font-size: 80%;
+    font-weight: 400;
+    text-decoration: line-through;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.product-links {
+    text-align: right;
+    margin: 5px 15px 15px 15px;
+}
+
+.product-links a {
+    display: inline-block;
+    color: #e1e1e1;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.product-links a:hover {
+    color: #fbb72c;
+}

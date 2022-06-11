@@ -30,8 +30,9 @@
 %>
 
 <body>
-<div class="title">
-    <p>¡Últimos productos!</p>
+<div>
+    <h2 class="title">Últimos productos</h2>
+    <p class="title-description">Aquí tendrás una lista de los últimos productos publicados en Eguay</p>
 </div>
 <%
     int cantidad = 0;
@@ -57,37 +58,41 @@
         <% }else { %>
         <img src="img/placeholder.png" style="width:100%; height: 50%">
         <% } %>
-        <% if(user != null) { %>
-        <h4><a href="/showAuction/<%= a.getId()%>"><%= a.getName() %></a></h4>
-        <% }else {  %>
-        <h4><a href="LoginServlet"><%= a.getName() %></a></h4>
-        <% } %>
-        <p class="description" style="margin: 5px"><%= a.getName() %></p>
-        <hr style="margin: 5px">
-        <p class="price">Precio Inicial: <%= a.getStartPrice() %>€</p>
-        <hr style="margin: 5px">
-        <% if(a.getCloseDate()!=null)
-        { %>
-        <p class="description" id="cd_<%= closeDate %>"></p>
-        <% } %>
-        <% if(a.getCloseNumberofBids()!=null)
-        { %>
-        <p class="description">¡Sólo quedan <%= a.getCloseNumberofBids() %> pujas disponibles!</p>
-        <% } %>
-        <% if(a.getClosePrice()!=null)
-        { %>
-        <p class="description" >¡Puja <%= a.getClosePrice() %>€ y te lo llevas!</p>
-        <% } if(user != null) { %>
-        <% if(auctionFavList != null && auctionFavList.contains(a)){ %>
-            <a href="/deleteFav/<%= a.getId() %>">Delete Favorite</a>
-        <% }else { %>
-            <a href="/addFav/<%= a.getId() %>">Add Favorite</a>
-        <% } %>
-        <% } %>
+        <p class="card-title"><a href="/showAuction/<%= a.getId()%>"><%= a.getName() %></a></p>
+        <p class="card-description"><%= a.getDescription() %></p>
+        <div class="product-bottom-details">
+            <%
+                if(a.getMaxBid()!=null){
+            %>
+            <div class="product-price"><small><%=a.getStartPrice()%></small><%=a.getMaxBid()%>
+            <%
+                }else{
+            %>
+            <div class="product-price"><%=a.getStartPrice()%>
+            <%
+                }
+            %>
+                <% if(a.getCloseDate()!=null)
+                { %>
+                <p class="card-countdown" id="cd_<%= closeDate %>"></p>
+                <% } %>
+                <div class="product-links">
+                    <% if(user != null) { %>
+                    <% if(auctionFavList != null && auctionFavList.contains(a)){ %>
+                    <a href="/deleteFav/<%= a.getId() %>">💔<i class="fa fa-heart"></i></a>
+                    <% }else { %>
+                    <a href="/addFav/<%= a.getId() %>">❤️<i class="fa fa-shopping-cart"></i></a>
+                    <% } %>
+                    <% } %>
+                    <a href="/showAuction/<%= a.getId()%>">🛒<i class="fa fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+
 </div>
 <%
     cantidad++;
-    if(cantidad == 4)
+    if(cantidad == 6)
     {
 %>
 </div>
