@@ -76,14 +76,14 @@ public class AuctionService {
 
     // Auxiliary functions
     public List<AuctionDTO> filterAuction(String filter){
-        List<Auction> auctions ;
-        if(filter == null || filter.isEmpty())
+        List<Auction> auctions = new ArrayList<>();
+        if(filter!=null && filter.length()>0)
         {
-            auctions = this.auctionRepository.findAll();
+            auctions = this.auctionRepository.findBySimilarTitle(filter);
         }
         else
         {
-            auctions = this.auctionRepository.findAuctionsByTitle(filter);
+            auctions = this.auctionRepository.findAll();
         }
         return AuctionService.toDTO(auctions);
     }

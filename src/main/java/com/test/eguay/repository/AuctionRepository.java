@@ -2,6 +2,8 @@ package com.test.eguay.repository;
 
 import com.test.eguay.entity.Auction;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,7 +11,8 @@ import java.util.List;
 @Repository
 public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
-    public List<Auction> findAuctionsByTitle(String title);
+    @Query("SELECT a FROM Auction a WHERE a.title LIKE CONCAT('%', :title, '%')")
+    public List<Auction> findBySimilarTitle (@Param("title") String title);
 
     public List<Auction> findAuctionByTitleAndSellerid(String title, int userid);
 
