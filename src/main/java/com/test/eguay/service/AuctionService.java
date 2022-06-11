@@ -232,7 +232,7 @@ public class AuctionService {
         List<Bid> highestBids = this.bidRepository.findHighestBid(auction);
         Bid bid = null;
         BidDTO returnBid = null ;
-        if(highestBids != null){
+        if(highestBids != null && !highestBids.isEmpty()){
             bid = highestBids.get(0);
             returnBid = bid.toDTO();
         }
