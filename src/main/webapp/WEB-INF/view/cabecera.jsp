@@ -15,13 +15,13 @@
 <html>
 <head>
     <link rel="stylesheet" href="../css/cabecerastyle.css"/>
-    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
 </head>
 
 <body>
 <div class="container">
     <div class="logo">
-        <a href="/"><img src="img/logo.png" width="125px"></a>
+        <a href="/"><img src="../img/logo.png" width="125px"></a>
     </div>
     <nav class="nav">
         <ul>

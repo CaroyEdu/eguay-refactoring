@@ -64,11 +64,11 @@
             <%
                 if(a.getMaxBid()!=null){
             %>
-            <div class="product-price"><small><%=a.getStartPrice()%></small><%=a.getMaxBid()%>
+            <div class="product-price"><small><%=a.getStartPrice()%>€</small><%=a.getMaxBid()%>€
             <%
                 }else{
             %>
-            <div class="product-price"><%=a.getStartPrice()%>
+            <div class="product-price"><%=a.getStartPrice()%>€
             <%
                 }
             %>

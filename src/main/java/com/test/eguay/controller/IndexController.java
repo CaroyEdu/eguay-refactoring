@@ -111,6 +111,8 @@ public class IndexController {
 
     @GetMapping("/showAuction/{id}")
     public String showAuction(Model model, @PathVariable("id") Long id){
+        List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
+        model.addAttribute("categoryList", categoryList);
         AuctionDTO auctionDTO = this.auctionService.findById(id);
         model.addAttribute("auction",auctionDTO);
         return "product";

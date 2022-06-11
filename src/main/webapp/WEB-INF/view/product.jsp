@@ -13,8 +13,11 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>EGUAY</title>
+    <title>EGUAY - Producto</title>
 </head>
+
+<jsp:include page="userConnectedCheck.jsp"/>
+<jsp:include page="cabecera.jsp"/>
 
 <%
     AuctionDTO auction = (AuctionDTO) request.getAttribute("auction");
