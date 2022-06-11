@@ -7,7 +7,6 @@
 <%@page import="java.util.Locale"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page import="com.test.eguay.dto.AuctionDTO" %>
-<
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -32,24 +31,54 @@
 
 
 <body>
-<h1><%= auction.getName() %></h1>
-<img src="<%= auction.getFotourl() %>">
-<p>Cierre(s) de puja:</p>
-<% if(auction.getCloseDate()!=null)
-{ %>
-<p class="description" id="cd_<%= closeDate %>"></p>
-<% } %>
-<% if(auction.getCloseNumberofBids()!=null)
-{ %>
-<p class="description">¡Sólo quedan <%= auction.getCloseNumberofBids() %> pujas disponibles!</p>
-<% } %>
-<% if(auction.getClosePrice()!=null)
-{ %>
-<p class="description" >¡Puja <%= auction.getClosePrice() %>$ y te lo llevas!</p>
-<% } %>
-<button onclick="window.location.href='/showAuction/purchaseAuction/<%= auction.getId() %>';">
-    Puja Directa</button>
-<button onclick="window.location.href='/showAuction/submitBid/<%= auction.getId() %>';"> Puja </button>
+<div class="product-container">
+    <div class="col">
+        <img src="<%= auction.getFotourl() %>" style="width: 100%; height: 100%">
+    </div>
+    <div class="col">
+        <h1><%= auction.getName() %></h1>
+        <p><%=auction.getDescription()%></p>
+        <%if(auction.getActualBid()!=null){%>
+        <label style="margin-left: 15px">Puja Actual: </label><label style="font-size:18px;font-weight: bold;color: #fbb72c;"><%=auction.getActualBid()%>€</label><br/><br/>
+        <%
+            }else{
+        %>
+        <label style="margin-left: 15px">Puja Actual: </label><label style="font-size:18px;font-weight: bold;color: #fbb72c;"><%=auction.getStartPrice()%>€</label><br/><br/>
+        <%
+            }
+        %>
+        <label style="font-weight: bold; margin-left: 15px">Disponibilidad:</label>
+        <%if(auction.isActive()){%>
+        <label style="color: green">En Stock</label>
+        <%
+            }else{
+        %>
+        <label style="color: red">Fuera de Stock</label>
+        <%
+            }
+        %>
+        <br/>
+        <label style="font-weight: bold; margin-left: 15px">Vendedor:</label> <%=auction.getSeller()%>
+        <p>Opciones de cierre de puja:</p>
+        <% if(auction.getCloseDate()!=null)
+        { %>
+        <p id="cd_<%= closeDate %>" style="color:#c82333; font-weight: bold"></p>
+        <% } %>
+        <% if(auction.getCloseNumberofBids()!=null)
+        { %>
+        <p style="font-weight: bold">¡Sólo quedan <%= auction.getCloseNumberofBids() %> pujas disponibles!</p>
+        <% } %>
+        <% if(auction.getClosePrice()!=null)
+        { %>
+        <p style="font-weight: bold">¡Puja <%= auction.getClosePrice() %>$ y te lo llevas!</p>
+        <% } %>
+        <div style="margin: 25px 0px 0px 75px">
+            <button class="button-53" onclick="window.location.href='/showAuction/purchaseAuction/<%= auction.getId() %>';">
+                Puja Directa</button>
+            <button class="button-53" onclick="window.location.href='/showAuction/submitBid/<%= auction.getId() %>';"> Añadir Puja </button>
+        </div>
+    </div>
+</div>
 
 
 <script>

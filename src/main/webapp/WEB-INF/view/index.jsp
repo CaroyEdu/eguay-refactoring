@@ -62,9 +62,9 @@
         <p class="card-description"><%= a.getDescription() %></p>
         <div class="product-bottom-details">
             <%
-                if(a.getMaxBid()!=null){
+                if(a.getActualBid()!=null){
             %>
-            <div class="product-price"><small><%=a.getStartPrice()%>€</small><%=a.getMaxBid()%>€
+            <div class="product-price"><small><%=a.getStartPrice()%>€</small><%=a.getActualBid()%>€
             <%
                 }else{
             %>

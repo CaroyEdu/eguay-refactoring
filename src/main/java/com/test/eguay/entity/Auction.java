@@ -261,6 +261,13 @@ public class Auction {
         dto.setMaxBid(maxbid);
         dto.setStartDate(startdate);
         dto.setFotourl(fotourl);
+        if(this.getBidsByAuctionid().size()>0){
+            double bid = 0;
+            for(Bid b : this.getBidsByAuctionid()){
+                bid = b.getBid();
+            }
+            dto.setActualBid(bid);
+        }
         List<Category> categoryList = new ArrayList<>();
         Category category = new Category();
         List<AuctionCategory> ac = this.getAuctioncategoriesByAuctionid();
