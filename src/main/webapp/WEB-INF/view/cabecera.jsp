@@ -14,14 +14,14 @@
 %>
 <html>
 <head>
-    <link rel="stylesheet" href="../css/cabecerastyle.css"/>
-    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <link rel="stylesheet" href="/css/cabecerastyle.css"/>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 </head>
 
 <body>
 <div class="container">
     <div class="logo">
-        <a href="/"><img src="../img/logo.png" width="125px"></a>
+        <a href="/"><img src="/img/logo.png" width="125px"></a>
     </div>
     <nav class="nav">
         <ul>
@@ -33,16 +33,16 @@
             <li><a href="/group">Grupos</a></li>
             <% } %>
             <% if(user.isAdmin()) { %>
-            <li><a href="Admin/Usuarios">Dashboard</a></li>
+            <li><a href="/Admin/Usuarios">Dashboard</a></li>
             <% } %>
-            <li><a href="../addAuction">Añadir Subasta</a></li>
-            <li><a href="../profile">Mi Perfil</a>
-            <li><a href="../Disconnect" style="font-weight: bold; color: red">Desconexión</a></li>
+            <li><a href="/addAuction">Añadir Subasta</a></li>
+            <li><a href="/profile">Mi Perfil</a>
+            <li><a href="/Disconnect" style="font-weight: bold; color: red">Desconexión</a></li>
             <%
             } else {
             %>
-            <li><a href="login">Login</a></li>
-            <li><a href="signup">Registrar</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/signup">Registrar</a></li>
             <%
                 }
             %>
