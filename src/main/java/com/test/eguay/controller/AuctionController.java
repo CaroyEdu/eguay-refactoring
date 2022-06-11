@@ -125,11 +125,11 @@ public class AuctionController {
     @GetMapping("/editAuction/{id}/")
     public String doEdit(Model model , @PathVariable("id") long id ){
         AuctionDTO auction = this.auctionService.findById(id);
-        List<CategoryDTO> categoryDTOS = this.categoryService.getAllCategories();
         model.addAttribute("auction" , auction);
+
         List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
         model.addAttribute("categoryList", categoryList);
-        return "editAuction";
+        return "addEditAuction";
     }
     @PostMapping("/editSelectedAuction")
     public String editSelectedAuction(Model model, @ModelAttribute("auction") AuctionDTO auctionDTO){
@@ -201,6 +201,82 @@ public class AuctionController {
         // Creamos/Editamos el objeto y lo insertamos en la base de datos
         auction.setActive(Boolean.TRUE);
         auctionService.createAuction(auction);
+
+        List<AuctionDTO> usersSubmitedAuctions = user.getPurchasedAuction();
+        if(usersSubmitedAuctions == null) usersSubmitedAuctions = new ArrayList();
+        usersSubmitedAuctions.add(auction);
+        user.setPurchasedAuction(usersSubmitedAuctions);
+
+        // Una vez creado e insertado el objeto, nos volvemos a la página de inicio
+        return "redirect:/";
+    }
+
+    @PostMapping("/editAuction/{id}/insertAuction")
+    public String goEditAuction(Model model, HttpSession session, @RequestParam("title") String title,
+                                  @RequestParam(name="description", required = false) String description, @RequestParam(name="fotourl", required = false) String fotourl,
+                                  @RequestParam("startprice") Float startPrice, @RequestParam(name="checkBoxClosePrice", required = false) String checkBCP,
+                                  @RequestParam(name="inputClosePrice", required = false) String inputClosePrice,
+                                  @RequestParam(name="checkBoxCloseNumberOfBids", required = false) String checkBCNOB,
+                                  @RequestParam(name="inputCloseNumberOfBids", required = false) String inputCloseNumberOfBids,
+                                  @RequestParam(name="checkBoxCloseDate", required = false) String checkBCD,
+                                  @RequestParam(name="inputCloseDate", required = false) String inputCloseDate,
+                                  @RequestParam(name="inputCloseDateTime", required = false) String inputCloseDateTime,
+                                  @RequestParam("category") String category, @PathVariable("id") Long id){
+
+        AuctionDTO auction = new AuctionDTO();
+
+        // Definimos el usuario, título, descrición, URL de la foto y precio inicial
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        auction.setSellerID(Long.parseLong(user.getId().toString()));
+        auction.setId(id);
+        auction.setName(title);
+        auction.setDescription(description);
+        auction.setFotourl(fotourl);
+        auction.setStartPrice(startPrice);
+        if(checkBCP != null && checkBCP.equals("on"))
+        {
+            if(!inputClosePrice.equals(""))
+            {
+                auction.setClosePrice(Float.parseFloat(inputClosePrice));
+            }
+        }
+
+        if(checkBCNOB != null && checkBCNOB.equals("on"))
+        {
+            if(!inputCloseNumberOfBids.equals(""))
+            {
+                auction.setCloseNumberofBids(Integer.parseInt(inputCloseNumberOfBids));
+            }
+        }
+
+        if(checkBCD != null && checkBCD.equals("on"))
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            String dateInString = inputCloseDate + " " + inputCloseDateTime + ":00";
+            try {
+                Date date = sdf.parse(dateInString);
+                auction.setCloseDate(date);
+            } catch (ParseException ex) {
+
+            }
+        }
+
+        // Conseguimos la fecha de hoy en formato yyyy/MM/dd
+        Calendar now = new GregorianCalendar();
+        Date nowDate = now.getTime();
+        auction.setStartDate(nowDate);
+        auction.setActive(true);
+
+        // Añadimos las diferentes categorías como una lista
+        List<CategoryDTO> categoryList = new ArrayList();
+        CategoryDTO cat = new CategoryDTO();
+        cat.setId(Long.parseLong(category));
+        categoryList.add(cat);
+        auction.setCategoryList(categoryList);
+
+        // Creamos/Editamos el objeto y lo insertamos en la base de datos
+        auction.setActive(Boolean.TRUE);
+        auctionService.editAuction(auction);
 
         List<AuctionDTO> usersSubmitedAuctions = user.getPurchasedAuction();
         if(usersSubmitedAuctions == null) usersSubmitedAuctions = new ArrayList();
