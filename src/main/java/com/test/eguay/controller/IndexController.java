@@ -121,7 +121,7 @@ public class IndexController {
         model.addAttribute("auction",auctionDTO);
         UserDTO user = (UserDTO) session.getAttribute("user");
         this.userService.purchaseAuction(user, auctionDTO);
-        return "redirect:/";
+        return "successful";
     }
     @GetMapping("/showAuction/submitBid/{id}")
     public String submitBid(Model model,HttpSession session, @PathVariable("id") Long id){
