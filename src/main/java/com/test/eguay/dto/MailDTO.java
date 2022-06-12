@@ -12,6 +12,7 @@ public class MailDTO {
     private String subject;
     private String body;
     private Date sentDate;
+    private String seller;
 
     // Relationships
     private List<AuctionDTO> auctions;
@@ -59,19 +60,12 @@ public class MailDTO {
         this.auctions = auctions;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final MailDTO other = (MailDTO) obj;
-        return Objects.equals(this.id, other.getId());
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 }
 

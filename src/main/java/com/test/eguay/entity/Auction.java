@@ -276,12 +276,12 @@ public class Auction {
         dto.setStartPrice(startprice);
 
         //dto.setUserList(UserService.toDTO(usersList));
+        dto.setSeller(this.usersBySellerid.getUsername());
         dto.setSellerID((long) usersBySellerid.getUserid());
         dto.setDescription(description);
         dto.setCategoryId(auctioncategoriesByAuctionid.get(0).getCategoryid());
-
-        dto.setSeller(String.format("%s %s", usersBySellerid.getName(), usersBySellerid.getSurname()));
         dto.setAuctionCategory(auctioncategoriesByAuctionid.get(0).getCategoryid());
+        dto.setCategory(this.auctioncategoriesByAuctionid.get(0).getCategoryByCategoryid().getName());
 
         return dto;
     }

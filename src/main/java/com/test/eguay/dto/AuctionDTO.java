@@ -26,6 +26,7 @@ public class AuctionDTO {
     private Long categoryId;
     private Long auctionCategory;
     private Double actualBid;
+    private String seller;
 
     public Double getActualBid() {
         return actualBid;
@@ -34,9 +35,6 @@ public class AuctionDTO {
     public void setActualBid(Double actualBid) {
         this.actualBid = actualBid;
     }
-
-    // Relationships
-    private String seller;
 
     public void setCategoryId(Long categoryID){
         this.categoryId = categoryID;
