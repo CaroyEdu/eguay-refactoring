@@ -18,6 +18,11 @@
     </style>
 </head>
 <body>
+<c:set var="marketing" value="marketing"/>
+<c:if test="${sessionScope.user == null || !sessionScope.user.username.equals(marketing) || sessionScope.categoryList == null || sessionScope.categoryList.size() == 0}">
+    <c:redirect url="/"/>
+</c:if>
+<jsp:include page="../cabecera.jsp"/>
 <h1>Enviar Correo</h1>
 
 <form:form modelAttribute="mail" action="/mail/new">

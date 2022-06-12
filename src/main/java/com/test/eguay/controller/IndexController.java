@@ -55,6 +55,7 @@ public class IndexController {
         List<AuctionDTO> auctionList = this.auctionService.filterAuction(filtro);
         List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
         List<AuctionDTO> auctionFavList = null;
+        session.setAttribute("categoryList", this.categoryService.getAllCategoriesDTO());
         UserDTO user = (UserDTO) session.getAttribute("user");
         if(user != null){
             auctionFavList = this.userService.showFavAuctions(user);

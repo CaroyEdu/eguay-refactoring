@@ -17,6 +17,10 @@
     </style>
 </head>
 <body>
+<c:if test="${sessionScope.user == null || sessionScope.categoryList == null || sessionScope.categoryList.size() == 0}">
+    <c:redirect url="/"/>
+</c:if>
+<jsp:include page="../cabecera.jsp"/>
 <h1>Bandeja de Correo</h1>
 <table>
     <tr>

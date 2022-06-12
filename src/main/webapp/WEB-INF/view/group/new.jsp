@@ -13,6 +13,11 @@
     <title>Nuevo Grupo</title>
 </head>
 <body>
+<c:set var="marketing" value="marketing"/>
+<c:if test="${sessionScope.user == null || !sessionScope.user.username.equals(marketing) || sessionScope.categoryList == null || sessionScope.categoryList.size() == 0}">
+    <c:redirect url="/"/>
+</c:if>
+<jsp:include page="../cabecera.jsp"/>
 <h1>Nuevo Grupo</h1>
 <form:form modelAttribute="group" action="/group/new">
     Nombre: <form:input path="name" id="name"/>

@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     UserDTO user = (UserDTO) session.getAttribute("user");
-    List<CategoryDTO> categoryList = (List) request.getAttribute("categoryList");
+    List<CategoryDTO> categoryList = (List) session.getAttribute("categoryList");
 %>
 <html>
 <head>
