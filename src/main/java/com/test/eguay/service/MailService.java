@@ -1,110 +1,104 @@
-//package com.test.eguay.service;
-//
-//import com.test.eguay.dto.MailDTO;
-//import com.test.eguay.dto.UserDTO;
-//import com.test.eguay.entity.Auction;
-//import com.test.eguay.entity.Group;
-//import com.test.eguay.entity.Mail;
-//import com.test.eguay.entity.User;
-//import com.test.eguay.repository.AuctionRepository;
-//import com.test.eguay.repository.GroupRepository;
-//import com.test.eguay.repository.MailRepository;
-//import com.test.eguay.repository.UserRepository;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//@Service
-//public class MailService {
-//    MailRepository mailRepository;
-//    AuctionRepository auctionRepository;
-//    GroupRepository groupRepository;
-//    UserRepository userRepository;
-//
-//    public List<MailDTO> getAllMails(Integer userId){
-//        return Mail.toDTO(mailFacade.findAllMailsToUser(userId));
-//    }
-//
-//    public List<MailDTO> getAllMails() {
-//        return Mail.toDTO(mailFacade.findAll());
-//    }
-//
-//    public void sendMailToGroup(UserDTO sender, String asunto, List<Long> auctionIds, List<Long> groupIds) {
-//        Mail mail = new Mail();
-//
-//        List<Auction> auctions = auctionFacade.findAll(auctionIds);
-//        List<Group> groups = groupsFacade.findAll(groupIds);
-//
-//
-//        mail.setSenderid(usersFacade.find(sender.getId()));
-//        mail.setSubject(asunto);
-//        mail.setBody(asunto);
-//        mail.setSentDate(new Date());
-//        mail.setAuctionList(auctions);
-//        mail.setGroupsList(groups);
-//
-//        mailFacade.create(mail);
-//
-//        addMailToAuctions(mail, auctions);
-//        addMailToGroups(mail, groups);
-//    }
-//
-//    public void sendMailToUsers(UserDTO sender, String asunto, List<Long> auctionIds, List<Integer> userIds) {
-//        Mail mail = new Mail();
-//
-//        List<Auction> auctions = auctionFacade.findAll(auctionIds);
-//        List<User> users = usersFacade.findAll(userIds);
-//
-//        mail.setSenderid(usersFacade.find(sender.getId()));
-//        mail.setSubject(asunto);
-//        mail.setBody(asunto);
-//        mail.setSentDate(new Date());
-//        mail.setAuctionList(auctions);
-//        mail.setUsersList(users);
-//
-//        mailFacade.create(mail);
-//
-//        addMailToAuctions(mail, auctions);
-//        addMailToUsers(mail, users);
-//    }
-//
-//    public void sendMailToAuctionWinner(String asunto, Long auctionId, Integer userId) {
-//        List<Long> auctionIdAsList = new ArrayList<>(1);
-//        auctionIdAsList.add(auctionId);
-//        List<Integer> userIdAsList = new ArrayList<>(1);
-//        userIdAsList.add(userId);
-//        sendMailToUsers(usersFacade.findMarketing().toDTO(), asunto, auctionIdAsList, userIdAsList);
-//    }
-//
-//    private void addMailToAuctions(Mail mail, List<Auction> auctions) {
-//        for(Auction auction : auctions){
-//            List<Mail> auctionMails = auction.getMailList();
-//            auctionMails.add(mail);
-//            auction.setMailList(auctionMails);
-//            auctionFacade.edit(auction);
-//        }
-//    }
-//
-//    private void addMailToGroups(Mail mail, List<Group> groups) {
-//        for(Group group : groups){
-//            List<Mail> groupMails = group.getMailList();
-//            groupMails.add(mail);
-//            group.setMailList(groupMails);
-//            groupsFacade.edit(group);
-//        }
-//    }
-//
-//    private void addMailToUsers(Mail mail, List<User> users) {
-//        for(User user : users){
-//            List<Mail> userMails = user.getMailList();
-//            userMails.add(mail);
-//            user.setMailList(userMails);
-//            usersFacade.edit(user);
-//        }
-//    }
-//
-//    public void sendMailToUsersInterestedIn(Auction auction) {
-//
-//    }
-//}
+package com.test.eguay.service;
+
+import com.test.eguay.dto.MailDTO;
+import com.test.eguay.dto.UserDTO;
+import com.test.eguay.entity.*;
+import com.test.eguay.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class MailService {
+    private MailRepository mailRepository;
+    private GroupRepository groupRepository;
+    private AuctionRepository auctionRepository;
+    private GroupMailRepository groupMailRepository;
+
+    public GroupMailRepository getGroupMailRepository() {
+        return groupMailRepository;
+    }
+
+    @Autowired
+    public void setGroupMailRepository(GroupMailRepository groupMailRepository) {
+        this.groupMailRepository = groupMailRepository;
+    }
+
+    public SuggestedAuctionRepository getSuggestedAuctionRepository() {
+        return suggestedAuctionRepository;
+    }
+
+    @Autowired
+    public void setSuggestedAuctionRepository(SuggestedAuctionRepository suggestedAuctionRepository) {
+        this.suggestedAuctionRepository = suggestedAuctionRepository;
+    }
+
+    private SuggestedAuctionRepository suggestedAuctionRepository;
+
+    public MailRepository getMailRepository() {
+        return mailRepository;
+    }
+
+    @Autowired
+    public void setMailRepository(MailRepository mailRepository) {
+        this.mailRepository = mailRepository;
+    }
+
+    public GroupRepository getGroupRepository() {
+        return groupRepository;
+    }
+
+    @Autowired
+    public void setGroupRepository(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
+    }
+
+    public AuctionRepository getAuctionRepository() {
+        return auctionRepository;
+    }
+
+    @Autowired
+    public void setAuctionRepository(AuctionRepository auctionRepository) {
+        this.auctionRepository = auctionRepository;
+    }
+
+    public List<MailDTO> getMails(int userId){
+        List<MailDTO> mails;
+        mails = this.mailRepository.findMailsSentDirectlyToUser(userId).stream().map(mail -> mail.toDtoLinked()).collect(Collectors.toList());
+        mails.addAll(this.mailRepository.findMailsSentToUserByAGroup(userId).stream().map(mail -> mail.toDtoLinked()).collect(Collectors.toList()));
+        return mails;
+    }
+
+    public void sendMail(UserDTO sender, String subject, List<Long> auctionIds, List<Long> groupIds){
+        List<Auction> auctions = this.auctionRepository.findAllById(auctionIds);
+        List<Group> groups = this.groupRepository.findAllById(groupIds);
+
+        Mail mail = new Mail();
+        mail.setSenderid(sender.getId().longValue());
+        mail.setSentdate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+        mail.setSubject(subject);
+        mail.setBody(subject);
+        this.mailRepository.save(mail);
+
+        GroupMail groupMail;
+        for(Group group : groups){
+            groupMail = new GroupMail();
+            groupMail.setGroupid(group.getId());
+            groupMail.setMailid(mail.getMailid());
+            this.groupMailRepository.save(groupMail);
+        }
+
+        SuggestedAuction suggestedAuction;
+        for(Auction auction : auctions){
+            suggestedAuction = new SuggestedAuction();
+            suggestedAuction.setAuctionid(auction.getAuctionid());
+            suggestedAuction.setMailid(mail.getMailid());
+            this.suggestedAuctionRepository.save(suggestedAuction);
+        }
+    }
+
+}

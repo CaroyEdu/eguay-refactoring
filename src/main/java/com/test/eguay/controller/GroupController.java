@@ -35,7 +35,7 @@ public class GroupController {
 
     @GetMapping("")
     public String doShowList(Model model){
-        model.addAttribute("groups", this.groupService.getAll());
+        model.addAttribute("groups", this.groupService.getAllLinked());
         return "group/list";
     }
 

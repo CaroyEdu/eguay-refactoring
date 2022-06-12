@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AuctionService {
@@ -33,9 +34,6 @@ public class AuctionService {
     }
 
     private FavAuctionRepository favAuctionRepository;
-
-
-
 
     private UserService userService;
 
@@ -67,11 +65,15 @@ public class AuctionService {
     }
 
     // Query
+    public List<AuctionDTO> getAll(){
+        return this.auctionRepository.findAll().stream().map(auction -> auction.toDTO()).collect(Collectors.toList());
+    }
+
     public AuctionDTO findById(Long id){
 
         Auction auction = auctionRepository.findAuctionByAuctionid(id);
 
-        return auction.toDTO();
+        return auction.toDtoLinked();
     }
 
     // Auxiliary functions
@@ -117,14 +119,14 @@ public class AuctionService {
         List<AuctionDTO> dtos = new ArrayList<>(auctions.size());
 
         for(Auction auction : auctions){
-            dtos.add(auction.toDTO());
+            dtos.add(auction.toDtoLinked());
         }
 
         return dtos;
     }
 
     public List<AuctionDTO> getAllAuctions() {
-        return Auction.toDTO(auctionRepository.findAll());
+        return Auction.toDtoLinked(auctionRepository.findAll());
     }
 
     private Timestamp getTimestamp(java.util.Date date){

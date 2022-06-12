@@ -249,6 +249,15 @@ public class Auction {
 
     public AuctionDTO toDTO(){
         AuctionDTO dto = new AuctionDTO();
+        dto.setId(this.auctionid);
+        dto.setName(this.title);
+        dto.setFotourl(this.fotourl);
+        dto.setMaxBid(this.maxbid);
+        return dto;
+    }
+
+    public AuctionDTO toDtoLinked(){
+        AuctionDTO dto = new AuctionDTO();
 
         dto.setId(auctionid);
 
@@ -286,11 +295,11 @@ public class Auction {
         return dto;
     }
 
-    public static List<AuctionDTO> toDTO(List<Auction> auctions){
+    public static List<AuctionDTO> toDtoLinked(List<Auction> auctions){
         List<AuctionDTO> dtos = new ArrayList<>(auctions.size());
 
         for(Auction auction : auctions){
-            dtos.add(auction.toDTO());
+            dtos.add(auction.toDtoLinked());
         }
 
         return dtos;

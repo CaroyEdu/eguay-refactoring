@@ -20,23 +20,26 @@
 <h1>Bandeja de Correo</h1>
 <table>
     <tr>
+        <th>Fecha de envío</th>
         <th>Asunto</th>
         <th>Producto</th>
         <th>Vendedor</th>
-        <th>Mayor puja</th>
         <th>Categoría</th>
-        <th>Fecha de envío</th>
+        <th>Mayor puja</th>
+        <th>Precio de cierre</th>
+        <th>Fecha de cierre</th>
     </tr>
     <c:forEach var="mail" items="${mails}">
         <c:forEach var="auction" items="${mail.auctions}">
             <tr>
-                <td>${mail.subject}</td>
-                <td><img src="${auction.fotourl}" href="/showAuction/${auction.id}"/> <a
-                        href="/showAuction/${auction.id}">${auction.name}</a></td>
-                <td>${auction.seller}</td>
-                <td>${auction.maxBid}</td>
-                <td>${auction.category}</td>
                 <td>${mail.sentDate}</td>
+                <td>${mail.subject}</td>
+                <td><img src="${auction.fotourl}" href="/showAuction/${auction.id}" height="30" width="30"/> <a href="/showAuction/${auction.id}">${auction.name}</a></td>
+                <td>${auction.seller}</td>
+                <td>${auction.category}</td>
+                <td>${auction.maxBid != null ? auction.maxBid : auction.startPrice}€</td>
+                <th>${auction.closePrice != null ? auction.closePrice : "No establecido"}€</th>
+                <td>${auction.closeDate != null ? auction.closeDate : "No establecida"}</td>
             </tr>
         </c:forEach>
     </c:forEach>

@@ -141,7 +141,7 @@ public class Mail {
         dto.setBody(this.body);
         dto.setSentDate(this.sentdate);
         dto.setSeller(this.usersBySenderid.getUsername());
-        dto.setAuctions(this.suggestedauctionsByMailid.stream().map(suggestedAuction -> suggestedAuction.getAuctionByAuctionid().toDTO()).collect(Collectors.toList()));
+        dto.setAuctions(this.suggestedauctionsByMailid.stream().map(suggestedAuction -> suggestedAuction.getAuctionByAuctionid().toDtoLinked()).collect(Collectors.toList()));
         return dto;
     }
 }

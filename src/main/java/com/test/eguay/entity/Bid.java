@@ -103,7 +103,7 @@ public class Bid {
         BidDTO bidDTO = new BidDTO();
         bidDTO.setBid(this.bid);
         bidDTO.setBidid(this.bidid);
-        bidDTO.setAuctionByAuctionid(this.getAuctionByAuctionid().toDTO());
+        bidDTO.setAuctionByAuctionid(this.getAuctionByAuctionid().toDtoLinked());
         bidDTO.setUsersByBiderid(this.usersByBiderid.toDtoLinked());
         return bidDTO;
     }
