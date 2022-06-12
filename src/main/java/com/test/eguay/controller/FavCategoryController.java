@@ -47,7 +47,8 @@ public class FavCategoryController {
         model.addAttribute("categoryList", categoryList);
 
         UserDTO user = (UserDTO) session.getAttribute("user");
-        AuxFavCategory auxFavCategory = new AuxFavCategory();
+        List<CategoryDTO> favCategories = this.userService.showFavCategories(user);
+        AuxFavCategory auxFavCategory = new AuxFavCategory(favCategories);
 
         model.addAttribute("auxFavCategory",auxFavCategory);
 
@@ -67,17 +68,4 @@ public class FavCategoryController {
 
     }
 
-    @GetMapping("/showCategories")
-    public String showFavCategories (Model model , HttpSession session) {
-
-        List<CategoryDTO> categoryList =  this.categoryService.getAllCategories();
-        model.addAttribute("categoryList", categoryList);
-        UserDTO user = (UserDTO) session.getAttribute("user");
-        List<CategoryDTO> favCategories = this.userService.showFavCategories(user);
-        model.addAttribute("favCategories" , favCategories);
-
-
-
-        return "myFavCategories";
-    }
 }

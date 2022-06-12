@@ -28,7 +28,7 @@
     </div>
     <br>
 
-    <form:button>Añadir</form:button>
+    <form:button>Editar</form:button>
 
 </form:form>
 
