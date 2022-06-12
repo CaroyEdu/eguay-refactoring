@@ -175,7 +175,7 @@ public class UserService {
     public List<AuctionDTO> showFavAuctions(UserDTO userDTO){
         User user = this.userRepository.findById(userDTO.getId()).orElse(null);
         List<Auction> favoriteAuctions = this.userRepository.findFavAuctions(user);
-        return Auction.toDTO(favoriteAuctions) ;
+        return Auction.toDtoLinked(favoriteAuctions) ;
     }
 
     public List<AuctionDTO> filterFavAuctions(UserDTO userDTO , String filter){
@@ -183,13 +183,13 @@ public class UserService {
         if (filter == null) filter = "";
         filter = "%" + filter + "%" ;
         List<Auction> favoriteAuctions = this.userRepository.filterFavAuctions(user,filter.toLowerCase(Locale.ROOT));
-        return Auction.toDTO(favoriteAuctions) ;
+        return Auction.toDtoLinked(favoriteAuctions) ;
     }
 
     public List<AuctionDTO> showPurchasedAuctions(UserDTO userDTO){
         User user = this.userRepository.findById(userDTO.getId()).orElse(null);
         List<Auction> purchasedAuctions = this.userRepository.findPurchasedAuctions(user);
-        return Auction.toDTO(purchasedAuctions) ;
+        return Auction.toDtoLinked(purchasedAuctions) ;
     }
 
     public List<AuctionDTO> filterPurchasedAuctions(UserDTO userDTO , String filter){
@@ -197,7 +197,7 @@ public class UserService {
         if (filter == null) filter = "";
         filter = "%" + filter + "%" ;
         List<Auction> purchasedAuctions = this.userRepository.filterPurchasedAuctions(user,filter.toLowerCase(Locale.ROOT));
-        return Auction.toDTO(purchasedAuctions) ;
+        return Auction.toDtoLinked(purchasedAuctions) ;
     }
 
     public List<CategoryDTO> showFavCategories(UserDTO userDTO){

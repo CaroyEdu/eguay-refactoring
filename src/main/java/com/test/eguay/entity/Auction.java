@@ -249,6 +249,15 @@ public class Auction {
 
     public AuctionDTO toDTO(){
         AuctionDTO dto = new AuctionDTO();
+        dto.setId(this.auctionid);
+        dto.setName(this.title);
+        dto.setFotourl(this.fotourl);
+        dto.setMaxBid(this.maxbid);
+        return dto;
+    }
+
+    public AuctionDTO toDtoLinked(){
+        AuctionDTO dto = new AuctionDTO();
 
         dto.setId(auctionid);
 
@@ -276,21 +285,21 @@ public class Auction {
         dto.setStartPrice(startprice);
 
         //dto.setUserList(UserService.toDTO(usersList));
+        dto.setSeller(this.usersBySellerid.getUsername());
         dto.setSellerID((long) usersBySellerid.getUserid());
         dto.setDescription(description);
         dto.setCategoryId(auctioncategoriesByAuctionid.get(0).getCategoryid());
-
-        dto.setSeller(String.format("%s %s", usersBySellerid.getName(), usersBySellerid.getSurname()));
         dto.setAuctionCategory(auctioncategoriesByAuctionid.get(0).getCategoryid());
+        dto.setCategory(this.auctioncategoriesByAuctionid.get(0).getCategoryByCategoryid().getName());
 
         return dto;
     }
 
-    public static List<AuctionDTO> toDTO(List<Auction> auctions){
+    public static List<AuctionDTO> toDtoLinked(List<Auction> auctions){
         List<AuctionDTO> dtos = new ArrayList<>(auctions.size());
 
         for(Auction auction : auctions){
-            dtos.add(auction.toDTO());
+            dtos.add(auction.toDtoLinked());
         }
 
         return dtos;

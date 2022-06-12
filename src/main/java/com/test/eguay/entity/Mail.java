@@ -1,8 +1,11 @@
 package com.test.eguay.entity;
 
+import com.test.eguay.dto.MailDTO;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "mail", schema = "public", catalog = "da1knun38jg1va")
@@ -129,5 +132,16 @@ public class Mail {
 
     public void setUsersmailsByMailid(Collection<UserMail> usersmailsByMailid) {
         this.usersmailsByMailid = usersmailsByMailid;
+    }
+
+    public MailDTO toDtoLinked() {
+        MailDTO dto = new MailDTO();
+        dto.setId(this.mailid);
+        dto.setSubject(this.subject);
+        dto.setBody(this.body);
+        dto.setSentDate(this.sentdate);
+        dto.setSeller(this.usersBySenderid.getUsername());
+        dto.setAuctions(this.suggestedauctionsByMailid.stream().map(suggestedAuction -> suggestedAuction.getAuctionByAuctionid().toDtoLinked()).collect(Collectors.toList()));
+        return dto;
     }
 }

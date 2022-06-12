@@ -279,7 +279,7 @@ public class User {
     public UserDTO toDtoLinked() {
         UserDTO userDTO = this.toDto();
 
-        userDTO.setUserAuctions(Auction.toDTO(auctionsByUserid));
+        userDTO.setUserAuctions(Auction.toDtoLinked(auctionsByUserid));
         List<Category> categoryList = new ArrayList<>();
         Category categoryFav = new Category();
         categoryList.add(categoryFav);

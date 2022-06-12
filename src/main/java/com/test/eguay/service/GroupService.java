@@ -47,6 +47,10 @@ public class GroupService {
     }
 
     public List<GroupDTO> getAll(){
+        return this.groupRepository.findAll().stream().map(group -> group.toDto()).collect(Collectors.toList());
+    }
+
+    public List<GroupDTO> getAllLinked(){
         return this.groupRepository.findAll().stream().map(group -> group.toDtoLinked()).collect(Collectors.toList());
     }
 

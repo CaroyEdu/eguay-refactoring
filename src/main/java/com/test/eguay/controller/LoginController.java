@@ -1,6 +1,8 @@
 package com.test.eguay.controller;
 
 import com.test.eguay.dto.UserDTO;
+import com.test.eguay.repository.CategoryRepository;
+import com.test.eguay.service.CategoryService;
 import com.test.eguay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +19,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     protected UserService userService ;
-
+    private CategoryService categoryService;
 
     public UserService getUserService() {
         return userService;
@@ -28,10 +30,17 @@ public class LoginController {
         this.userService = userService;
     }
 
+    public CategoryService getCategoryService() {
+        return categoryService;
+    }
+
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @GetMapping("/login")
     public String doListar (Model model) {
-
 
         return "login";
     }

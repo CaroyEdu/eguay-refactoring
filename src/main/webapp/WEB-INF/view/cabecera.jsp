@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     UserDTO user = (UserDTO) session.getAttribute("user");
-    List<CategoryDTO> categoryList = (List) request.getAttribute("categoryList");
+    List<CategoryDTO> categoryList = (List) session.getAttribute("categoryList");
 %>
 <html>
 <head>
@@ -29,13 +29,14 @@
                 if (user != null) {
             %>
             <% if(user.isMarketing()) { %>
-            <li><a href="/mail">Correo</a></li>
+            <li><a href="/mail/new">Enviar Correo</a></li>
             <li><a href="/group">Grupos</a></li>
             <% } %>
             <% if(user.isAdmin()) { %>
             <li><a href="/Admin/Usuarios">Dashboard</a></li>
             <% } %>
             <li><a href="/addAuction">Añadir Subasta</a></li>
+            <li><a href="/mail">Correo</a></li>
             <li><a href="/profile">Mi Perfil</a>
             <li><a href="/Disconnect" style="font-weight: bold; color: red">Desconexión</a></li>
             <%

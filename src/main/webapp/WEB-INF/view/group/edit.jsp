@@ -14,6 +14,11 @@
 </head>
 <body>
 <h1>Editar Grupo</h1>
+<c:set var="marketing" value="marketing"/>
+<c:if test="${sessionScope.user == null || !sessionScope.user.username.equals(marketing) || sessionScope.categoryList == null || sessionScope.categoryList.size() == 0}">
+    <c:redirect url="/"/>
+</c:if>
+<jsp:include page="../cabecera.jsp"/>
 <form:form modelAttribute="group" action="/group/edit">
     <form:hidden path="id"/>
     Nombre: <form:input path="name" id="name"/>
