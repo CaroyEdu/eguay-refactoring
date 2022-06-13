@@ -35,7 +35,6 @@ public class AuctionService {
 
     private FavAuctionRepository favAuctionRepository;
 
-    private UserService userService;
 
     public AuctionCategoryRepository getAuctionCategoryRepository() {
         return auctionCategoryRepository;
@@ -296,7 +295,19 @@ public class AuctionService {
                     {
                         Bid higherBid = bidList.get(0);
                         User user = higherBid.getUsersByBiderid();
-                        userService.purchaseAuction(user, a);
+
+                        PurchasedAuction purchasedAuction = new PurchasedAuction();
+                        purchasedAuction.setUsersByUserid(user);
+                        purchasedAuction.setAuctionByAuctionid(a);
+                        purchasedAuction.setUserid(Long.valueOf(user.getUserid()));
+                        purchasedAuction.setAuctionid(a.getAuctionid());
+
+                        this.purchasedAuctionRepository.save(purchasedAuction);
+
+                        a.setActive(Boolean.FALSE);
+
+                        this.auctionRepository.save(a);
+
                         System.out.println("La subasta " + a.getAuctionid() + " con titulo:  " + a.getTitle() + " ha sido ganada por " + user.getName() );
                     }else{
                         a.setActive(Boolean.FALSE);
