@@ -63,7 +63,7 @@ public class PurchasedAuctionController {
         UserDTO user = (UserDTO) session.getAttribute("user");
         AuctionDTO auctionDTO = this.auctionService.findById(id);
         this.userService.deletepurchasedAuction(user , auctionDTO);
-        return "redirect:/purchasedAuctions";
+        return "redirect:/PurchasedAuctions";
     }
 
 

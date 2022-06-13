@@ -5,6 +5,8 @@
 
 <head>
     <link rel="stylesheet" href="/css/purchasedauction.css"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 </head>
 
 <h1>Subastas compradas</h1>
@@ -34,7 +36,9 @@
         <img class="product" src="<%= a.getFotourl() %>">
     </a>
     <br>
-    <button href="/PurchasedAuctions/delete/<%= a.getId() %>">Borrar</button>
+    <a href="/PurchasedAuctions/delete/<%= a.getId() %>">
+        <button class="btn btn-1 btn-sep icon-info" href="/PurchasedAuctions/delete/<%= a.getId() %>">Borrar</button>
+    </a>
 </div>
 <% }} %>
 </div>
