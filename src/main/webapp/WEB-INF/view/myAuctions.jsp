@@ -34,14 +34,6 @@
 %>
 <br/>
 <br/>
-<% if(error!=null){ %>
-<label style="color:red"class="wrapper"><%=error%></label>
-<% } %>
-<div>
-    <form method="POST" action="MyProductsServlet" class="wrapper">
-        <input class="search" placeholder="Filtrar subastas..." type="text" name="searchbar">
-    </form>
-</div>
 <table border="1px" width="90%" style="margin:  0 5% 0 5%">
     <tr>
         <th width="50%">Título</th>
