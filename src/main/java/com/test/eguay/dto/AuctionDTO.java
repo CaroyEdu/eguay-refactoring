@@ -168,7 +168,7 @@ public class AuctionDTO {
     }
 
     public Boolean isActive() {
-        return active;
+        return active != null ? active : false;
     }
 
     public void setActive(Boolean active) {
