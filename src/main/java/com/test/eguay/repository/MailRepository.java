@@ -1,3 +1,5 @@
+// Autores: Pedro Antonio Benito Rojano
+
 package com.test.eguay.repository;
 
 import com.test.eguay.entity.Mail;
@@ -10,12 +12,11 @@ import java.util.List;
 
 @Repository
 public interface MailRepository extends JpaRepository<Mail, Long> {
-    /*@Query("select m " +
-            "from Mail m " +
-            "join UserMail um on m.mailid = um.mailid " +
-            "join User u on um.userid = u.userid " +
-            "where u.userid = :userId")*/
-    @Query("select m from User u join UserMail um on um.userid = u.userid join Mail m on m.mailid = um.mailid where u.userid = :userId")
+    @Query("select m " +
+            "from User u " +
+            "join UserMail um on um.userid = u.userid " +
+            "join Mail m on m.mailid = um.mailid " +
+            "where u.userid = :userId")
     public List<Mail> findMailsSentDirectlyToUser(@Param("userId") int userId);
 
     @Query("select m " +
