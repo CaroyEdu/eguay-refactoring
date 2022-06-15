@@ -1,3 +1,5 @@
+// Autores: Pedro Antonio Benito Rojano
+
 package com.test.eguay.entity;
 
 import com.test.eguay.dto.MailDTO;

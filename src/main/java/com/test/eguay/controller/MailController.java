@@ -1,3 +1,5 @@
+// Autores: Pedro Antonio Benito Rojano
+
 package com.test.eguay.controller;
 
 import com.test.eguay.dto.MailDTO;
@@ -47,7 +49,9 @@ public class MailController {
     }
 
     @GetMapping("")
-    public String doShow(Model model, @SessionAttribute("user") UserDTO user){
+    public String doShow(Model model, @SessionAttribute(value = "user", required = false) UserDTO user){
+        if(user == null)
+            return "redirect:/";
         model.addAttribute("mails", this.mailService.getMails(user.getId()));
         return "mail/box";
     }
@@ -61,8 +65,10 @@ public class MailController {
     }
 
     @PostMapping("new")
-    public String doNew(Model model, @SessionAttribute("user") UserDTO user, @ModelAttribute("mail") MailDTO mail, @RequestParam("auction") List<Long> auctionIds, @RequestParam("group") List<Long> groupIds){
-        this.mailService.sendMail(user, mail.getSubject(), auctionIds, groupIds);
+    public String doNew(Model model, @SessionAttribute(value = "user", required = false) UserDTO user, @ModelAttribute("mail") MailDTO mail, @RequestParam("auction") List<Long> auctionIds, @RequestParam("group") List<Long> groupIds){
+        if(user == null)
+            return "redirect:/";
+        this.mailService.sendMailToGroups(user, mail.getSubject(), auctionIds, groupIds);
         return "redirect:/mail";
     }
 }

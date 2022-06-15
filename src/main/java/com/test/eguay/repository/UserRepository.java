@@ -1,3 +1,5 @@
+// Autores: Pedro Antonio Benito Rojano 25%, ...
+
 package com.test.eguay.repository;
 
 import com.test.eguay.dto.UserDTO;
@@ -36,5 +38,19 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public List<User> findAllByUseridIn(int[] ids);
 
     @Query("select u from User u join UserGroups ug on u.userid = ug.userid join Group g on g.groupid = ug.userid where g.groupid in :groupIds")
-    List<User> findAllByUsersGroup_Group_IdIn(@Param("groupIds") long[] ids);
+    public List<User> findAllByUsersGroup_Group_IdIn(@Param("groupIds") long[] ids);
+
+    @Query("select u " +
+            "from Auction a " +
+            "join AuctionCategory ac on a.auctionid = ac.auctionid " +
+            "join Category c on ac.categoryid = c.categoryid " +
+            "join UserCategory uc on uc.categoryid = c.categoryid " +
+            "join User u on u.userid = uc.userid " +
+            "where a.auctionid = :id")
+    List<User> findAllInterestedIn(@Param("id") Long auctionId);
+
+    @Query("select u " +
+            "from User u " +
+            "where u.username like 'marketing'")
+    public User findMarketing();
 }
