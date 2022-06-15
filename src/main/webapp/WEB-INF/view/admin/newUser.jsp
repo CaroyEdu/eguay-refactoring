@@ -1,4 +1,5 @@
-<%-- 
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%--
     Document   : users
     Created on : 14-may-2022, 21:33:45
     Author     : carlos
@@ -28,97 +29,71 @@
                 </div>
                 <div class="col py-3">
                     <h1 class="mb-4">Crear usuario</h1>
-                    <form action="SubmitCreate" method="POST">
+                    <form:form method="post" action="/admin/users/new" modelAttribute="user">
+                        <form:hidden class="form-control" disabled="false" path="id" />
                         <h3>Datos usuario</h3>
                         <div class="row mb-3">
-                          <label for="id" class="col-sm-2 col-form-label">Email</label>
-                          <div class="col-sm-6">  
-                            <input type="text" class="form-control" name="email">
-                          </div>
+                            <label for="id" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-6">
+                                <form:input class="form-control" path="email" />
+                            </div>
                         </div>
                         <div class="row mb-3">
-                          <label for="id" class="col-sm-2 col-form-label">Nombre usuario</label>
-                          <div class="col-sm-6">  
-                            <input type="text" class="form-control" name="username">
-                          </div>
+                            <label for="id" class="col-sm-2 col-form-label">Nombre usuario</label>
+                            <div class="col-sm-6">
+                                <form:input class="form-control" path="username" />
+                            </div>
                         </div>
                         <div class="row mb-3">
-                          <label for="id" class="col-sm-2 col-form-label">Nombre</label>
-                          <div class="col-sm-6">  
-                            <input type="text" class="form-control" name="name">
-                          </div>
+                            <label for="id" class="col-sm-2 col-form-label">Nombre</label>
+                            <div class="col-sm-6">
+                                <form:input class="form-control" path="name" />
+                            </div>
                         </div>
                         <div class="row mb-3">
-                          <label for="id" class="col-sm-2 col-form-label">Apellidos</label>
-                          <div class="col-sm-6">  
-                            <input type="text" class="form-control" name="surname">
-                          </div>
+                            <label for="id" class="col-sm-2 col-form-label">Apellidos</label>
+                            <div class="col-sm-6">
+                                <form:input class="form-control" path="surname" />
+                            </div>
                         </div>
                         <div class="row mb-3">
-                          <label for="id" class="col-sm-2 col-form-label">Pais</label>
-                          <div class="col-sm-6">  
-                            <input type="text" class="form-control" name="country">
-                          </div>
+                            <label for="id" class="col-sm-2 col-form-label">Pais</label>
+                            <div class="col-sm-6">
+                                <form:input class="form-control" path="country" />
+                            </div>
                         </div>
                         <div class="row mb-3">
-                          <label for="id" class="col-sm-2 col-form-label">Ciudad</label>
-                          <div class="col-sm-6">  
-                            <input type="text" class="form-control" name="city">
-                          </div>
+                            <label for="id" class="col-sm-2 col-form-label">Ciudad</label>
+                            <div class="col-sm-6">
+                                <form:input class="form-control" path="city" />
+                            </div>
                         </div>
                         <div class="row mb-3">
-                          <label for="id" class="col-sm-2 col-form-label">Direccion</label>
-                          <div class="col-sm-6">  
-                            <input type="text" class="form-control" name="address">
-                          </div>
+                            <label for="id" class="col-sm-2 col-form-label">Direccion</label>
+                            <div class="col-sm-6">
+                                <form:input class="form-control" path="address" />
+                            </div>
                         </div>
-                         
                         <div class="row mb-3">
-                          <label for="id" class="col-sm-2 col-form-label">Contrasena</label>
-                          <div class="col-sm-6">  
-                            <input type="password" class="form-control" name="password">
-                          </div>
+                            <label for="id" class="col-sm-2 col-form-label">Contrasena</label>
+                            <div class="col-sm-6">
+                                <form:password class="form-control" path="password" />
+                            </div>
                         </div>
-                          
-                        <div class="row mb-3">
-                          <label for="id" class="col-sm-2 col-form-label">Nacimiento</label>
-                          <div class="col-sm-6">  
-                              <input type="text" class="form-control" name="birthday">
-                          </div>
-                        </div>
-                          
-                        <div class="row mb-3">
-                          <label for="id" class="col-sm-2 col-form-label">Sexo</label>
-                          <div class="col-sm-6">  
-                            <select class="form-select" aria-label="Default select example" name="sex">
-                                <% for(Sex sex : Sex.values()) { %>
-                                <option value="<%= sex.getId() %>"><%= sex.getName() %></option>
-                                <% } %>
-                            </select>
-                          </div>
-                        </div>
-                          
+
                         <h3>Roles</h3>
                         <div class="form-check">
-                          <input name="roleIds" class="form-check-input" id="roleMarketing" type="checkbox" value="2" id="flexCheckDefault">
-                          <label class="form-check-label" for="roleMarketing">
-                            Marketing
-                          </label>
+                            <form:checkbox path="marketing" class="form-check-input" label="Marketing" />
                         </div>
                         <div class="form-check">
-                          <input name="roleIds" class="form-check-input" id="roleAnalista" type="checkbox" value="3" id="flexCheckDefault">
-                          <label class="form-check-label" for="roleAnalista">
-                            Analista
-                          </label>
+                            <form:checkbox path="analista" class="form-check-input" label="Analista" />
                         </div>
                         <div class="form-check">
-                            <input name="roleIds" class="form-check-input" id="roleAdmin" type="checkbox" value="4" id="flexCheckDefault">
-                          <label class="form-check-label" for="roleAdmin">
-                            Admin
-                          </label>
+                            <form:checkbox path="admin" class="form-check-input" label="admin" />
                         </div>
-                        <button type="submit" class="btn btn-primary mt-4">Guardar</button>
-                    </form>
+
+                        <form:button class="btn btn-primary mt-4">Guardar</form:button>
+                    </form:form>
                 </div>
             </div>
         </div>

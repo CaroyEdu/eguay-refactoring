@@ -10,7 +10,7 @@
 <% request.setAttribute("page-name", "Usuarios"); %>
 <% List<UserDTO> users = (List<UserDTO>) request.getAttribute("users"); %>
 <% String msg = request.getParameter("msg"); %>
-<% String username = request.getParameter("username"); %>
+<% String username = request.getParameter("filter"); %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,7 +34,7 @@
                     
                     <form action="" method="GET">
                         <label for="username">Filtrar por usuario</label>
-                        <input name="username" id="username" value="<%= username != null ? username : "" %>"/>
+                        <input name="filter" id="filter" value="<%= username != null ? username : "" %>"/>
                         <button type="submit" class="mb-4">Filtrar</button>
                     </form>
                     <table class="table table-bordered">

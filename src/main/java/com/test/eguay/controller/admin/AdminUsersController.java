@@ -47,8 +47,8 @@ public class AdminUsersController {
     }
 
     @GetMapping("/new")
-    public String doNew (@RequestParam("id") Integer id, Model model) {
-        model.addAttribute("user", this.userService.findById(id));
+    public String doNew (Model model) {
+        model.addAttribute("user", new UserDTO());
         return "admin/newUser";
     }
 
