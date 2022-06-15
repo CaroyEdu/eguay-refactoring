@@ -254,6 +254,34 @@ public class AuctionService {
         auctionRepository.save(toDAO(auction));
     }
 
+    public void editAdminAcution(AuctionDTO auction) {
+        Auction a = auctionRepository.getById(auction.getId());
+        a.setFotourl(auction.getFotourl());
+        a.setStartprice(auction.getStartPrice());
+        a.setActive(auction.isActive());
+        a.setAuctionid(auction.getId());
+        a.setTitle(auction.getName());
+        a.setDescription(auction.getDescription());
+        a.setCloseprice(auction.getClosePrice());
+        a.setClosenumberofbids(auction.getCloseNumberofBids());
+
+
+        // Añadimos la categoría
+        List<AuctionCategory> auctionList = new ArrayList<>();
+        AuctionCategory auctionCategory = new AuctionCategory();
+        Category category = new Category();
+
+        category.setCategoryid(auction.getAuctionCategory());
+        auctionCategory.setCategoryid(auction.getAuctionCategory());
+        auctionCategory.setCategoryByCategoryid(category);
+
+        auctionList.add(auctionCategory);
+        a.setAuctioncategoriesByAuctionid(auctionList);
+        auctionCategory.setAuctionByAuctionid(a);
+
+        auctionRepository.save(a);
+    }
+
     public void removeAuction(AuctionDTO auction)
     {
         Auction auction1 = this.auctionRepository.findAuctionByAuctionid(auction.getId());
@@ -345,6 +373,14 @@ public class AuctionService {
     @Autowired
     public void setPurchasedAuctionRepository(PurchasedAuctionRepository purchasedAuctionRepository) {
         this.purchasedAuctionRepository = purchasedAuctionRepository;
+    }
+
+    public void deleteById(Long id) {
+        auctionRepository.deleteById(id);
+    }
+
+    public List<AuctionDTO> getAllAuctionsFilter(String filter) {
+        return Auction.toDtoLinked(auctionRepository.findByTitleContainingIgnoreCase(filter));
     }
 }
 

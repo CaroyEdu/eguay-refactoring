@@ -335,6 +335,20 @@ public class UserService {
         this.userRepository.save(toDAO(user));
     }
 
+    public void editUserAdmin(UserDTO u)
+    {
+        User user = userRepository.findById(u.getId()).get();
+        user.setName(u.getName());
+        user.setAddress(u.getAddress());
+        user.setSurname(u.getSurname());
+        user.setCity(u.getCity());
+        user.setEmail(u.getEmail());
+        user.setCountry(u.getCountry());
+        user.setPassword(u.getPassword());
+        user.setUsername(u.getUsername());
+        this.userRepository.save(user);
+    }
+
     public UserCategoryRepository getUserCategoryRepository() {
         return userCategoryRepository;
     }
@@ -347,5 +361,8 @@ public class UserService {
         return this.userRepository.findAll().stream().map(user -> user.toDto()).collect(Collectors.toList());
     }
 
+    public UserDTO findById(Integer id) {
+        return this.userRepository.findById(id).get().toDto();
+    }
 }
 
