@@ -32,8 +32,8 @@
             <li><a href="/mail/new">Enviar Correo</a></li>
             <li><a href="/group">Grupos</a></li>
             <% } %>
-            <% if(user.isAdmin()) { %>
-            <li><a href="/Admin/Usuarios">Dashboard</a></li>
+            <% if(user.isAdmin() || true) { %>
+            <li><a href="/admin/">Dashboard</a></li>
             <% } %>
             <li><a href="/addAuction">Añadir Subasta</a></li>
             <li><a href="/mail">Correo</a></li>

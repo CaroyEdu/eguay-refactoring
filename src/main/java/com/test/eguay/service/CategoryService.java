@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -46,6 +47,12 @@ public class CategoryService {
         return dtos;
     }
 
+    public void editCategory(CategoryDTO category) {
+        Category c = categoryRepository.findById(category.getId()).get();
+        c.setName(category.getName());
+        categoryRepository.save(c);
+    }
+
     public Category toDAO(CategoryDTO user)
     {
 
@@ -53,6 +60,24 @@ public class CategoryService {
         c = this.categoryRepository.findById(user.getId());
         return c.get();
 
+    }
+
+    public CategoryDTO getById(Long id) {
+        return this.categoryRepository.findById(id).get().toDTO();
+    }
+
+    public void createNew(CategoryDTO category) {
+        Category c = new Category();
+        c.setName(category.getName());
+        categoryRepository.save(c);
+    }
+
+    public void deleteById(Long id) {
+        categoryRepository.deleteById(id);
+    }
+
+    public List<CategoryDTO> getAllCategoriesFilter(String filter) {
+        return categoryRepository.findByNameContainingIgnoreCase(filter).stream().map(c -> c.toDTO()).collect(Collectors.toList());
     }
 }
 

@@ -24,4 +24,6 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     public List<Auction> findAllByActiveIsTrue() ;
 
+    List<Auction> findByTitleContainingIgnoreCase(String filter);
+
 }
