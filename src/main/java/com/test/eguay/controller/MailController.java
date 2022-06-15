@@ -62,7 +62,7 @@ public class MailController {
 
     @PostMapping("new")
     public String doNew(Model model, @SessionAttribute("user") UserDTO user, @ModelAttribute("mail") MailDTO mail, @RequestParam("auction") List<Long> auctionIds, @RequestParam("group") List<Long> groupIds){
-        this.mailService.sendMail(user, mail.getSubject(), auctionIds, groupIds);
+        this.mailService.sendMailToGroups(user, mail.getSubject(), auctionIds, groupIds);
         return "redirect:/mail";
     }
 }

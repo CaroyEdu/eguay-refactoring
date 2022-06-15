@@ -115,10 +115,17 @@ public class AuctionService {
 
     // Logic
     public static List<AuctionDTO> toDTO(List<Auction> auctions){
+        if(auctions == null || auctions.isEmpty())
+            return null;
         List<AuctionDTO> dtos = new ArrayList<>(auctions.size());
 
         for(Auction auction : auctions){
-            dtos.add(auction.toDtoLinked());
+            try {
+                AuctionDTO auctionDTO = auction.toDtoLinked();
+                dtos.add(auctionDTO);
+            }catch (Exception e) {
+                System.out.println(String.format("La subasta %s no está bien en la base de datos.", auction.getTitle()));
+            }
         }
 
         return dtos;
