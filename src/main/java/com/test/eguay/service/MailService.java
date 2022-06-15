@@ -1,5 +1,6 @@
 package com.test.eguay.service;
 
+import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.dto.MailDTO;
 import com.test.eguay.dto.UserDTO;
 import com.test.eguay.entity.*;
@@ -7,7 +8,7 @@ import com.test.eguay.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,28 @@ public class MailService {
     private GroupRepository groupRepository;
     private AuctionRepository auctionRepository;
     private GroupMailRepository groupMailRepository;
+
+    public UserMailRepository getUserMailRepository() {
+        return userMailRepository;
+    }
+
+    @Autowired
+    public void setUserMailRepository(UserMailRepository userMailRepository) {
+        this.userMailRepository = userMailRepository;
+    }
+
+    private UserMailRepository userMailRepository;
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    private UserRepository userRepository;
 
     public GroupMailRepository getGroupMailRepository() {
         return groupMailRepository;
@@ -73,7 +96,7 @@ public class MailService {
         return mails;
     }
 
-    public void sendMail(UserDTO sender, String subject, List<Long> auctionIds, List<Long> groupIds){
+    public void sendMailToGroups(UserDTO sender, String subject, List<Long> auctionIds, List<Long> groupIds){
         List<Auction> auctions = this.auctionRepository.findAllById(auctionIds);
         List<Group> groups = this.groupRepository.findAllById(groupIds);
 
@@ -99,6 +122,44 @@ public class MailService {
             suggestedAuction.setMailid(mail.getMailid());
             this.suggestedAuctionRepository.save(suggestedAuction);
         }
+    }
+
+    public void sendMailToUsers(UserDTO sender, String subject, List<Long> auctionIds, List<Integer> userIds){
+        List<Auction> auctions = this.auctionRepository.findAllById(auctionIds);
+        List<User> users = this.userRepository.findAllById(userIds);
+
+        Mail mail = new Mail();
+        mail.setSenderid(sender.getId().longValue());
+        mail.setSentdate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+        mail.setSubject(subject);
+        mail.setBody(subject);
+        this.mailRepository.save(mail);
+
+        UserMail userMail;
+        for(User user : users){
+            userMail = new UserMail();
+            userMail.setMailid(mail.getMailid());
+            userMail.setUserid(Long.valueOf(user.getUserid()));
+            this.userMailRepository.save(userMail);
+        }
+
+        SuggestedAuction suggestedAuction;
+        for(Auction auction : auctions){
+            suggestedAuction = new SuggestedAuction();
+            suggestedAuction.setAuctionid(auction.getAuctionid());
+            suggestedAuction.setMailid(mail.getMailid());
+            this.suggestedAuctionRepository.save(suggestedAuction);
+        }
+    }
+
+    public void promoteAuctionToInterestedIn(AuctionDTO auction){
+        Long auctionId = this.auctionRepository.findByTitle(auction.getName()).getAuctionid();
+        List<Integer> userIds = this.userRepository.findAllInterestedIn(auctionId).stream().map(user -> user.getUserid()).collect(Collectors.toList());
+        UserDTO sender = this.userRepository.findMarketing().toDto();
+        String subject = String.format("Nuevo %s en venta!", auction.getName());
+        List<Long> auctions = new ArrayList<>(1);
+        auctions.add(auctionId);
+        this.sendMailToUsers(sender, subject, auctions, userIds);
     }
 
 }

@@ -3,12 +3,7 @@ package com.test.eguay.controller;
 import com.test.eguay.dto.AuctionDTO;
 import com.test.eguay.dto.CategoryDTO;
 import com.test.eguay.dto.UserDTO;
-import com.test.eguay.entity.Auction;
-import com.test.eguay.entity.AuctionCategory;
-import com.test.eguay.service.AuctionCategoryService;
-import com.test.eguay.service.AuctionService;
-import com.test.eguay.service.CategoryService;
-import com.test.eguay.service.UserService;
+import com.test.eguay.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +21,17 @@ public class AuctionController {
     private AuctionService auctionService;
     private UserService userService;
     private AuctionCategoryService auctionCategoryService;
+
+    public MailService getMailService() {
+        return mailService;
+    }
+
+    @Autowired
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
+    }
+
+    private MailService mailService;
 
     public UserService getUserService() {
         return userService;
@@ -206,6 +212,9 @@ public class AuctionController {
         if(usersSubmitedAuctions == null) usersSubmitedAuctions = new ArrayList();
         usersSubmitedAuctions.add(auction);
         user.setPurchasedAuction(usersSubmitedAuctions);
+
+        // Enviamos correo promocional a los usuarios interesados
+        this.mailService.promoteAuctionToInterestedIn(auction);
 
         // Una vez creado e insertado el objeto, nos volvemos a la página de inicio
         return "redirect:/";
