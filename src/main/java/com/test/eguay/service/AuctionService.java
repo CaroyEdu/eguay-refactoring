@@ -1,3 +1,5 @@
+// Autores: Pedro Antonio Benito Rojano 5%
+
 package com.test.eguay.service;
 
 import com.test.eguay.dto.AuctionDTO;
