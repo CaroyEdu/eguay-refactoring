@@ -42,14 +42,16 @@ public class GroupController {
     }
 
     @GetMapping("delete")
-    public String doDelete(@RequestParam(name = "checked") long[] ids){
-        this.groupService.delete(ids);
+    public String doDelete(@RequestParam(name = "checked", required = false) long[] ids){
+        if(ids != null && ids.length > 0)
+            this.groupService.delete(ids);
         return "redirect:/group";
     }
 
     @GetMapping("join")
-    public String doJoin(@RequestParam(name = "checked") long[] ids){
-        this.groupService.join(ids);
+    public String doJoin(@RequestParam(name = "checked", required = false) long[] ids){
+        if(ids != null && ids.length >= 2)
+            this.groupService.join(ids);
         return "redirect:/group";
     }
 
@@ -61,11 +63,15 @@ public class GroupController {
     }
 
     @PostMapping("new")
-    public String doNew(@ModelAttribute("group") GroupDTO group, @RequestParam("checked") int[] userIds){
+    public String doNew(@ModelAttribute("group") GroupDTO group, @RequestParam(value = "checked", required = false) int[] userIds){
+        if(userIds == null || userIds.length == 0)
+            return "redirect:/group/new";
         return doSave(group, userIds);
     }
 
     private String doSave(GroupDTO group, int[] userIds) {
+        if(userIds == null || userIds.length == 0)
+            return "redirect:/group/new";
         this.groupService.save(group, userIds);
         return "redirect:/group";
     }
@@ -78,7 +84,9 @@ public class GroupController {
     }
 
     @PostMapping("edit")
-    public String doEdit(@ModelAttribute("group") GroupDTO group, @RequestParam("checked") int[] userIds){
+    public String doEdit(@ModelAttribute("group") GroupDTO group, @RequestParam(value = "checked", required = false) int[] userIds){
+        if(userIds == null || userIds.length == 0)
+            return "redirect:/group/" + group.getId() + "/edit";
         return doSave(group, userIds);
     }
 }
